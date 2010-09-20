@@ -1,4 +1,4 @@
-﻿Plural inflections
+Plural inflections
 ==================
 
 This module will help you to output accurate language-dependent plural inflections, that's based on [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
