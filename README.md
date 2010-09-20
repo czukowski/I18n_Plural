@@ -56,20 +56,20 @@ i18n/ru.php:
 
 Somewhere else:
 
-    echo ___('hlwrld.iyo', array(':age' => 1), 1);
+    echo ___('hlwrld.iyo', 1, array(':age' => 1));
     // Hello world, I\'m 1 year old
-    echo ___('hlwrld.iyo', array(':age' => 2), 2);
+    echo ___('hlwrld.iyo', 2, array(':age' => 2));
     // Hello world, I\'m 2 years old
-    echo ___('hlwrld.iyo', array(':age' => 10), 10);
+    echo ___('hlwrld.iyo', 10, array(':age' => 10));
     // Hello world, I\'m 2 years old
     
     I18n::lang('ru'); // Switch Kohana to another language
     
-    echo ___('hlwrld.iyo', array(':age' => 1), 1);
+    echo ___('hlwrld.iyo', 1, array(':age' => 1));
     // Привет мир, мне уже 1 год
-    echo ___('hlwrld.iyo', array(':age' => 2), 2);
+    echo ___('hlwrld.iyo', 2, array(':age' => 2));
     // Привет мир, мне уже 2 года
-    echo ___('hlwrld.iyo', array(':age' => 10), 10);
+    echo ___('hlwrld.iyo', 10, array(':age' => 10));
     // Привет мир, мне уже 10 лет
 
 API
@@ -77,13 +77,13 @@ API
 
 ### init.php
 
-#### function ___($string, array $values = NULL, $count = 0)
+#### function ___($string, $count = 0, array $values = NULL)
 
 Function, that always translates a string
 
  * @param string $string
- * @param array $values
  * @param mixed $count
+ * @param array $values
  * @return string
 
 ### class I18n_Plural
