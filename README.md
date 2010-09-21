@@ -1,14 +1,18 @@
 Plural inflections
 ==================
 
-This module will help you to output accurate language-dependent plural inflections, that's based on [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
+This module will help you to output accurate language-dependent plural inflections, that's based on
+[CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
 
-There is a number of **Groups**, that define certain set of inflection **Rules**, and one or more languages following them. Each Rule has a **Key**, that represents the variation. For example, for English, there are two rules: 'one' for singular form and 'other' for plural. Every Group has at least 'other' Group.
+There is a number of **Groups**, that define certain set of inflection **Rules**, and one or more languages
+following them. Each Rule has a **Key**, that represents the variation. For example, for English, there are
+two Rules: 'one' for singular form and 'other' for plural. Every Group has at least 'other' Key.
 
 Usage
 -----
 
-Modify lines in your translation files, that may need inflection applied, so that they are arrays instead of strings. You may also want to create a translation file for your default application language.
+Modify lines in your translation files, that may need inflection applied, so that they are arrays instead of strings.
+You may also want to create a translation file for your default application language.
 
 Example (i18n/en.php):
 
@@ -19,12 +23,16 @@ Example (i18n/en.php):
         ),
     );
 
-Use the ___() function (3 underscores, as opposed to 2 underscores being standard Kohana translation function). It is defined in module's init.php:
+Use the ___() function (3 underscores, as opposed to 2 underscores being standard Kohana translation function). It is
+defined in module's init.php:
 
     echo ___('Hello world', 2);
     // Hello worlds
 
-If you think about it, there's pretty much extra writing, so you could use some shorthands for translation keys, and it'll work anyway, since the triple-underscore function, unlike the double-underscore, does the translation in any case. On the other hand, this may look a bit harsh, and in case no translation is found, you'll end up with gibberish, so it's entirely up to you:
+If you think about it, there's pretty much extra writing, so you could use some shorthands for translation keys, and
+it'll work anyway, since the triple-underscore function, unlike the double-underscore, does the translation in any case.
+On the other hand, this may look a bit harsh, and in case no translation is found, you'll end up with gibberish, so
+it's entirely up to you:
 
     return array(
         'hlwrld' => array(...),
