@@ -35,6 +35,15 @@
  *
  * These are known to have no plurals, there are no rules:
  *  other → everything
+ *
+ * Reference CLDR Version 1.8.1 (2010-04-30 23:05:14 GMT)
+ * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+ * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ *
+ * @package		I18n_Plural
+ * @author		Korney Czukowski
+ * @copyright	(c) 2010 Korney Czukowski
+ * @license		http://kohanaphp.com/license
  */
 class I18n_Plural_None extends I18n_Plural_Rules
 {

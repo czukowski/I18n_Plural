@@ -1,7 +1,6 @@
 <?php
 /**
- * @group lustr
- * @group lustr.plural
+ * @group i18n_plural
  */
 class PluralTest extends Kohana_Unittest_Testcase
 {

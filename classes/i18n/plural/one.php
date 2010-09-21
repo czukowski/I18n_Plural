@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
  * Plural rules for the following locales and languages:
- *
+ * 
  * Locales: af bem bg bn ca chr da de el en eo es et eu fi fo fur fy gl gsw gu ha he is it iw ku lb ml mn mr nah nb ne nl nn no
  *          om or pa pap ps pt rm so sq sv sw ta te tk ur zu
  *
@@ -63,6 +63,16 @@
  * Rules:
  * 	one → n is 1;
  * 	other → everything else
+ *
+ * Reference CLDR Version 1.8.1 (2010-04-30 23:05:14 GMT)
+ * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+ * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ *
+ * @package		I18n_Plural
+ * @author		Korney Czukowski
+ * @copyright	(c) 2010 Korney Czukowski
+ * @license		http://kohanaphp.com/license
+ *
  */
 class I18n_Plural_One extends I18n_Plural_Rules
 {

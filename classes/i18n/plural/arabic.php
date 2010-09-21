@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Plural rules for Arabic language:
+ * Plural rules for Arabic language
  *
  * Locales: ar
  *
@@ -14,6 +14,15 @@
  * 	few → n mod 100 in 3..10;
  * 	many → n mod 100 in 11..99;
  * 	other → everything else
+ *
+ * Reference CLDR Version 1.8.1 (2010-04-30 23:05:14 GMT)
+ * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+ * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ *
+ * @package		I18n_Plural
+ * @author		Korney Czukowski
+ * @copyright	(c) 2010 Korney Czukowski
+ * @license		http://kohanaphp.com/license
  */
 class I18n_Plural_Arabic extends I18n_Plural_Rules
 {
