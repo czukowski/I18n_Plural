@@ -10,20 +10,20 @@ class PluralTest extends Kohana_Unittest_Testcase
 	 */
 	public function testTranslations()
 	{
-		I18n::lang('en');
-		$this->assertEquals(___(':count files', array(':count' => 1), 1), '1 file');
-		$this->assertEquals(___(':count files', array(':count' => 10), 10), '10 files');
+		I18n::lang('en-us');
+		$this->assertEquals(___(':count files', 1, array(':count' => 1)), '1 file');
+		$this->assertEquals(___(':count files', 10, array(':count' => 10)), '10 files');
 
 		I18n::lang('cs');
-		$this->assertEquals(___(':count files', array(':count' => 1), 1), '1 soubor');
-		$this->assertEquals(___(':count files', array(':count' => 2), 2), '2 soubory');
-		$this->assertEquals(___(':count files', array(':count' => 10), 10), '10 souborů');
+		$this->assertEquals(___(':count files', 1, array(':count' => 1)), '1 soubor');
+		$this->assertEquals(___(':count files', 2, array(':count' => 2)), '2 soubory');
+		$this->assertEquals(___(':count files', 10, array(':count' => 10)), '10 souborů');
 
 		I18n::lang('ru');
-		$this->assertEquals(___(':count files', array(':count' => 1), 1), '1 файл');
-		$this->assertEquals(___(':count files', array(':count' => 2), 2), '2 файла');
-		$this->assertEquals(___(':count files', array(':count' => 10), 10), '10 файлов');
-		$this->assertEquals(___(':count files', array(':count' => 1.46), 1.46), '1.46 файлов');
+		$this->assertEquals(___(':count files', 1, array(':count' => 1)), '1 файл');
+		$this->assertEquals(___(':count files', 2, array(':count' => 2)), '2 файла');
+		$this->assertEquals(___(':count files', 10, array(':count' => 10)), '10 файлов');
+		$this->assertEquals(___(':count files', 1.46, array(':count' => 1.46)), '1.46 файла');
 
 		I18n::lang('en');
 	}

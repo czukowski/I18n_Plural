@@ -55,7 +55,7 @@ class I18n_Plural
 		}
 
 		// Get language code prefix
-		$parts = explode('-', $lang, 1);
+		$parts = explode('-', $lang, 2);
 
 		self::$_instances[$lang] = self::_get_class($parts[0]);
 		return self::$_instances[$lang];
@@ -147,5 +147,6 @@ class I18n_Plural
 		{
 			return new I18n_Plural_None;
 		}
+		throw new Kohana_Exception('Unknown language prefix: :prefix.', array(':prefix' => $prefix));
 	}
 }
