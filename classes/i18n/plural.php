@@ -34,12 +34,17 @@ class I18n_Plural
 		if (is_array($translation))
 		{
 			$category = I18n_Plural::instance(I18n::$lang)->get_category($count);
-			return array_key_exists($category, $translation) ? $translation[$category] : reset($translation);
+			if (array_key_exists($category, $translation))
+			{
+				return $translation[$category];
+			}
+			elseif (array_key_exists('other', $translation))
+			{
+				return $translation['other'];
+			}
+			return reset($translation);
 		}
-		else
-		{
-			return $translation;
-		}
+		return $translation;
 	}
 
 	/**
