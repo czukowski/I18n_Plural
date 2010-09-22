@@ -69,7 +69,7 @@ Somewhere else:
     echo ___('hlwrld.iyo', 2, array(':age' => 2));
     // Hello world, I\'m 2 years old
     echo ___('hlwrld.iyo', 10, array(':age' => 10));
-    // Hello world, I\'m 2 years old
+    // Hello world, I\'m 10 years old
     
     I18n::lang('ru'); // Switch Kohana to another language
     
@@ -87,7 +87,11 @@ API
 
 #### function ___($string, $count = 0, array $values = NULL)
 
-Function, that always translates a string
+Kohana translation/internationalization function with plurals support. The PHP function [strtr](http://php.net/strtr)
+is used for replacing parameters.
+
+    ___(':count user is online', 1000, array(':count' => 1000));
+    // 1000 users are online
 
  * @param string $string
  * @param mixed $count
