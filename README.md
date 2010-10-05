@@ -80,6 +80,66 @@ Somewhere else:
     echo ___('hlwrld.iyo', 10, array(':age' => 10));
     // Привет мир, мне уже 10 лет
 
+Date and time formatting
+========================
+
+Provides date formatting and translation methods to achieve consistency with MooTools
+[Date.format()](http://mootools.net/docs/more/Native/Date#Date:format). May come in handy for those, who use
+[MooTools](http://mootools.net) for their client-side code, so the date/time format strings and verbose representation
+are the same for both server and client side.
+
+Usage
+-----
+
+The I18n_Date class extends Kohana_Date class, so if you create this:
+
+    class Date extends I18n_Date {}
+
+then you can use it transparently. Only fuzzy_span() method is overriden, so that it behaves as MooTools Date.timeDiffInWords()
+method. In the following examples, I'll use Date::_method\_name()_, but you could as well I18n_Date::_method\_name()_, if you
+don't want to override Kohana_Date::fuzzy_span().
+
+	$time = time();
+	Date::fuzzy_span(time, time - 10); // -10 seconds
+    // less than a minute ago
+	Date::fuzzy_span(time, time - 50); // -50 seconds
+    // about a minute ago
+	Date::fuzzy_span(time, time - 100); // 1:40 ago
+    // 2 minutes ago
+	Date::fuzzy_span(time, time + 86400); // +24 hours
+    // 1 day from now
+
+and so on. The string returned will be translated to the current language.
+
+You can also format dates with various formats using Date::format() method. Possible formatting keys are same as with MooTools
+[Date.format()](http://mootools.net/docs/more/Native/Date#Date:format) method:
+
+    Date::format($time, '%m/%d/%Y');
+    // 10/05/2010
+    Date::format($time); // Default is %x %X
+    // 10/05/2010 10:53PM
+    Date::format($time, 'db'); // using shorthands
+    // 2010-10-05 10:53:24
+    Date::format($time, 'short');
+    // 05 Oct 10:53
+    Date::format($time, 'long');
+    // October 05, 2010 10:53
+    Date::format($time, 'iso8601');
+    // 2010-10-05T10:53:24+02:00
+
+If you don't specify format, it will assume %x %X, which is a current date and time in the current language prefered format.
+It's defined in Kohana translation files, see files from this package for examples (array keys with 'date.' prefix).
+
+Following format shorthands are currrently supported:
+
+ * db => %Y-%m-%d %H:%M:%S
+ * compact => %Y%m%dT%H%M%S
+ * iso8601 => %Y-%m-%dT%H:%M:%S%T
+ * rfc822 => %a, %d %b %Y %H:%M:%S %z
+ * rfc2822 => %a, %d %b %Y %H:%M:%S %z
+ * short => %d %b %H:%M
+ * long => %B %d, %Y %H:%M
+
 API
 ---
 
@@ -117,3 +177,22 @@ Returns class, that handles plural inflection for the given language.
 
  * @param string $lang
  * @return I18n_Plural_Rules
+
+### class I18n_Date
+
+#### public static function fuzzy_span($from, $to = NULL)
+
+Returns the difference between a time and now in a "fuzzy" way.
+Overrides Kohana_Date::fuzzy_span() method.
+
+ * @param integer $from UNIX timestamp
+ * @param integer $to UNIX timestamp, current timestamp is used when NULL
+ * @return string
+
+#### public static function format($timestamp = NULL, $format = NULL)
+
+Formats date and time.
+
+ * @param mixed timestamp, string with date representation or I18n_Date_Format object; current timestamp if NULL
+ * @param string format string or shorthand; '%x %X' if NULL
+ * @return string

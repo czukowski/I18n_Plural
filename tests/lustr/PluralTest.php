@@ -1,6 +1,7 @@
 <?php
 /**
  * @group i18n_plural
+ * @group i18n_plural.plural
  */
 class PluralTest extends Kohana_Unittest_Testcase
 {
