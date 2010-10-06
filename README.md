@@ -1,8 +1,13 @@
-Plural inflections
-==================
+Introduction
+============
 
 This module will help you to output accurate language-dependent plural inflections, that's based on
 [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
+You can also have multiple forms of translations (for example, grammatical gender) and specify, which form you need
+when translating.
+
+Plural inflections
+==================
 
 There is a number of **Groups**, that define certain set of inflection **Rules**, and one or more languages
 following them. Each Rule has a **Key**, that represents the variation. For example, for English, there are
@@ -80,6 +85,53 @@ Somewhere else:
     echo ___('hlwrld.iyo', 10, array(':age' => 10));
     // Привет мир, мне уже 10 лет
 
+Custom forms
+============
+
+Instead of numeric _count_ parameter when dealing with plurals, you can pass any string parameter, that the ___() will
+attempt to locate and use as a translation key. If the key does not exists, the function looks for 'other' key. If it doesn't
+exist too, it gives up and returns the 1st array value.
+
+Usage
+-----
+
+Suppose, you have the following translations:
+
+i18n/en.php:
+
+    return array(
+        'their_name_is' => array(
+            'f' => 'Her name is :name',
+            'm' => 'His name is :name',
+        ),
+    );
+
+Somewhere else:
+
+    echo ___('their_name_is', 'f', array(':name' => 'Aimee'));
+    // Her name is Aimee
+
+Some languages distinguish grammatical genders in way more situations, than just pronouns, besides, certain words may have
+different grammatical gender in different languages. In this case, it's impossible specify the required form as it may differ
+from language to language. Instead, you may tie the translation keys to the context, like so:
+
+i18n/ru.php:
+
+    return array(
+        'Enabled' => array(
+            'user' => 'Включен',
+            'role' => 'Включена',
+            'other' => 'Включено',
+        ),
+    );
+
+Somewhere else:
+
+    echo ___('Enabled', 'user');
+    // Включен
+
+Note the 'other' key, that'll be used for any other context than 'user' or 'role'.
+
 Date and time formatting
 ========================
 
@@ -147,7 +199,7 @@ API
 
 #### function ___($string, $count = 0, array $values = NULL)
 
-Kohana translation/internationalization function with plurals support. The PHP function [strtr](http://php.net/strtr)
+Kohana translation/internationalization function with custom forms support. The PHP function [strtr](http://php.net/strtr)
 is used for replacing parameters.
 
     ___(':count user is online', 1000, array(':count' => 1000));

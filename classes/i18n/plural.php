@@ -30,21 +30,10 @@ class I18n_Plural
 	 */
 	public static function get($string, $count = 0)
 	{
-		$translation = I18n::get($string);
-		if (is_array($translation))
-		{
-			$category = I18n_Plural::instance(I18n::$lang)->get_category($count);
-			if (array_key_exists($category, $translation))
-			{
-				return $translation[$category];
-			}
-			elseif (array_key_exists('other', $translation))
-			{
-				return $translation['other'];
-			}
-			return reset($translation);
-		}
-		return $translation;
+		// Get the translation form key
+		$form = I18n_Plural::instance(I18n::$lang)->get_category($count);
+		// Return the translation for that form
+		return I18n_Form::get($string, $form);
 	}
 
 	/**

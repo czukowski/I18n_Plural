@@ -17,7 +17,7 @@ return array(
 	'date.short_time' => '%H:%M',
 	'date.am' => 'dop.',
 	'date.pm' => 'odp.',
-	'date.less_than_minute_ago' => 'před chvíli',
+	'date.less_than_minute_ago' => 'před chvílí',
 	'date.minute_ago' => array(
 		'one'	=> 'přibližně před minutou',
 		'other' => 'před {delta} minutami', // same as 'few'
