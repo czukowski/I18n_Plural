@@ -4,7 +4,7 @@ Introduction
 This module will help you to output accurate language-dependent plural inflections, that's based on
 [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
 You can also have multiple forms of translations (for example, grammatical gender) and specify, which form you need
-when translating.
+when translating. Also, some functions for date and time formatting and translating were added for convenience.
 
 Plural inflections
 ==================
@@ -95,7 +95,7 @@ exist too, it gives up and returns the 1st array value.
 Usage
 -----
 
-Suppose, you have the following translations:
+Suppose you have the following translations:
 
 i18n/en.php:
 
@@ -112,7 +112,7 @@ Somewhere else:
     // Her name is Aimee
 
 Some languages distinguish grammatical genders in way more situations, than just pronouns, besides, certain words may have
-different grammatical gender in different languages. In this case, it's impossible specify the required form as it may differ
+different grammatical gender in different languages. In this case, it's impossible to specify the required form, as it may differ
 from language to language. Instead, you may tie the translation keys to the context, like so:
 
 i18n/ru.php:
