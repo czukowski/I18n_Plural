@@ -205,9 +205,9 @@ is used for replacing parameters.
     ___(':count user is online', 1000, array(':count' => 1000));
     // 1000 users are online
 
- * @param string $string
- * @param mixed $count
- * @param array $values
+ * @param string to translate
+ * @param mixed string form or numeric count
+ * @param array param values to insert
  * @return string
 
 ### class I18n_Plural
