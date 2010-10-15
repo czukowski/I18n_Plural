@@ -20,8 +20,9 @@ class I18n_Date_Format extends Kohana_Date
 		'db' => '%Y-%m-%d %H:%M:%S',
 		'compact' => '%Y%m%dT%H%M%S',
 		'iso8601' => '%Y-%m-%dT%H:%M:%S%T',
-		'rfc822' => '%a, %d %b %Y %H:%M:%S %z',	// TODO: temporary
-		'rfc2822' => '%a, %d %b %Y %H:%M:%S %z',// @see https://mootools.lighthouseapp.com/projects/24057/tickets/405-dateformat-iso-8601-and-rfc822
+		'rfc822' => '%a, %d %b %Y %H:%M:%S %z',	// TODO: this should be removed, rfc822 is obsoleted by rfc2822
+		'rfc2822' => '%r',						// @see https://mootools.lighthouseapp.com/projects/24057/tickets/405-dateformat-iso-8601-and-rfc822
+												// format for rfc2822 is: '%a, %d %b %Y %H:%M:%S %z'
 		'short' => '%d %b %H:%M',
 		'long' => '%B %d, %Y %H:%M',
 	);
@@ -115,8 +116,10 @@ class I18n_Date_Format extends Kohana_Date
 				return date('jS', $this->timestamp);
 			case 'p':	// The current language equivalent of either AM or PM
 				return ___('date.'.(date('G', $this->timestamp) < 12 ? 'am' : 'pm'));
+			case 'r':	// XXX: Added to workaround localization of RFC2822 date format
+				return date('r', $this->timestamp);
 			case 's':
-				$this->timestamp;
+				return $this->timestamp;
 			case 'S':	// the seconds to two digits (01, 40, 59)
 				return date('s', $this->timestamp);
 			case 'U':	// the week to two digits (01 is the week of Jan 1, 52 is the week of Dec 31)

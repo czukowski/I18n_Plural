@@ -25,6 +25,21 @@ class DateI18nTest extends Kohana_Unittest_Testcase
 		I18n::lang($this->lang);
 	}
 
+	public function testDateFormat()
+	{
+		$this->assertEquals(Date::format(time(), 'db'), date('Y-m-d H:i:s'));
+		$this->assertEquals(Date::format(time(), 'compact'), date('Ymd\THis'));
+		$this->assertEquals(Date::format(time(), 'iso8601'), date('c'));
+		$this->assertEquals(Date::format(time(), 'rfc2822'), date('r'));
+		$months = I18n::get('date.months_abbr');
+		$this->assertEquals(Date::format(time(), 'short'), date('d '.$months[date('n') - 1].' H:i'));
+		$months = I18n::get('date.months');
+		$this->assertEquals(Date::format(time(), 'long'), date($months[date('n') - 1].' d, Y H:i'));
+		$this->assertEquals(Date::format(time(), '%%'), '%');
+		$this->assertEquals(Date::format(time()), date('d.m.Y H:i'));
+		$this->assertEquals(Date::format(), date('d.m.Y H:i'));
+	}
+
 	public function testLessThanMinuteAgo()
 	{
 		$str = 'меньше минуты назад';
