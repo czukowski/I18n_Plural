@@ -72,7 +72,7 @@ class I18n_Date extends Kohana_Date
 			$delta /= $interval;
 			$msg = $unit;
 		}
-		$delta = round($delta);
+		$delta = (int) round($delta);
 
 		return ___('date.'.$msg.$suffix, $delta, array('{delta}' => $delta));
 	}
