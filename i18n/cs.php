@@ -73,4 +73,5 @@ return array(
 		'one'	=> 'za {delta} roky',
 		'other' => 'za {delta} let',
 	),
+	'date.never' => 'nikdy',
 );

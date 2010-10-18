@@ -22,9 +22,9 @@ class I18n_Date extends Kohana_Date
 	 */
 	public static function fuzzy_span($from, $to = NULL)
 	{
-		if (!$from)
+		if ( ! $from)
 		{
-			return 'never';
+			return ___('date.never');
 		}
 		if ($to === NULL)
 		{

@@ -80,4 +80,5 @@ return array(
 		'many' => 'через {delta} лет',
 		'other' => 'через {delta} года',
 	),
+	'date.never' => 'никогда',
 );

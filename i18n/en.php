@@ -66,4 +66,5 @@ return array(
 		'one'	=> '1 year from now',
 		'other' => '{delta} years from now',
 	),
+	'date.never' => 'never',
 );
