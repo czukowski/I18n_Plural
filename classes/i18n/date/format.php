@@ -20,9 +20,8 @@ class I18n_Date_Format extends Kohana_Date
 		'db' => '%Y-%m-%d %H:%M:%S',
 		'compact' => '%Y%m%dT%H%M%S',
 		'iso8601' => '%Y-%m-%dT%H:%M:%S%T',
-		'rfc822' => '%a, %d %b %Y %H:%M:%S %z',	// TODO: this should be removed, rfc822 is obsoleted by rfc2822
-		'rfc2822' => '%r',						// @see https://mootools.lighthouseapp.com/projects/24057/tickets/405-dateformat-iso-8601-and-rfc822
-												// format for rfc2822 is: '%a, %d %b %Y %H:%M:%S %z'
+		'rfc822' => '%a, %d %b %Y %H:%M:%S %z',
+		'rfc2822' => '%r',
 		'short' => '%d %b %H:%M',
 		'long' => '%B %d, %Y %H:%M',
 	);
@@ -135,8 +134,7 @@ class I18n_Date_Format extends Kohana_Date
 			case 'Y':	// the full year (four digits; "2007")
 				return date('Y', $this->timestamp);
 			case 'T':	// the GMT offset ("-08:00")
-						// TODO: temporary
-						// @see https://mootools.lighthouseapp.com/projects/24057/tickets/405-dateformat-iso-8601-and-rfc822
+						// XXX: non-compliant with MooTools Date.format()
 				return date('P', $this->timestamp);
 			case 'z':	// the GMT offset ("-0800")
 				return date('O', $this->timestamp);
