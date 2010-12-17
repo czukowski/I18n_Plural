@@ -67,7 +67,27 @@ i18n/ru.php:
         ),
     );
 
-Somewhere else:
+You can also use deeper arrays to structure your translations. To be able to use it, create this file in your application folder:
+
+    class I18n extends I18n_Core {}
+
+Translation files then may look like this:
+
+i18n/en.php:
+
+    return array(
+        'hlwrld' => array(
+			'iyo'=> array(
+				'one' => 'Hello world, I\'m :age year old',
+				'other' => 'Hello world, I\'m :age years old',
+			),
+        ),
+    );
+
+The translations will be merged recursively, but the I18n::get() will work either way. First it checks for a string key, then it
+tries Arr::path().
+
+Usage:
 
     echo ___('hlwrld.iyo', 1, array(':age' => 1));
     // Hello world, I\'m 1 year old

@@ -19,6 +19,7 @@ class I18n_Date_Format extends Kohana_Date
 	protected $_formats = array(
 		'db' => '%Y-%m-%d %H:%M:%S',
 		'compact' => '%Y%m%dT%H%M%S',
+		'header' => '%g',
 		'iso8601' => '%Y-%m-%dT%H:%M:%S%T',
 		'rfc822' => '%a, %d %b %Y %H:%M:%S %z',
 		'rfc2822' => '%r',
@@ -92,8 +93,14 @@ class I18n_Date_Format extends Kohana_Date
 				return $this->format('%a %b %d %H:%m:%S %Y');
 			case 'd':	// the date to two digits (01, 05, etc)
 				return date('d', $this->timestamp);
+			case 'D':	// a textual representation of a day, three letters
+						// XXX: non-compliant with MooTools Date.format()
+				return date('D', $this->timestamp);
 			case 'e':
 				return str_pad(date('j', $this->timestamp), 2, ' ', STR_PAD_LEFT);
+			case 'g':	// time format usable in HTTP headers
+						// XXX: non-compliant with MooTools Date.format()
+				return gmdate('D, d M Y H:i:s').' GMT';
 			case 'H':	// the hour to two digits in military time (24 hr mode) (01, 11, 14, etc)
 				return date('H', $this->timestamp);
 			case 'I':	// the hour in 12 hour time (1, 11, 2, etc)
@@ -104,7 +111,7 @@ class I18n_Date_Format extends Kohana_Date
 				return str_pad(date('G', $this->timestamp), 2, ' ', STR_PAD_LEFT);
 			case 'l':
 				return str_pad(date('g', $this->timestamp), 2, ' ', STR_PAD_LEFT);
-			case 'L':	// milliseconds
+			case 'L':	// milliseconds (timestamp donesn't have milliseconds)
 				return '000';
 			case 'm':	// the numerical month to two digits (01 is Jan, 12 is Dec)
 				return date('m', $this->timestamp);
