@@ -217,7 +217,7 @@ API
 
 ### init.php
 
-#### function ___($string, $count = 0, array $values = NULL)
+#### function ___($string, $count = 0, $values = NULL, $lang = NULL)
 
 Kohana translation/internationalization function with custom forms support. The PHP function [strtr](http://php.net/strtr)
 is used for replacing parameters.
@@ -228,6 +228,7 @@ is used for replacing parameters.
  * @param string to translate
  * @param mixed string form or numeric count
  * @param array param values to insert
+ * @param string target language
  * @return string
 
 ### class I18n_Plural

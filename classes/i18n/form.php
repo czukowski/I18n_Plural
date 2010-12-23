@@ -11,10 +11,12 @@ class I18n_Form
 	 *
 	 * @param string $string
 	 * @param string $form, if NULL, looking for 'other' form, else the very first form
+	 * @param string $lang
+	 * @return string
 	 */
-	public static function get($string, $form = NULL)
+	public static function get($string, $form = NULL, $lang = NULL)
 	{
-		$translation = I18n::get($string);
+		$translation = I18n::get($string, $lang);
 		if (is_array($translation))
 		{
 			if (array_key_exists($form, $translation))

@@ -27,13 +27,15 @@ class I18n_Plural
 	 *
 	 * @param string $string
 	 * @param mixed $count
+	 * @param string $lang
+	 * @return string
 	 */
-	public static function get($string, $count = 0)
+	public static function get($string, $count = 0, $lang = NULL)
 	{
 		// Get the translation form key
 		$form = I18n_Plural::instance(I18n::$lang)->get_category($count);
 		// Return the translation for that form
-		return I18n_Form::get($string, $form);
+		return I18n_Form::get($string, $form, $lang);
 	}
 
 	/**
