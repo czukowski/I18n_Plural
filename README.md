@@ -1,10 +1,15 @@
 Introduction
 ============
 
-This module will help you to output accurate language-dependent plural inflections, that's based on
-[CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
-You can also have multiple forms of translations (for example, grammatical gender) and specify, which form you need
-when translating. Also, some functions for date and time formatting and translating were added for convenience.
+This module started as a helper class to achieve accurate language-dependent plural inflections, but has grown
+into almost complete alternative to Kohana 3.0.x I18n system.
+
+Current features are:
+
+ * Support for multiple translation options for any term
+ * Support for deep array structures in i18n files
+ * Choosing correct translation option when translating plural amount of any term, based on [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
+ * Translating and correctly inflecting time spans
 
 Plural inflections
 ==================
