@@ -70,7 +70,7 @@ return array(
 	),
 	'date.year_until' => array(
 		'one'	=> 'za rok',
-		'one'	=> 'za {delta} roky',
+		'few'	=> 'za {delta} roky',
 		'other' => 'za {delta} let',
 	),
 	'date.never' => 'nikdy',
