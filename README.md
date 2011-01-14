@@ -11,136 +11,81 @@ Current features are:
  * Choosing correct translation option when translating plural amount of any term, based on [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
  * Translating and correctly inflecting time spans
 
-Plural inflections
+Why would you want to use this
+==============================
+
+ * You want to be able to use ___('user.register.complete'), like in old Kohana 2.3.4 days
+ * You also want to use just ___('User password') for short strings
+ * You want to inflect the translations depending on various circumstances, such as user's gender and so on.
+ * You want to translate things like 'I've scanned X directories and found Y files' accurately to any language.
+ * You have some legacy code using original Kohana I18n system and you don't want it to break, and you want to reuse some of
+   its translations at the same time.
+ * You want to have better Date::fuzzy_span() output, with actual numbers, again, in any language.
+
+The ___() function
 ==================
 
-There is a number of **Groups**, that define certain set of inflection **Rules**, and one or more languages
-following them. Each Rule has a **Key**, that represents the variation. For example, for English, there are
-two Rules: 'one' for singular form and 'other' for plural. Every Group has at least 'other' Key.
+The ___() function (3 underscores, as opposed to 2 underscores being standard Kohana translation function) does the same thing as
+its original prototype does, it translates stuff. It has 2 differencies though:
 
-Usage
------
+ 1. It won't skip translation, if source and destination languages are the same. I.e. if your client wants you to change 'sign in'
+ in your application to 'log in', you can do so in the i18n file for default language and don't have to care about all the places
+ in your source code, that call ___('sign in').
+ 2. It accepts 2nd optional string or numeric parameter, for providing translation context.
 
-Modify lines in your translation files, that may need inflection applied, so that they are arrays instead of strings.
-You may also want to create a translation file for your default application language.
+For those, who like shorthands, this is a good news, now you can have whatever keys in your i18n files you want. You can have them
+all-string ('user.register.complete' => 'The user has registered successfully') or structured as Kohana messages, which looks cleaner.
 
-Example (i18n/en.php):
+Translation contexts
+====================
 
-    return array(
-        'Hello world' => array(
-            'one' => 'Hello world',
-            'other' => 'Hello worlds',
-        ),
-    );
+Many languages use different words or inflections depending on a lot of circumstances, not very much problem in English, but we can
+find an example here, too: suppose you want to display string, that looks like this: 'His/her name is _name_' and you know the name
+of a person and his or her gender. You could do this:
 
-Use the ___() function (3 underscores, as opposed to 2 underscores being standard Kohana translation function). It is
-defined in module's init.php:
+    echo ___($gender == 'f' ? 'His' : 'Her').___('name is :name', array(':name' => $name));
 
-    echo ___('Hello world', 2);
-    // Hello worlds
+Although you can probably see it's not flexible at all. This message donesn't have to begin with pronoun in other languages.
+This is already better:
 
-If you think about it, there's pretty much extra writing, so you could use some shorthands for translation keys, and
-it'll work anyway, since the triple-underscore function, unlike the double-underscore, does the translation in any case.
-On the other hand, this may look a bit harsh, and in case no translation is found, you'll end up with gibberish, so
-it's entirely up to you:
+	echo ___(':their name is :name', array(':name' => $name, ':their' => ___($gender == 'f' ? 'His' : 'Her')));
 
-    return array(
-        'hlwrld' => array(...),
-    );
-    ...
-    echo ___('hlwrld', 10);
+But what if there is a language, that changes other words as well? That's where the contextual translation comes in handy. Consider
+just this:
 
-You can also pass the parameters, as you would using standard translation function:
+    echo ___('Their name is :name', $gender);
 
-i18n/en.php:
+For that to work, your translation file (i18n/en.php) will need to include the following:
 
     return array(
-        'hlwrld.iyo' => array(
-            'one' => 'Hello world, I\'m :age year old',
-            'other' => 'Hello world, I\'m :age years old',
-        ),
-    );
-
-i18n/ru.php:
-
-    return array(
-        'hlwrld.iyo' => array(
-            'one' => 'Привет мир, мне уже :age год',
-            'few' => 'Привет мир, мне уже :age года',
-            'many' => 'Привет мир, мне уже :age лет',
-            'other' => 'Привет мир, мне уже :age лет',
-        ),
-    );
-
-You can also use deeper arrays to structure your translations. To be able to use it, create this file in your application folder:
-
-    class I18n extends I18n_Core {}
-
-Translation files then may look like this:
-
-i18n/en.php:
-
-    return array(
-        'hlwrld' => array(
-			'iyo'=> array(
-				'one' => 'Hello world, I\'m :age year old',
-				'other' => 'Hello world, I\'m :age years old',
-			),
-        ),
-    );
-
-The translations will be merged recursively, but the I18n::get() will work either way. First it checks for a string key, then it
-tries Arr::path().
-
-Usage:
-
-    echo ___('hlwrld.iyo', 1, array(':age' => 1));
-    // Hello world, I\'m 1 year old
-    echo ___('hlwrld.iyo', 2, array(':age' => 2));
-    // Hello world, I\'m 2 years old
-    echo ___('hlwrld.iyo', 10, array(':age' => 10));
-    // Hello world, I\'m 10 years old
-    
-    I18n::lang('ru'); // Switch Kohana to another language
-    
-    echo ___('hlwrld.iyo', 1, array(':age' => 1));
-    // Привет мир, мне уже 1 год
-    echo ___('hlwrld.iyo', 2, array(':age' => 2));
-    // Привет мир, мне уже 2 года
-    echo ___('hlwrld.iyo', 10, array(':age' => 10));
-    // Привет мир, мне уже 10 лет
-
-Custom forms
-============
-
-Instead of numeric _count_ parameter when dealing with plurals, you can pass any string parameter, that the ___() will
-attempt to locate and use as a translation key. If the key does not exists, the function looks for 'other' key. If it doesn't
-exist too, it gives up and returns the 1st array value.
-
-Usage
------
-
-Suppose you have the following translations:
-
-i18n/en.php:
-
-    return array(
-        'their_name_is' => array(
+        'Their name is :name' => array(
             'f' => 'Her name is :name',
             'm' => 'His name is :name',
         ),
     );
 
-Somewhere else:
+Example
+-------
 
-    echo ___('their_name_is', 'f', array(':name' => 'Aimee'));
+    foreach (array('aimee', 'bob') as $username)
+    {
+        $person = ORM::factory('profile')->find($username);
+        echo ___('Their name is :name', $person->gender, array(':name' => $person->name));
+    }
+
+    // Outputs:
     // Her name is Aimee
+    // His name is Bob
+
+Example
+-------
 
 Some languages distinguish grammatical genders in way more situations, than just pronouns, besides, certain words may have
-different grammatical gender in different languages. In this case, it's impossible to specify the required form, as it may differ
-from language to language. Instead, you may tie the translation keys to the context, like so:
+different grammatical gender in different languages. This time, it's impossible to specify the required form, as it may differ
+from language to language. In this case, you can think of a context in another way, it can be just an object you want it to be
+related to.
 
-i18n/ru.php:
+Let's take Russian for an example (i18n/ru.php), although many others have it as well.
 
     return array(
         'Enabled' => array(
@@ -156,6 +101,80 @@ Somewhere else:
     // Включен
 
 Note the 'other' key, that'll be used for any other context than 'user' or 'role'.
+
+Plural inflections
+==================
+
+If you've ever been bothered by labels like '1 file(s)', search no more, there is a solution for you.
+
+Nice people at CLDR have taken their time to compile counting rules for a large amount of languages. This module includes these
+rules and a function, that converts any number to a proper context for that language. The possible contexts are 'zero', 'one',
+'two', 'few', 'many' and 'other'. Most languages will only have 2-3 of these, but 'other' is always among them.
+
+Example
+-------
+
+i18n/en.php:
+
+    return array(
+        'You have :count messages' => array(
+            'one' => 'You have one message',		// 1 message
+            'other' => 'You have :count messages',	// more messages
+        ),
+    );
+
+i18n/cs.php:
+
+    return array(
+        'You have :count messages' => array(
+            'one' => 'Máte jednu zprávu',			// 1 message
+            'few' => 'Máte :count zprávy',			// 2 - 4 messages
+            'other' => 'Máte :count zpráv',			// more messages
+        ),
+    );
+
+Example
+-------
+
+i18n/en.php:
+
+    return array(
+        'hello' => array(
+			'myage'=> array(
+				'one' => 'Hello world, I\'m :age year old',
+				'other' => 'Hello world, I\'m :age years old',
+			),
+        ),
+    );
+
+i18n/ru.php:
+
+    return array(
+        'hello.myage' => array(
+            'one' => 'Привет мир, мне уже :age год',
+            'few' => 'Привет мир, мне уже :age года',
+            'many' => 'Привет мир, мне уже :age лет',
+            'other' => 'Привет мир, мне уже :age лет',
+        ),
+    );
+
+In your code:
+
+    echo ___('hello.myage', 1, array(':age' => 1));
+    // Hello world, I\'m 1 year old
+    echo ___('hello.myage', 2, array(':age' => 2));
+    // Hello world, I\'m 2 years old
+    echo ___('hello.myage', 10, array(':age' => 10));
+    // Hello world, I\'m 10 years old
+    
+    I18n::lang('ru'); // Switch Kohana to another language
+    
+    echo ___('hello.myage', 1, array(':age' => 1));
+    // Привет мир, мне уже 1 год
+    echo ___('hello.myage', 2, array(':age' => 2));
+    // Привет мир, мне уже 2 года
+    echo ___('hello.myage', 10, array(':age' => 10));
+    // Привет мир, мне уже 10 лет
 
 Date and time formatting
 ========================
@@ -217,8 +236,31 @@ Following format shorthands are currrently supported:
  * short => %d %b %H:%M
  * long => %B %d, %Y %H:%M
 
+Installation
+============
+
+This module has classes, that make use of a few Kohana native classes. To connect them, add these empty classes to your
+application folder:
+
+Structured translations
+-----------------------
+
+To use structured i18n files:
+
+    class I18n extends I18n_Core {}
+
+The translations will be merged recursively, but the I18n::get() will work either way. First it checks for a string key, then it
+tries Arr::path().
+
+Date span formatting
+--------------------
+
+To use custom Date::fuzzy_span(), create the following class:
+
+    class Date extends I18n_Date {}
+
 API
----
+===
 
 ### init.php
 
