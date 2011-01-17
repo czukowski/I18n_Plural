@@ -8,7 +8,8 @@ Current features are:
 
  * Support for multiple translation options for any term
  * Support for deep array structures in i18n files
- * Choosing correct translation option when translating plural amount of any term, based on [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
+ * Choosing correct translation option when translating plural amount of any term, based on
+   [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
  * Translating and correctly inflecting time spans
 
 Why would you want to use this
@@ -21,6 +22,7 @@ Why would you want to use this
  * You have some legacy code using original Kohana I18n system and you don't want it to break, and you want to reuse some of
    its translations at the same time.
  * You want to have better Date::fuzzy_span() output, with actual numbers, again, in any language.
+ * You want your validation error messages to be grammatically accurate, too.
 
 The ___() function
 ==================
@@ -109,7 +111,11 @@ If you've ever been bothered by labels like '1 file(s)', search no more, there i
 
 Nice people at CLDR have taken their time to compile counting rules for a large amount of languages. This module includes these
 rules and a function, that converts any number to a proper context for that language. The possible contexts are 'zero', 'one',
-'two', 'few', 'many' and 'other'. Most languages will only have 2-3 of these, but 'other' is always among them.
+'two', 'few', 'many' and 'other'. Most languages will only have 2-3 of these, and any of them will always have 'other' context.
+
+The rules are defined in [these classes](https://github.com/czukowski/I18n_Plural/tree/master/classes/i18n/plural). If you don't
+see your language immediately, try looking into one.php, two.php and other generic names, they aggregate a large number of languages,
+that share similar rules. All the files have list of languages and the rules in human readable format in the headers.
 
 Example
 -------
@@ -132,6 +138,10 @@ i18n/cs.php:
             'other' => 'Máte :count zpráv',			// more messages
         ),
     );
+
+Note: before doing something like I did above (replaced :count with actual 'one' value for the context 'one'), check with the
+language rules, whether that context really applies only when the cumber is 1. There are languages, when this is not the case,
+for those languages, leave the parameter there.
 
 Example
 -------
@@ -176,13 +186,18 @@ In your code:
     echo ___('hello.myage', 10, array(':age' => 10));
     // Привет мир, мне уже 10 лет
 
-Date and time formatting
-========================
+Date and time translating
+=========================
 
-Provides date formatting and translation methods to achieve consistency with MooTools
-[Date.format()](http://mootools.net/docs/more/Native/Date#Date:format). May come in handy for those, who use
-[MooTools](http://mootools.net) for their client-side code, so the date/time format strings and verbose representation
-are the same for both server and client side.
+Provides date formatting method and better translation, which reflects MooTools
+[Date.format()](http://mootools.net/docs/more/Native/Date#Date:format). Translations will benefit everyone, since they
+won't tell you something happened 'less than a month ago', but with a measure, i.e. '2 weeks ago', correctly translated
+to any language. Formatting may come in handy for those, who use [MooTools](http://mootools.net) for their client-side code,
+so the date/time format strings and verbose representation are the same for both server and client side.
+
+Currently, i18n files with date and time translations are included for the following languages: Czech, English, Russian. There
+is a Polish translation in [Snap's fork](https://github.com/Snap/I18n_Plural), but he's changed syntax a bit
+([here's version not yet modified](https://github.com/Snap/I18n_Plural/blob/b2eb01e10e85d7c6db694c71bda214f1e595c228/i18n/pl.php)).
 
 Usage
 -----
