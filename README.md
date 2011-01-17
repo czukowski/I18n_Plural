@@ -288,6 +288,13 @@ To use custom Date::fuzzy_span(), create the following class:
 
     class Date extends I18n_Date {}
 
+Validation messages translations
+--------------------------------
+
+To use it in your project, add this class to your application folder:
+
+    class Validate extends I18n_Validation {}
+
 API
 ===
 
