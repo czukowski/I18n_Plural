@@ -251,6 +251,20 @@ Following format shorthands are currrently supported:
  * short => %d %b %H:%M
  * long => %B %d, %Y %H:%M
 
+Validation messages translating
+===============================
+
+Aims to provide correct inflection of validation messages. To use it in your project, add this class to your application folder:
+
+    class Validate extends I18n_Validation {}
+
+The overriden function is Validate::errors(). It detects first numeric parameter for a rule and uses it as a context. It is useful
+for such fields, as 'decimal', 'min_length', 'max_length' and so on.
+
+The message is now retrieved a little differently: if there's no message file, the function attempts to translate
+"{$file}.{$field}.{$error}" path, failing that, "valid.{$error}". Lastly, it tries to retrieve default Kohana message for that
+kind of error, from 'system/messages/validate.php'. These default messages are translated in the i18n files included with this module.
+
 Installation
 ============
 
