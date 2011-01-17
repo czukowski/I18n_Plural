@@ -8,7 +8,7 @@ return array(
 		'other' => ':count souborů',
 	),
 	// Date/time
-	'data' => array(
+	'date' => array(
 		'months' => array('Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'),
 		'months_abbr' => array('ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'),
 		'days' => array('Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'),
