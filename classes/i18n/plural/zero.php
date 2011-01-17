@@ -2,7 +2,7 @@
 /**
  * Plural rules for the following locales and languages:
  * 
- * Locales: ak am bh fil guw hi ln mg nso ti tl wa
+ * Locales: ak am bh fil tl guw hi ln mg nso ti wa
  * 
  * Languages:
  *  Akan (ak)
@@ -22,9 +22,10 @@
  *  one → n in 0..1;
  *  other → everything else
  * 
- * Reference CLDR Version 1.8.1 (2010-04-30 23:05:14 GMT)
+ * Reference CLDR Version 1.9 beta (2010-11-16 21:48:45 GMT)
  * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
  * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ * @see plurals.xml (local copy)
  *
  * @package		I18n_Plural
  * @author		Korney Czukowski

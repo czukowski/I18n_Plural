@@ -2,7 +2,7 @@
 /**
  * Plural rules for the following locales and languages
  * 
- * Locales: be bs hr ru sh sr uk
+ * Locales: hr ru sr uk be bs sh
  *
  * Languages:
  * - Belarusian (br)
@@ -17,11 +17,12 @@
  * 	one → n mod 10 is 1 and n mod 100 is not 11;
  * 	few → n mod 10 in 2..4 and n mod 100 not in 12..14;
  * 	many → n mod 10 is 0 or n mod 10 in 5..9 or n mod 100 in 11..14;
- * 	other → everything else
+ * 	other → everything else (fractions)
  *
- * Reference CLDR Version 1.8.1 (2010-04-30 23:05:14 GMT)
+ * Reference CLDR Version 1.9 beta (2010-11-16 21:48:45 GMT)
  * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
  * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ * @see plurals.xml (local copy)
  *
  * @package		I18n_Plural
  * @author		Korney Czukowski
@@ -36,7 +37,7 @@ class I18n_Plural_Balkan extends I18n_Plural_Rules
 		{
 			return 'one';
 		}
-		else if (is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 4 AND !($i >= 12 AND $i <= 14))
+		else if (is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 4 AND ! ($i >= 12 AND $i <= 14))
 		{
 			return 'few';
 		}

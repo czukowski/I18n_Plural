@@ -15,9 +15,10 @@
  * 	many → n mod 100 in 11..99;
  * 	other → everything else
  *
- * Reference CLDR Version 1.8.1 (2010-04-30 23:05:14 GMT)
+ * Reference CLDR Version 1.9 beta (2010-11-16 21:48:45 GMT)
  * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
  * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ * @see plurals.xml (local copy)
  *
  * @package		I18n_Plural
  * @author		Korney Czukowski

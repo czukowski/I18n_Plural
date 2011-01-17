@@ -66,7 +66,7 @@ class I18n_Plural
 	{
 		// Choose class
 		if (in_array($prefix, array(
-			'bem', 'da', 'de', 'el', 'en', 'eo', 'es', 'et', 'fi', 'fo', 'gl', 'he', 'iw', 'it', 'nb',
+			'bem', 'brx', 'da', 'de', 'el', 'en', 'eo', 'es', 'et', 'fi', 'fo', 'gl', 'he', 'iw', 'it', 'nb',
 			'nl', 'nn', 'no', 'sv', 'af', 'bg', 'bn', 'ca', 'eu', 'fur', 'fy', 'gu', 'ha', 'is', 'ku',
 			'lb', 'ml', 'mr', 'nah', 'ne', 'om', 'or', 'pa', 'pap', 'ps', 'so', 'sq', 'sw', 'ta', 'te',
 			'tk', 'ur', 'zu', 'mn', 'gsw', 'chr', 'rm', 'pt')))
@@ -116,6 +116,10 @@ class I18n_Plural
 		elseif ($prefix == 'cy')
 		{
 			return new I18n_Plural_Welsh;
+		}
+		elseif ($prefix == 'br')
+		{
+			return new I18n_Plural_Breton;
 		}
 		elseif ($prefix == 'lag')
 		{

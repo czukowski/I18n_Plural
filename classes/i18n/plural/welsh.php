@@ -8,14 +8,17 @@
  * - Welsh (cy)
  *
  * Rules:
- * 	one → n is 1;
- * 	two → n is 2;
- * 	many → n is 8 or n is 11;
- * 	other → everything else
+ *  zero → n is 0;
+ *  one → n is 1;
+ *  two → n is 2;
+ *  few → n is 3;
+ *  many → n is 6;
+ *  other → everything else
  *
- * Reference CLDR Version 1.8.1 (2010-04-30 23:05:14 GMT)
+ * Reference CLDR Version 1.9 beta (2010-11-16 21:48:45 GMT)
  * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
  * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ * @see plurals.xml (local copy)
  *
  * @package		I18n_Plural
  * @author		Korney Czukowski
@@ -34,7 +37,11 @@ class I18n_Plural_Welsh extends I18n_Plural_Rules
 		{
 			return 'two';
 		}
-		elseif ($count == 8 OR $count == 11)
+		elseif ($count == 3)
+		{
+			return 'few';
+		}
+		elseif ($count == 6)
 		{
 			return 'many';
 		}
