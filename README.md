@@ -212,13 +212,13 @@ method. In the following examples, I'll use Date::_method\_name()_, but you coul
 don't want to override Kohana_Date::fuzzy_span().
 
 	$time = time();
-	Date::fuzzy_span(time, time - 10); // -10 seconds
+	Date::fuzzy_span($time, $time - 10); // -10 seconds
     // less than a minute ago
-	Date::fuzzy_span(time, time - 50); // -50 seconds
+	Date::fuzzy_span($time, $time - 50); // -50 seconds
     // about a minute ago
-	Date::fuzzy_span(time, time - 100); // 1:40 ago
+	Date::fuzzy_span($time, $time - 100); // 1:40 ago
     // 2 minutes ago
-	Date::fuzzy_span(time, time + 86400); // +24 hours
+	Date::fuzzy_span($time, $time + 86400); // +24 hours
     // 1 day from now
 
 and so on. The string returned will be translated to the current language.
@@ -266,9 +266,10 @@ This part aims to provide correct inflection of validation messages. To use it i
 The overriden function is Validate::errors(). It detects the first numeric parameter for a rule and uses it as a context. It is useful
 for such fields, as 'decimal', 'min_length', 'max_length' and so on.
 
-The message is now retrieved a little differently: if there's no message file, the function attempts to translate
-"{$file}.{$field}.{$error}" path, failing that, "valid.{$error}". Lastly, it tries to retrieve default Kohana message for that
-kind of error, from 'system/messages/validate.php'. These default messages are translated in the i18n files included with this module.
+The message is now retrieved a little differently: if there's no string found in message files, the function attempts to translate
+"{$file}.{$field}.{$error}" path, and failing that, "valid.{$error}". Lastly, it tries to retrieve default Kohana message for that
+kind of error, from 'system/messages/validate.php'. These default messages are translated as "valid.{$error}" in the i18n files
+included with this module.
 
 Example
 -------
@@ -320,6 +321,10 @@ To use modified Validate::errors() function:
 
     class Validate extends I18n_Validation {}
 
+Please note, that you need to have the Kohana modules loaded by the point, where any pf these classes are called. For example,
+it is common to find `I18n::lang()` call early in bootstrap.php. You need to move that like somewhere after `Kohana::modules()`
+call or you'll get Class not found errors.
+
 API
 ===
 
@@ -327,9 +332,9 @@ Note: the below reference is not complete yet.
 
 ### init.php
 
-#### function ___($string, $count = 0, $values = NULL, $lang = NULL)
+#### function ___($string, $context = 0, $values = NULL, $lang = NULL)
 
-Kohana translation/internationalization function with custom forms support. The PHP function [strtr](http://php.net/strtr)
+Kohana translation/internationalization function with context support. The PHP function [strtr](http://php.net/strtr)
 is used for replacing parameters.
 
     ___(':count user is online', 1000, array(':count' => 1000));
