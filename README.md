@@ -15,34 +15,34 @@ Current features are:
 Why would you want to use this
 ==============================
 
- * You want to be able to use ___('user.register.complete'), like in old Kohana 2.3.4 days
- * You also want to use just ___('User password') for short strings
+ * You want to be able to use `___('user.register.complete')`, like in old Kohana 2.3.4 days
+ * You also want to use just `___('User password')` for short strings
  * You want to inflect the translations depending on various circumstances, such as user's gender and so on.
- * You want to translate things like 'I've scanned X directories and found Y files' accurately to any language.
+ * You want to translate things like `I've scanned X directories and found Y files` accurately to any language.
  * You have some legacy code using original Kohana I18n system and you don't want it to break, and you want to reuse some of
    its translations at the same time.
- * You want to have better Date::fuzzy_span() output, with actual numbers, again, in any language.
+ * You want to have better `Date::fuzzy_span()` output, with actual numbers, again, in any language.
  * You want your validation error messages to be grammatically accurate, too.
 
 The ___() function
 ==================
 
-The ___() function (3 underscores, as opposed to 2 underscores being standard Kohana translation function) does the same thing as
+The `___()` function (3 underscores, as opposed to 2 underscores being standard Kohana translation function) does the same thing as
 its original prototype does, it translates stuff. It has 2 differencies though:
 
  1. It won't skip translation when the source and destination languages are same. I.e. if your client wants you to change 'sign in'
  in your application to 'log in', you can do so in the corresponding i18n file for default language and don't have to care about all
- the places in your source code, that call ___('sign in').
+ the places in your source code, that call `___('sign in')`.
  2. It accepts 2nd optional string or numeric parameter, for providing translation context.
 
 For those, who like shorthands, this is a good news, now you can have whatever keys in your i18n files you want. You can have them either
-as strings ('user.register.complete' => 'The user has registered successfully') or structured, just like Kohana messages, which looks cleaner.
+as strings `('user.register.complete' => 'The user has registered successfully')` or structured, just like Kohana messages, which looks cleaner.
 
 Translation contexts
 ====================
 
 Many languages use different words or inflections depending on a lot of circumstances, while it isn't much problem in English, we can
-find an example there, too: suppose you want to display a string, that looks like this: 'His/her name is _name_' and you know the name
+find an example there, too: suppose you want to display a string, that looks like this: "His/her name is _name_" and you know the name
 of a person and his or her gender. The most trivial would be to do this:
 
     echo ___($gender == 'f' ? 'His' : 'Her').___('name is :name', array(':name' => $name));
@@ -57,7 +57,7 @@ just this:
 
     echo ___('Their name is :name', $gender);
 
-For that to work, we have defined the translation key ('Their name is :name') with 2 contexts ('f' and 'm'):
+For that to work, we have defined the translation key `Their name is :name` with 2 contexts - `f` and `m`:
 
     return array(
         'Their name is :name' => array(
@@ -102,16 +102,16 @@ Somewhere else:
     echo ___('Enabled', 'user');
     // Включен
 
-Note the 'other' key, that'll be used for any other context than 'user' or 'role'.
+Note the `other` key, that'll be used for any other context than `user` or `role`.
 
 Plural inflections
 ==================
 
-If you've ever been bothered by labels like '1 file(s)', search no more, there is a solution for you.
+If you've ever been bothered by labels like "1 file(s)", search no more, there is a solution for you.
 
 Nice people at CLDR have taken their time to compile plural rules for a large number of languages. This module includes all these
-rules and a function, that converts any number into a proper context for that language. The possible contexts are 'zero', 'one',
-'two', 'few', 'many' and 'other'. Most languages will only have 2-3 of these, and any of them will always have 'other' context.
+rules and a function, that converts any number into a proper context for that language. The possible contexts are `zero`, `one`,
+`two`, `few`, `many` and `other`. Most languages will only have 2-3 of these, and any of them will always have `other` context.
 
 The rules are defined in [these classes](https://github.com/czukowski/I18n_Plural/tree/master/classes/i18n/plural). If you don't
 see your language immediately, try looking into one.php, two.php and other generic names, they aggregate a large number of languages,
@@ -139,7 +139,7 @@ i18n/cs.php:
         ),
     );
 
-Note: before doing something like I did above (I've replaced :count with actual 'one' value for the context 'one'), check with the
+*Note:* before doing something like I did above (I've replaced :count with actual 'one' value for the context `one`), check with the
 language rules, whether that context really applies only when the number is 1. There are languages, when this is not the case,
 for those languages, you'll have to leave the parameter there.
 
@@ -191,8 +191,8 @@ Date and time translating
 
 This part provides date formatting method and better translation, which reflects MooTools
 [Date.format()](http://mootools.net/docs/more/Native/Date#Date:format). I liked the way MooTools team made date formatting,
-and especially 'time difference in words' function, since it gives you a measure, i.e. '2 weeks ago', instead of Kohana standard
-'less than a month ago', and it also translates is correctly to any language. Formatting may come in handy for those, who use
+and especially 'time difference in words' function, since it gives you a measure, i.e. "2 weeks ago", instead of Kohana standard
+"less than a month ago", and it also translates is correctly to any language. Formatting may come in handy for those, who use
 [MooTools](http://mootools.net) for their client-side code, so the date/time format strings and verbose representation are the
 same for both server and client side.
 
@@ -203,13 +203,13 @@ is a Polish translation in [Snap's fork](https://github.com/Snap/I18n_Plural), b
 Usage
 -----
 
-The I18n_Date class extends Kohana_Date class, so if you create this:
+The `I18n_Date` class extends `Kohana_Date` class, so if you create this:
 
     class Date extends I18n_Date {}
 
-then you can use it transparently. Only fuzzy_span() method is overriden, so that it behaves as MooTools Date.timeDiffInWords()
-method. In the following examples, I'll use Date::_method\_name()_, but you could as well I18n_Date::_method\_name()_, if you
-don't want to override Kohana_Date::fuzzy_span().
+then you can use it transparently. Only `fuzzy_span()` method is overriden, so that it behaves as MooTools Date.timeDiffInWords()
+method. In the following examples, I'll use `Date::method_name()`, but you could as well `I18n_Date::method_name()`, if you
+don't want to override `Kohana_Date::fuzzy_span()`.
 
 	$time = time();
 	Date::fuzzy_span($time, $time - 10); // -10 seconds
@@ -223,7 +223,7 @@ don't want to override Kohana_Date::fuzzy_span().
 
 and so on. The string returned will be translated to the current language.
 
-You can also format dates with various formats using Date::format() method. Possible formatting keys are same as with MooTools
+You can also format dates with various formats using `Date::format()` method. Possible formatting keys are same as with MooTools
 [Date.format()](http://mootools.net/docs/more/Native/Date#Date:format) method:
 
     Date::format($time, '%m/%d/%Y');
@@ -239,8 +239,8 @@ You can also format dates with various formats using Date::format() method. Poss
     Date::format($time, 'iso8601');
     // 2010-10-05T10:53:24+02:00
 
-If you don't specify format, it will assume %x %X, which is a current date and time in the current language prefered format.
-It's defined in Kohana translation files, see files from this package for examples (array keys with 'date.' prefix).
+If you don't specify format, it will assume `%x %X`, which is a current date and time in the current language prefered format.
+It's defined in Kohana translation files, see files from this package for examples ('date' array).
 
 Following format shorthands are currrently supported:
 
@@ -254,7 +254,7 @@ Following format shorthands are currrently supported:
  * header => %g
 
 Note: 'header' format and '%g' key are not in MooTools. I've added them for convenience to use with HTTP headers, that have
-dates in them, such as Expires and so on.
+dates in them, such as 'Expires' header and so on.
 
 Validation messages translating
 ===============================
@@ -263,12 +263,12 @@ This part aims to provide correct inflection of validation messages. To use it i
 
     class Validate extends I18n_Validation {}
 
-The overriden function is Validate::errors(). It detects the first numeric parameter for a rule and uses it as a context. It is useful
+The overriden function is `Validate::errors()`. It detects the first numeric parameter for a rule and uses it as a context. It is useful
 for such fields, as 'decimal', 'min_length', 'max_length' and so on.
 
 The message is now retrieved a little differently: if there's no string found in message files, the function attempts to translate
-"{$file}.{$field}.{$error}" path, and failing that, "valid.{$error}". Lastly, it tries to retrieve default Kohana message for that
-kind of error, from 'system/messages/validate.php'. These default messages are translated as "valid.{$error}" in the i18n files
+`{$file}.{$field}.{$error}` path, and failing that, `valid.{$error}`. Lastly, it tries to retrieve default Kohana message for that
+kind of error, from 'system/messages/validate.php'. These default messages are translated as `valid.{$error}` in the i18n files
 included with this module.
 
 Example
@@ -300,7 +300,7 @@ Somewhere else:
     $validation->errors('user');
     // array('New password must be at least 6 characters long')
 
-Note, that if matching message exists in message files, the modified Validate::errors() function will use it. This is to keep
+Note, that if matching message exists in message files, the modified `Validate::errors()` function will use it. This is to keep
 some kind of backward compatibility.
 
 Installation
@@ -321,7 +321,7 @@ To use modified Validate::errors() function:
 
     class Validate extends I18n_Validation {}
 
-Please note, that you need to have the Kohana modules loaded by the point, where any pf these classes are called. For example,
+*Please note*, that you need to have the Kohana modules loaded by the point, where any of these classes are called. For example,
 it is common to find `I18n::lang()` call early in bootstrap.php. You need to move that like somewhere after `Kohana::modules()`
 call or you'll get Class not found errors.
 
