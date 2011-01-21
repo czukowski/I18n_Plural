@@ -189,12 +189,11 @@ In your code:
 Date and time translating
 =========================
 
-This part provides date formatting method and better translation, which reflects MooTools
-[Date.format()](http://mootools.net/docs/more/Native/Date#Date:format). I liked the way MooTools team made date formatting,
-and especially 'time difference in words' function, since it gives you a measure, i.e. "2 weeks ago", instead of Kohana standard
-"less than a month ago", and it also translates is correctly to any language. Formatting may come in handy for those, who use
-[MooTools](http://mootools.net) for their client-side code, so the date/time format strings and verbose representation are the
-same for both server and client side.
+This part provides date formatting method, which reflects MooTools [Date.format()](http://mootools.net/docs/more/Native/Date#Date:format)
+and better translation. I liked the way MooTools team made date formatting, and especially 'time difference in words' function, since it
+gives you a good measure, i.e. "2 weeks ago", instead of Kohana standard "less than a month ago", and it also translates is correctly to
+any language. Formatting may come in handy for those, who use [MooTools](http://mootools.net) for their client-side code, so the date/time
+format strings and verbose representation can be same for both server and client side.
 
 Currently, i18n files with date and time translations are included for the following languages: Czech, English, Russian. There
 is a Polish translation in [Snap's fork](https://github.com/Snap/I18n_Plural), but he's changed syntax a bit
@@ -322,7 +321,7 @@ To use modified Validate::errors() function:
     class Validate extends I18n_Validation {}
 
 *Please note*, that you need to have the Kohana modules loaded by the point, where any of these classes are called. For example,
-it is common to find `I18n::lang()` call early in bootstrap.php. You need to move that like somewhere after `Kohana::modules()`
+it is common to find `I18n::lang()` call early in bootstrap.php. You need to move that line somewhere after `Kohana::modules()`
 call or you'll get Class not found errors.
 
 API
