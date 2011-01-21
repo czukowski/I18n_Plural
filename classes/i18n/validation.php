@@ -52,13 +52,13 @@ class I18n_Validation extends Kohana_Validate
 			{
 				if (is_string($translate))
 				{
-					// Translate the label using the specified language
-					$label = __($label, NULL, $translate);
+					// Translate the label to the specified language
+					$label = ___($label, NULL, array(), $translate);
 				}
 				else
 				{
 					// Translate the label
-					$label = __($label);
+					$label = ___($label);
 				}
 			}
 
@@ -96,12 +96,12 @@ class I18n_Validation extends Kohana_Validate
 							if (is_string($translate))
 							{
 								// Translate the value using the specified language
-								$value = __($value, NULL, $translate);
+								$value = ___($value, NULL, array(), $translate);
 							}
 							else
 							{
 								// Translate the value
-								$value = __($value);
+								$value = ___($value);
 							}
 						}
 					}
