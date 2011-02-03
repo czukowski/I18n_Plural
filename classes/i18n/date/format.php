@@ -100,7 +100,7 @@ class I18n_Date_Format extends Kohana_Date
 				return str_pad(date('j', $this->timestamp), 2, ' ', STR_PAD_LEFT);
 			case 'g':	// time format usable in HTTP headers
 						// XXX: non-compliant with MooTools Date.format()
-				return gmdate('D, d M Y H:i:s').' GMT';
+				return gmdate('D, d M Y H:i:s', $this->timestamp).' GMT';
 			case 'H':	// the hour to two digits in military time (24 hr mode) (01, 11, 14, etc)
 				return date('H', $this->timestamp);
 			case 'I':	// the hour in 12 hour time (1, 11, 2, etc)
