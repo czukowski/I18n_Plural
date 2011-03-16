@@ -63,28 +63,27 @@ class PluralTest extends Kohana_Unittest_Testcase
 
 	/**
 	 * Rules:
-	 * 	one → n is 1;					1
-	 * 	two → n is 2;					2
-	 * 	many → n is 8 or n is 11;		8, 11
-	 * 	other → everything else			0, 3-7, 9, 10, 12-999; 1.31, 2.31, 8.31, 3.31...
+	 *  zero → n is 0;					0
+	 *  one → n is 1;					1
+	 *  two → n is 2;					2
+	 *  few → n is 3;					3
+	 *  many → n is 6;					6
+	 *  other → everything else			4, 5, 7, 8, 10-999; 1.31, 2.31, 8.31, 3.31...
 	 */
 	public function testWelsh()
 	{
 		$t = $this->_get_instance('cy');
 
+		$this->assertEquals($t->get_category(0), 'zero');
 		$this->assertEquals($t->get_category(1), 'one');
 		$this->assertEquals($t->get_category(2), 'two');
+		$this->assertEquals($t->get_category(3), 'few');
+		$this->assertEquals($t->get_category(6), 'many');
 
-		$this->assertEquals($t->get_category(8), 'many');
-		$this->assertEquals($t->get_category(11), 'many');
-
-		$this->assertEquals($t->get_category(0), 'other');
-		$this->assertEquals($t->get_category(3), 'other');
 		$this->assertEquals($t->get_category(4), 'other');
 		$this->assertEquals($t->get_category(5), 'other');
-		$this->assertEquals($t->get_category(6), 'other');
 		$this->assertEquals($t->get_category(7), 'other');
-		$this->assertEquals($t->get_category(9), 'other');
+		$this->assertEquals($t->get_category(8), 'other');
 		$this->assertEquals($t->get_category(10), 'other');
 		$this->assertEquals($t->get_category(12), 'other');
 		$this->assertEquals($t->get_category(14), 'other');
