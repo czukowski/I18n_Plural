@@ -72,18 +72,18 @@ return array(
 	'valid' => array(
 		'decimal' => array(
 			'one' => ':field must be a decimal with one place',
-			'other' => ':field must be a decimal with :param1 places',
+			'other' => ':field must be a decimal with :param2 places',
 		),
 		'exact_length' => array(
 			'one' => ':field must be exactly one character long',
-			'other' => ':field must be exactly :param1 characters long',
+			'other' => ':field must be exactly :param2 characters long',
 		),
 		'max_length' => array(
-			'other' => ':field must be less than :param1 characters long',
+			'other' => ':field must be less than :param2 characters long',
 		),
 		'min_length' => array(
 			'one' => ':field must be at least one character long',
-			'other' => ':field must be at least :param1 characters long',
+			'other' => ':field must be at least :param2 characters long',
 		),
 	),
 );

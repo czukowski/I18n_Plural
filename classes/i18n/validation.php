@@ -65,7 +65,7 @@ class I18n_Validation extends Kohana_Validation
 			// Start the translation values list
 			$values = array(
 				':field' => $label,
-				':value' => $this[$field],
+				':value' => Arr::get($this, $field),
 			);
 
 			if (is_array($values[':value']))
@@ -108,7 +108,9 @@ class I18n_Validation extends Kohana_Validation
 
 					// Add each parameter as a numbered value, starting from 1
 					$values[':param'.($key + 1)] = $value;
-					if ($context === NULL AND is_numeric($value))
+
+					// Starting from 2nd parameter, detect context (1st is validation context)
+					if ($context === NULL AND $key > 0 AND is_numeric($value))
 					{
 						$context = $value;
 					}
