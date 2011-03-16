@@ -35,3 +35,6 @@ function ___($string, $context = 0, $values = NULL, $lang = NULL)
 	}
 	return empty($values) ? $string : strtr($string, $values);
 }
+
+// Force load I18n class, if not done already
+I18n::lang();
