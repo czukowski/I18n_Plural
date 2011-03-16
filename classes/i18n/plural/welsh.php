@@ -29,6 +29,10 @@ class I18n_Plural_Welsh extends I18n_Plural_Rules
 {
 	public function get_category($count)
 	{
+		if ($count == 0)
+		{
+			return 'zero';
+		}
 		if ($count == 1)
 		{
 			return 'one';
