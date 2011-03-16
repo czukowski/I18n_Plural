@@ -260,9 +260,9 @@ Validation messages translating
 
 This part aims to provide correct inflection of validation messages. To use it in your project, add this class to your application folder:
 
-    class Validate extends I18n_Validation {}
+    class Validation extends I18n_Validation {}
 
-The overriden function is `Validate::errors()`. It detects the first numeric parameter for a rule and uses it as a context. It is useful
+The overriden function is `Validation::errors()`. It detects the first numeric parameter for a rule and uses it as a context. It is useful
 for such fields, as 'decimal', 'min_length', 'max_length' and so on.
 
 The message is now retrieved a little differently: if there's no string found in message files, the function attempts to translate
@@ -293,13 +293,13 @@ i18n/en.php
 
 Somewhere else:
 
-    $validation = Validate::factory($_POST)
+    $validation = Validation::factory($_POST)
         ->rule('password', 'min_length', array(6));
     $validation->check();
     $validation->errors('user');
     // array('New password must be at least 6 characters long')
 
-Note, that if matching message exists in message files, the modified `Validate::errors()` function will use it. This is to keep
+Note, that if matching message exists in message files, the modified `Validation::errors()` function will use it. This is to keep
 some kind of backward compatibility.
 
 Installation
@@ -316,7 +316,7 @@ To use custom Date::fuzzy_span():
 
     class Date extends I18n_Date {}
 
-To use modified Validate::errors() function:
+To use modified Validation::errors() function:
 
     class Validate extends I18n_Validation {}
 

@@ -2,14 +2,14 @@
 /**
  * I18n_Validation class
  * Attempts to provide grammatically accurate error translations, where plurals are involved
- * The I18n_Validation::errors() method is a slightly modified original Kohana_Validate::errors()
+ * The I18n_Validation::errors() method is a slightly modified original Kohana_Validation::errors()
  * 
  * @package		I18n_Plural
  * @author		Korney Czukowski
  * @copyright	(c) 2010 Korney Czukowski
  * @license		http://kohanaphp.com/license
  */
-class I18n_Validation extends Kohana_Validate
+class I18n_Validation extends Kohana_Validation
 {
 	/**
 	 * Returns the error messages. If no file is specified, the error message

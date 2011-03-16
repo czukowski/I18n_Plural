@@ -18,7 +18,7 @@ class ValidationTest extends Kohana_Unittest_Testcase
 
 	public function testValidation()
 	{
-		$validation = Validate::factory(array('test1' => 20, 'test2' => 'abcdefgh', 'test3' => '2356'))
+		$validation = Validation::factory(array('test1' => 20, 'test2' => 'abcdefgh', 'test3' => '2356'))
 			->label('test2', 'Test 2')
 			->label('test3', 'Test 3')
 			->rule('test1', 'not_empty')
