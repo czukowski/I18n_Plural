@@ -2,7 +2,7 @@ Introduction
 ============
 
 This module has started as a helper class to help achieve accurate language-dependent plural inflections, but has grown
-since into almost complete alternative to Kohana 3.0.x I18n system.
+since into almost complete alternative to Kohana 3.1 I18n system (branch for Kohana 3.0 is also available).
 
 Current features are:
 
