@@ -113,7 +113,7 @@ Nice people at CLDR have taken their time to compile plural rules for a large nu
 rules and a function, that converts any number into a proper context for that language. The possible contexts are `zero`, `one`,
 `two`, `few`, `many` and `other`. Most languages will only have 2-3 of these, and any of them will always have `other` context.
 
-The rules are defined in [these classes](https://github.com/czukowski/I18n_Plural/tree/master/classes/i18n/plural). If you don't
+The rules are defined in [these classes](https://github.com/czukowski/I18n_Plural/tree/3.0%2Fmaster/classes/i18n/plural). If you don't
 see your language immediately, try looking into one.php, two.php and other generic names, they aggregate a large number of languages,
 that share same rules. All the files include the rules in human readable format and a list of languages they apply to.
 
