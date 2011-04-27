@@ -37,7 +37,7 @@ class I18n_Plural_Balkan extends I18n_Plural_Rules
 		{
 			return 'one';
 		}
-		else if (is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 4 AND ! ($i >= 12 AND $i <= 14))
+		else if (is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 4 AND ! (($i = $count % 100) >= 12 AND $i <= 14)) 
 		{
 			return 'few';
 		}

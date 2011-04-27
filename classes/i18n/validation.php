@@ -2,14 +2,14 @@
 /**
  * I18n_Validation class
  * Attempts to provide grammatically accurate error translations, where plurals are involved
- * The I18n_Validation::errors() method is a slightly modified original Kohana_Validate::errors()
+ * The I18n_Validation::errors() method is a slightly modified original Kohana_Validation::errors()
  * 
  * @package		I18n_Plural
  * @author		Korney Czukowski
  * @copyright	(c) 2010 Korney Czukowski
  * @license		http://kohanaphp.com/license
  */
-class I18n_Validation extends Kohana_Validate
+class I18n_Validation extends Kohana_Validation
 {
 	/**
 	 * Returns the error messages. If no file is specified, the error message
@@ -65,7 +65,7 @@ class I18n_Validation extends Kohana_Validate
 			// Start the translation values list
 			$values = array(
 				':field' => $label,
-				':value' => $this[$field],
+				':value' => Arr::get($this, $field),
 			);
 
 			if (is_array($values[':value']))
@@ -108,7 +108,9 @@ class I18n_Validation extends Kohana_Validate
 
 					// Add each parameter as a numbered value, starting from 1
 					$values[':param'.($key + 1)] = $value;
-					if ($context === NULL AND is_numeric($value))
+
+					// Starting from 2nd parameter, detect context (1st is validation context)
+					if ($context === NULL AND $key > 0 AND is_numeric($value))
 					{
 						$context = $value;
 					}
