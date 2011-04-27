@@ -24,7 +24,7 @@ class PluralTest extends Kohana_Unittest_Testcase
 		$this->assertEquals(___(':count files', 2, array(':count' => 2)), '2 файла');
 		$this->assertEquals(___(':count files', 10, array(':count' => 10)), '10 файлов');
 		$this->assertEquals(___(':count files', 12, array(':count' => 12)), '12 файлов');
-		$this->assertEquals(___(':count files', 112, array(':count' => 112)), '112 файла');
+		$this->assertEquals(___(':count files', 112, array(':count' => 112)), '112 файлов');
 		$this->assertEquals(___(':count files', 122, array(':count' => 122)), '122 файла');
 		$this->assertEquals(___(':count files', 1.46, array(':count' => 1.46)), '1.46 файла');
 
