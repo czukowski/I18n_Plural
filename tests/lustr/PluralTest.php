@@ -23,6 +23,9 @@ class PluralTest extends Kohana_Unittest_Testcase
 		$this->assertEquals(___(':count files', 1, array(':count' => 1)), '1 файл');
 		$this->assertEquals(___(':count files', 2, array(':count' => 2)), '2 файла');
 		$this->assertEquals(___(':count files', 10, array(':count' => 10)), '10 файлов');
+		$this->assertEquals(___(':count files', 12, array(':count' => 12)), '12 файлов');
+		$this->assertEquals(___(':count files', 112, array(':count' => 112)), '112 файла');
+		$this->assertEquals(___(':count files', 122, array(':count' => 122)), '122 файла');
 		$this->assertEquals(___(':count files', 1.46, array(':count' => 1.46)), '1.46 файла');
 
 		I18n::lang('en');
@@ -734,6 +737,7 @@ class PluralTest extends Kohana_Unittest_Testcase
 		$this->assertEquals($t->get_category(6), 'many');
 		$this->assertEquals($t->get_category(7), 'many');
 		$this->assertEquals($t->get_category(11), 'many');
+		$this->assertEquals($t->get_category(12), 'many');
 		$this->assertEquals($t->get_category(15), 'many');
 		$this->assertEquals($t->get_category(20), 'many');
 		$this->assertEquals($t->get_category(25), 'many');
@@ -746,6 +750,8 @@ class PluralTest extends Kohana_Unittest_Testcase
 		$this->assertEquals($t->get_category(68), 'many');
 		$this->assertEquals($t->get_category(69), 'many');
 		$this->assertEquals($t->get_category(70), 'many');
+		$this->assertEquals($t->get_category(112), 'many');
+		$this->assertEquals($t->get_category(1112), 'many');
 
 		$this->assertEquals($t->get_category(1.31), 'other');
 		$this->assertEquals($t->get_category(2.31), 'other');
