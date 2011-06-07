@@ -83,9 +83,9 @@ Example
 -------
 
 Some languages distinguish grammatical genders in way more situations, than just pronouns. Also, we can't tell what grammatical
-gender a certain word is in different languages, as it may be quite random. Now we see, that we can't specify the required form,
-as we did with the given names. In this case, we can think of a context in another way, a context can be just an object we want
-it to be related to.
+gender a certain word is in different languages, as it may be quite random. Now we see, that we can't always specify the required
+form, as we did with the given names. In this case, we can think of a context in another way, a context can be just an object we
+want it to be related to.
 
 Let's take Russian for an example (i18n/ru.php), although many others will have similar translation structure as well.
 
@@ -124,8 +124,8 @@ i18n/en.php:
 
     return array(
         'You have :count messages' => array(
-            'one' => 'You have one message',		// 1 message
-            'other' => 'You have :count messages',	// more messages
+            'one' => 'You have one message',        // 1 message
+            'other' => 'You have :count messages',  // more messages
         ),
     );
 
@@ -133,15 +133,15 @@ i18n/cs.php:
 
     return array(
         'You have :count messages' => array(
-            'one' => 'Máte jednu zprávu',			// 1 message
-            'few' => 'Máte :count zprávy',			// 2 - 4 messages
-            'other' => 'Máte :count zpráv',			// more messages
+            'one' => 'Máte jednu zprávu',      // 1 message
+            'few' => 'Máte :count zprávy',     // 2 - 4 messages
+            'other' => 'Máte :count zpráv',    // more messages
         ),
     );
 
 *Note:* before doing something like I did above (I've replaced :count with actual 'one' value for the context `one`), check with the
-language rules, whether that context really applies only when the number is 1. There are languages, when this is not the case,
-for those languages, you'll have to leave the parameter there.
+language rules, whether that context really applies only when the number is 1. There are languages out there, where this is not the
+case, for those languages, you'll have to leave the parameter there.
 
 Example
 -------
@@ -186,6 +186,9 @@ In your code:
     echo ___('hello.myage', 10, array(':age' => 10));
     // Привет мир, мне уже 10 лет
 
+Note, how the 2nd and 3rd translations differ between the languages. For English, it's the same form ('years old'), while in Russian
+the translations are totally different.
+
 Date and time translating
 =========================
 
@@ -207,8 +210,8 @@ The `I18n_Date` class extends `Kohana_Date` class, so if you create this:
     class Date extends I18n_Date {}
 
 then you can use it transparently. Only `fuzzy_span()` method is overriden, so that it behaves as MooTools Date.timeDiffInWords()
-method. In the following examples, I'll use `Date::method_name()`, but you could as well `I18n_Date::method_name()`, if you
-don't want to override `Kohana_Date::fuzzy_span()`.
+method. In the following examples, I'll use `Date::span_name()`, but you could as well `I18n_Date::span_name()`, if you
+don't want to override original Kohana function.
 
 	$time = time();
 	Date::fuzzy_span($time, $time - 10); // -10 seconds
