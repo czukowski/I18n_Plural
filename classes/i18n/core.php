@@ -79,7 +79,7 @@ class I18n_Core extends Kohana_I18n
 				foreach ($files as $file)
 				{
 					// Merge the language strings into the sub table
-					$t = array_merge_recursive($t, Kohana::load($file));
+					$t = i18n::merge_arrays($t, Kohana::load($file));
 				}
 
 				// Append the sub table, preventing less specific language
@@ -94,5 +94,23 @@ class I18n_Core extends Kohana_I18n
 
 		// Cache the translation table locally
 		return I18n::$_cache[$lang] = $table;
+	}
+	
+	// Thank you, http://www.php.net/manual/en/function.array-merge-recursive.php#102379
+	private static function merge_arrays($array1, $array2)
+	{
+		foreach($array2 as $key => $value)
+		{
+			if(array_key_exists($key, $array1) && is_array($value))
+			{
+				$array1[$key] = i18n::merge_arrays($array1[$key], $array2[$key]);
+			}	
+			else
+			{
+				$array1[$key] = $value;
+			}		
+		}
+		
+		return $array1;
 	}
 }
