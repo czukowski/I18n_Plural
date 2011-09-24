@@ -53,6 +53,12 @@ class I18n_Date_Format extends Kohana_Date
 		{
 			throw new Kohana_Exception('Unsupported time format');
 		}
+		
+		$formats = Kohana::$config->load('i18n_plural.date_formats');
+		if ($formats !== NULL)
+		{
+			$this->_formats += $formats;
+		}
 	}
 
 	/**
@@ -88,9 +94,11 @@ class I18n_Date_Format extends Kohana_Date
 			case 'b':	// short month ("Jan", "Feb")
 				return $this->_get_abbr('months_abbr', date('n', $this->timestamp) - 1);
 			case 'B':	// full month ("January")
-				return $this->_get_abbr('months', date('n', $this->timestamp) - 1);
+				return $this->_get_abbr('months.nominative', date('n', $this->timestamp) - 1);
 			case 'c':	// the full date to string "Mon Dec 10 2007 14:35:42 GMT-0800 (Pacific Standard Time)"
 				return $this->format('%a %b %d %H:%m:%S %Y');
+			case 'C':	// workaround for full month in the genitive case (e.g. 'Январь' -> 'Января')
+				return $this->_get_abbr('months.genitive', date('n', $this->timestamp) - 1);
 			case 'd':	// the date to two digits (01, 05, etc)
 				return date('d', $this->timestamp);
 			case 'D':	// a textual representation of a day, three letters
