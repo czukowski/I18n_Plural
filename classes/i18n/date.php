@@ -6,10 +6,10 @@
  *
  * Create 'class Date extends I18n_Date{}' in your application to override Kohana_Date::fuzzy_span() method
  *
- * @package		I18n_Plural
- * @author		Korney Czukowski
- * @copyright	(c) 2010 Korney Czukowski
- * @license		http://kohanaframework.org/license
+ * @package    I18n_Plural
+ * @author     Korney Czukowski
+ * @copyright  (c) 2011 Korney Czukowski
+ * @license    MIT License
  */
 class I18n_Date extends Kohana_Date
 {

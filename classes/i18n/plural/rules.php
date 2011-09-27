@@ -2,17 +2,18 @@
 /**
  * Base I18n_Plural_Rules class
  *
- * @package		I18n_Plural
- * @author		Korney Czukowski
- * @copyright	(c) 2010 Korney Czukowski
- * @license		http://kohanaphp.com/license
+ * @package    I18n_Plural
+ * @author     Korney Czukowski
+ * @copyright  (c) 2011 Korney Czukowski
+ * @license    MIT License
  */
 abstract class I18n_Plural_Rules
 {
 	/**
 	 * Returns category key
-	 * @param int $count
-	 * @return string
+	 * 
+	 * @param   integer  $count
+	 * @return  string
 	 */
 	abstract public function get_category($count);
 }

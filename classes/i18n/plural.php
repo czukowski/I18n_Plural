@@ -5,10 +5,10 @@
  * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
  * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
  * 
- * @package		I18n_Plural
- * @author		Korney Czukowski
- * @copyright	(c) 2010 Korney Czukowski
- * @license		http://kohanaphp.com/license
+ * @package    I18n_Plural
+ * @author     Korney Czukowski
+ * @copyright  (c) 2011 Korney Czukowski
+ * @license    MIT License
  */
 class I18n_Plural
 {

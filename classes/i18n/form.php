@@ -1,5 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
+/**
+ * I18n_Form class
+ *
+ * @package    I18n_Core
+ * @author     Korney Czukowski
+ * @copyright  (c) 2011 Korney Czukowski
+ * @license    MIT License
+ */
 class I18n_Form
 {
 	/**

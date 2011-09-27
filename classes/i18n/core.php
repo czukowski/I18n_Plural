@@ -6,10 +6,10 @@
  *
  * Note: Create 'class I18n extends I18n_Core{}' in your application
  *
- * @package		I18n_Core
- * @author		Korney Czukowski
- * @copyright	(c) 2010 Korney Czukowski
- * @license		http://kohanaframework.org/license
+ * @package    I18n_Core
+ * @author     Korney Czukowski
+ * @copyright  (c) 2011 Korney Czukowski
+ * @license    MIT License
  */
 class I18n_Core extends Kohana_I18n
 {

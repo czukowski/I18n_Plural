@@ -18,10 +18,10 @@
  * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
  * @see plurals.xml (local copy)
  *
- * @package		I18n_Plural
- * @author		Korney Czukowski
- * @copyright	(c) 2010 Korney Czukowski
- * @license		http://kohanaphp.com/license
+ * @package    I18n_Plural
+ * @author     Korney Czukowski
+ * @copyright  (c) 2011 Korney Czukowski
+ * @license    MIT License
  */
 class I18n_Plural_Maltese extends I18n_Plural_Rules
 {
