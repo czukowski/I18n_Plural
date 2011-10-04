@@ -6,7 +6,7 @@ return array(
 		'compact' => '%Y%m%dT%H%M%S',
 		'header' => '%g',
 		'iso8601' => '%Y-%m-%dT%H:%M:%S%T',
-		'rfc822' => '%a, %d %b %Y %H:%M:%S %z',
+		'rfc822' => '%r',
 		'rfc2822' => '%r',
 		// 04 Oct 07:25
 		'short' => '%d %b %H:%M',
