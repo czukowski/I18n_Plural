@@ -75,17 +75,17 @@ class I18n_Date_Format extends Kohana_Date
 		switch ($match[1])
 		{
 			case 'a':  // short day ("Mon", "Tue")
-				return $this->_get_abbr(date('w', $this->timestamp), 'days', 'abbr');
+				return $this->_get_item(date('w', $this->timestamp), 'days', 'abbr');
 			case 'A':  // full day ("Monday")
-				return $this->_get_abbr(date('w', $this->timestamp), 'days');
+				return $this->_get_item(date('w', $this->timestamp), 'days');
 			case 'b':  // short month ("Jan", "Feb")
-				return $this->_get_abbr(date('n', $this->timestamp) - 1, 'months', 'abbr');
+				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'abbr');
 			case 'B':  // full month ("January")
-				return $this->_get_abbr(date('n', $this->timestamp) - 1, 'months', 'other');
+				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'other');
 			case 'c':  // the full date to string "Mon Dec 10 2007 14:35:42 GMT-0800 (Pacific Standard Time)"
 				return $this->format('%a %b %d %H:%m:%S %Y');
 			case 'C':  // workaround for full month in the genitive case (e.g. 'Январь' -> 'Января')
-				return $this->_get_abbr(date('n', $this->timestamp) - 1, 'months', 'gen');
+				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'gen');
 			case 'd':  // the date to two digits (01, 05, etc)
 				return date('d', $this->timestamp);
 			case 'D':  // a textual representation of a day, three letters
@@ -114,7 +114,7 @@ class I18n_Date_Format extends Kohana_Date
 				return date('i', $this->timestamp);
 			case 'N':  // Localized accusative case of week day name
 				       // XXX: non-compliant with MooTools Date.format()
-				return $this->_get_abbr(date('N', $this->timestamp) - 1, 'days', 'acc');
+				return $this->_get_item(date('N', $this->timestamp) - 1, 'days', 'acc');
 			case 'o':  // the ordinal of the day of the month in the current language ("st" for the 1st, "nd" for the 2nd, etc.)
 				       // TODO: I18n? probably not
 				return date('jS', $this->timestamp);
@@ -155,7 +155,7 @@ class I18n_Date_Format extends Kohana_Date
 	 * @param  string   $path
 	 * @param  string   $form
 	 */
-	protected function _get_abbr($index, $path, $form = 'other')
+	protected function _get_item($index, $path, $form = NULL)
 	{
 		$string = I18n_Form::get('date.'.$path, $form);
 		return $string[$index];
