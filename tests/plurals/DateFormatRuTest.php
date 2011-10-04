@@ -10,10 +10,10 @@ class DateFormatRuTest extends I18n_Unittest_Testcase
 	public function testDateFormat()
 	{
 		$months = I18n::get('date.months.abbr');
-		$this->assertEquals(Date::format(time(), 'short'), date('d '.$months[date('n') - 1].' H:i'));
+		$this->assertEquals(date('d '.$months[date('n') - 1].' H:i'), Date::format(time(), 'short'));
 		$months = I18n::get('date.months.other');
-		$this->assertEquals(Date::format(time(), 'long'), date($months[date('n') - 1].' d, Y H:i'));
-		$this->assertEquals(Date::format(time()), date('d.m.Y H:i'));
-		$this->assertEquals(Date::format(), date('d.m.Y H:i'));
+		$this->assertEquals(date($months[date('n') - 1].' d, Y H:i'), Date::format(time(), 'long'));
+		$this->assertEquals(date('d.m.Y H:i'), Date::format(time()));
+		$this->assertEquals(date('d.m.Y H:i'), Date::format());
 	}
 }
