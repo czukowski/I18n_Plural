@@ -9,13 +9,29 @@ return array(
 	),
 	// Date/time
 	'date' => array(
-		'months' => array('Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'),
-		'months_abbr' => array('ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'),
-		'days' => array('Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'),
-		'days_abbr' => array('ne', 'po', 'út', 'st', 'čt', 'pá', 'so'),
-		'date_order' => array('date', 'month', 'year'),
-		'short_date' => '%d.%m.%Y',
-		'short_time' => '%H:%M',
+		'date' => array(
+			// V neděli, 03. července 2011
+			'long' => '%N, %d. %C %Y',
+			// 03.07.2011
+			'short' => '%d.%m.%Y',
+		),
+		'days' => array(
+			'abbr' => array('Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'),
+			'acc' => array('V neděli', 'V pondělí', 'V úterý', 'Ve středu', 'Ve čtvrtek', 'V pátek', 'V sobotu'),
+			'other' => array('Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'),
+		),
+		'months' => array(
+			'abbr' => array('Led', 'Úno', 'Bře', 'Dub', 'Kvě', 'Črv', 'Črc', 'Srp', 'Zář', 'Říj', 'Lis', 'Pro'),
+			'gen' => array('ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'),
+			'other' => array('Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'),
+		),
+		'order' => array('date', 'month', 'year'),
+		'time' => array(
+			// 12:01:59
+			'long' => '%H:%M:%S',
+			// 12:01
+			'short' => '%H:%M',
+		),
 		'am' => 'dop.',
 		'pm' => 'odp.',
 		'less_than_minute_ago' => 'před chvílí',

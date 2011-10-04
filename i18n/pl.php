@@ -1,6 +1,4 @@
-<?php
-
-defined('SYSPATH') or die('No direct script access.');
+<?php defined('SYSPATH') or die('No direct script access.');
 
 return array(
     // Plural test
@@ -11,13 +9,26 @@ return array(
     ),
     // Date/time
     'date' => array(
-        'months' => array('Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'),
-        'months_abbr' => array('I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'), // http://poradnia.pwn.pl/lista.php?id=1788
-        'days' => array('Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'),
-        'days_abbr' => array('Niedz', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob'),  // without ending dots for readability
+		'date' => array(
+			'long' => '%N, %d. %C %Y',
+			// http://pl.wikipedia.org/wiki/ISO_8601
+			'short' => '%Y-%m-%d',
+		),
+		'months' => array(
+			// http://poradnia.pwn.pl/lista.php?id=1788
+	        'abbr' => array('I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'),
+			'other' => array('Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'),
+		),
+        'days' => array(
+			// without ending dots for readability
+	        'abbr' => array('Niedz', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob'),
+			'other' => array('Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'),
+		),
         'order' => array('date', 'month', 'year'),
-        'short_date' => '%Y-%m-%d', // http://pl.wikipedia.org/wiki/ISO_8601
-        'short_time' => '%H:%M',
+		'time' => array(
+			'long' => '%H:%M:%S',
+			'short' => '%H:%M',
+		),
         'am' => 'AM',
         'pm' => 'PM',
         'less_than_minute_ago' => 'mniej niż minutę temu',

@@ -8,15 +8,31 @@ return array(
 	),
 	// Date/time
 	'date' => array(
-		'months' => array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
-		'months_abbr' => array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'),
-		'days' => array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
-		'days_abbr' => array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
-		'order' => array('month', 'date', 'year'),	// Culture's date order: MM/DD/YYYY
-		'short_date' => '%m/%d/%Y',
-		'short_time' => '%I:%M%p',
-		'am'	=> 'AM',
-		'pm'	=> 'PM',
+		'date' => array(
+			// On Sunday, December 10 2007
+			'long' => '%N, %B &d %Y',
+			// 07/03/2011
+			'short' => '%m/%d/%Y',
+		),
+		'months' => array(
+			'abbr' => array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'),
+			'other' => array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
+		),
+		'days' => array(
+			'abbr' => array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
+			'acc' => array('On Sunday', 'On Monday', 'On Tuesday', 'On Wednesday', 'On Thursday', 'On Friday', 'On Saturday'),
+			'other' => array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+		),
+		// Culture's date order: MM/DD/YYYY
+		'order' => array('month', 'date', 'year'),
+		'time' => array(
+			// 12:01:59
+			'long' => '%H:%M:%S',
+			// 12:01am
+			'short' => '%I:%M%p',
+		),
+		'am' => 'AM',
+		'pm' => 'PM',
 		'less_than_minute_ago' => 'less than a minute ago',
 		'minute_ago' => array(
 			'one'	=> 'about a minute ago',
