@@ -13,14 +13,9 @@ abstract class I18n_Unittest_Testcase extends Kohana_Unittest_Testcase
 	public $lang;
 	protected $_lang;
 
-	public function __construct()
-	{
-		$this->ref = time();
-		parent::__construct();
-	}
-
 	public function setUp()
 	{
+		$this->ref = time();
 		$this->_lang = I18n::lang();
 		I18n::lang($this->lang);
 	}
