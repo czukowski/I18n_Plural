@@ -84,11 +84,12 @@ class I18n_Date_Format extends Kohana_Date
 				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'other');
 			case 'c':  // the full date to string "Mon Dec 10 2007 14:35:42 GMT-0800 (Pacific Standard Time)"
 				return $this->format('%a %b %d %H:%m:%S %Y');
-			case 'C':  // workaround for full month in the genitive case (e.g. 'Январь' -> 'Января')
+			case 'C':  // full month in the genitive case (e.g. 'Январь' -> 'Января')
+				       // XXX: non-compliant with MooTools Date.format()
 				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'gen');
 			case 'd':  // the date to two digits (01, 05, etc)
 				return date('d', $this->timestamp);
-			case 'D':  // a textual representation of a day, three letters
+			case 'D':  // 3-letter, non-localized textual representation of a day (Mon, Tue)
 				       // XXX: non-compliant with MooTools Date.format()
 				return date('D', $this->timestamp);
 			case 'e':
@@ -114,8 +115,9 @@ class I18n_Date_Format extends Kohana_Date
 				return date('i', $this->timestamp);
 			case 'N':  // Localized accusative case of week day name
 				       // XXX: non-compliant with MooTools Date.format()
-				return $this->_get_item(date('N', $this->timestamp) - 1, 'days', 'acc');
-			case 'o':  // the ordinal of the day of the month in the current language ("st" for the 1st, "nd" for the 2nd, etc.)
+				return $this->_get_item(date('w', $this->timestamp), 'days', 'acc');
+			case 'o':  // the ordinal of the day of the month in the current language
+				       // ("st" for the 1st, "nd" for the 2nd, etc.)
 				       // TODO: I18n? probably not
 				return date('jS', $this->timestamp);
 			case 'p':  // The current language equivalent of either AM or PM
