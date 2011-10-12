@@ -74,78 +74,80 @@ class I18n_Date_Format extends Kohana_Date
 	{
 		switch ($match[1])
 		{
-			case 'a':  // short day ("Mon", "Tue")
+			case 'a':  // Short day ("Mon", "Tue")
 				return $this->_get_item(date('w', $this->timestamp), 'days', 'abbr');
-			case 'A':  // full day ("Monday")
+			case 'A':  // Full day ("Monday")
 				return $this->_get_item(date('w', $this->timestamp), 'days');
-			case 'b':  // short month ("Jan", "Feb")
+			case 'b':  // Short month ("Jan", "Feb")
 				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'abbr');
-			case 'B':  // full month ("January")
+			case 'B':  // Full month ("January")
 				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'other');
-			case 'c':  // the full date to string "Mon Dec 10 2007 14:35:42 GMT-0800 (Pacific Standard Time)"
+			case 'c':  // The full date to string "Mon Dec 10 2007 14:35:42 GMT-0800 (Pacific Standard Time)"
 				return $this->format('%a %b %d %H:%m:%S %Y');
-			case 'C':  // full month in the genitive case (e.g. 'Январь' -> 'Января')
-				       // XXX: non-compliant with MooTools Date.format()
+			case 'C':  // Full month in the genitive case (e.g. 'Январь' -> 'Января')
+				       // Non-compliant with MooTools Date.format()
 				return $this->_get_item(date('n', $this->timestamp) - 1, 'months', 'gen');
-			case 'd':  // the date to two digits (01, 05, etc)
+			case 'd':  // The date to two digits (01, 05, etc)
 				return date('d', $this->timestamp);
 			case 'D':  // 3-letter, non-localized textual representation of a day (Mon, Tue)
-				       // XXX: non-compliant with MooTools Date.format()
+				       // Non-compliant with MooTools Date.format()
 				return date('D', $this->timestamp);
-			case 'e':
+			case 'e':  // Day of the month without leading zeros
 				return str_pad(date('j', $this->timestamp), 2, ' ', STR_PAD_LEFT);
-			case 'g':  // time format usable in HTTP headers
-				       // XXX: non-compliant with MooTools Date.format()
+			case 'g':  // Time format usable in HTTP headers
+				       // Non-compliant with MooTools Date.format()
 				return gmdate('D, d M Y H:i:s', $this->timestamp).' GMT';
-			case 'H':  // the hour to two digits in military time (24 hr mode) (01, 11, 14, etc)
+			case 'H':  // The hour to two digits in military time (24 hr mode) (01, 11, 14, etc)
 				return date('H', $this->timestamp);
-			case 'I':  // the hour in 12 hour time (1, 11, 2, etc)
+			case 'I':  // The hour in 12 hour time (1, 11, 2, etc)
+				       // Note that for 00:xx:xx the 12hr format is 12:xx (am)
 				return date('g', $this->timestamp);
-			case 'j':  // the day of the year to three digits (001 is Jan 1st)
+			case 'j':  // The day of the year to three digits (001 is Jan 1st)
 				return str_pad(date('z', $this->timestamp), 3, '0', STR_PAD_LEFT);
-			case 'k':
+			case 'k':  // The hour (24-hour clock) as a digit (range 0 to 23).
+				       // Single digits are preceded by a blank space.
 				return str_pad(date('G', $this->timestamp), 2, ' ', STR_PAD_LEFT);
-			case 'l':
+			case 'l':  // The hour (12-hour clock) as a digit (range 1 to 12).
+				       // Single digits are preceded by a blank space.
 				return str_pad(date('g', $this->timestamp), 2, ' ', STR_PAD_LEFT);
-			case 'L':  // milliseconds (timestamp donesn't have milliseconds)
+			case 'L':  // Milliseconds (timestamp donesn't have milliseconds)
 				return '000';
-			case 'm':  // the numerical month to two digits (01 is Jan, 12 is Dec)
+			case 'm':  // The numerical month to two digits (01 is Jan, 12 is Dec)
 				return date('m', $this->timestamp);
-			case 'M':  // the minutes to two digits (01, 40, 59)
+			case 'M':  // The minutes to two digits (01, 40, 59)
 				return date('i', $this->timestamp);
 			case 'N':  // Localized accusative case of week day name
-				       // XXX: non-compliant with MooTools Date.format()
+				       // Non-compliant with MooTools Date.format()
 				return $this->_get_item(date('w', $this->timestamp), 'days', 'acc');
-			case 'o':  // the ordinal of the day of the month in the current language
+			case 'o':  // Non-local. The ordinal of the day of the month
 				       // ("st" for the 1st, "nd" for the 2nd, etc.)
-				       // TODO: I18n? probably not
 				return date('jS', $this->timestamp);
 			case 'p':  // The current language equivalent of either AM or PM
 				return ___('date.'.(date('G', $this->timestamp) < 12 ? 'am' : 'pm'));
-			case 'r':  // XXX: Added to workaround localization of RFC2822 date format
+			case 'r':  // Added to workaround localization of RFC2822 date format
 				return date('r', $this->timestamp);
 			case 's':
 				return $this->timestamp;
-			case 'S':  // the seconds to two digits (01, 40, 59)
+			case 'S':  // The seconds to two digits (01, 40, 59)
 				return date('s', $this->timestamp);
-			case 'T':  // the GMT offset ("-08:00")
-				       // XXX: non-compliant with MooTools Date.format()
+			case 'T':  // The GMT offset ("-08:00")
+				       // Non-compliant with MooTools Date.format()
 				return date('P', $this->timestamp);
-			case 'U':  // the week to two digits (01 is the week of Jan 1, 52 is the week of Dec 31)
+			case 'U':  // The week to two digits (01 is the week of Jan 1, 52 is the week of Dec 31)
 				return date('W', $this->timestamp);
-			case 'w':  // the numerical day of the week, one digit (0 is Sunday, 1 is Monday)
-				return date('N', $this->timestamp);
-			case 'x':  // the date in the current language prefered format. en-US: %m/%d/%Y (12/10/2007)
+			case 'w':  // The numerical day of the week, one digit (0 is Sunday, 1 is Monday)
+				return date('w', $this->timestamp);
+			case 'x':  // The date in the current language prefered format. en-US: %m/%d/%Y (12/10/2007)
 				return $this->format(___('date.date.short'));
-			case 'X':  // the time in the current language prefered format. en-US: %I:%M%p (02:45PM)
+			case 'X':  // The time in the current language prefered format. en-US: %I:%M%p (02:45PM)
 				return $this->format(___('date.time.short'));
-			case 'y':  // the short year (two digits; "07")
+			case 'y':  // The short year (two digits; "07")
 				return date('y', $this->timestamp);
-			case 'Y':  // the full year (four digits; "2007")
+			case 'Y':  // The full year (four digits; "2007")
 				return date('Y', $this->timestamp);
-			case 'z':  // the GMT offset ("-0800")
+			case 'z':  // The GMT offset ("-0800")
 				return date('O', $this->timestamp);
-			case 'Z':  // the time zone ("GMT")
+			case 'Z':  // The time zone ("GMT")
 				return date('T', $this->timestamp);
 			case '%':
 				return '%';
