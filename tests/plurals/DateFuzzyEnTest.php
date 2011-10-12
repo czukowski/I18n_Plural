@@ -31,8 +31,8 @@ class DateFuzzyEnTest extends I18n_Unittest_Testcase
 	public function test3MinutesAgo()
 	{
 		$str = '3 minutes ago';
-		$this->assertEquals(Date::fuzzy_span($this->ref - 150, $this->ref));	// from 150 seconds ago
-		$this->assertEquals(Date::fuzzy_span($this->ref - 209, $this->ref));	// up to 209 seconds ago
+		$this->assertEquals($str, Date::fuzzy_span($this->ref - 150, $this->ref));	// from 150 seconds ago
+		$this->assertEquals($str, Date::fuzzy_span($this->ref - 209, $this->ref));	// up to 209 seconds ago
 	}
 
 	public function test4MinutesAgo()
