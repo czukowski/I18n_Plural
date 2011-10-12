@@ -4,7 +4,7 @@
  * Extends Kohana_I18n class with get() and load() functions, that does recursive merging of language files
  * and use Arr::path to get values.
  *
- * Note: Create 'class I18n extends I18n_Core{}' in your application
+ * Note: Create `class I18n extends I18n_Core{}` in your application
  *
  * @package    I18n_Core
  * @author     Korney Czukowski
@@ -95,7 +95,7 @@ class I18n_Core extends Kohana_I18n
 		// Cache the translation table locally
 		return I18n::$_cache[$lang] = $table;
 	}
-	
+
 	// Thank you, http://www.php.net/manual/en/function.array-merge-recursive.php#102379
 	private static function merge_arrays($array1, $array2)
 	{
