@@ -1,7 +1,7 @@
 <?php
 /**
- * @group i18n_plural
- * @group i18n_plural.date
+ * @group plurals
+ * @group plurals.date
  */
 class DateFuzzyRuTest extends I18n_Unittest_Testcase
 {
