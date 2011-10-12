@@ -23,33 +23,131 @@ class DateFormatTest extends I18n_Unittest_Testcase
 	}
 
 	/**
+	 * Provides some random dates
+	 * 
+	 * @erturn  array
+	 */
+	public function provider_random_dates()
+	{
+		$provide = array();
+		$providers = array(
+			$this->provider_am_pm_dates(),
+			$this->provider_months_dates(),
+			$this->provider_weekday_dates(),
+			$this->provider_yearday_dates(),
+		);
+		foreach ($providers as $provider)
+		{
+			foreach ($provider as $item)
+			{
+				$provide[] = array($item[0]);
+			}
+		}
+		return $this->_combine_providers($provide, $this->provider_languages());
+	}
+
+	/**
 	 * Tests common date formats are same acroll all languages
 	 * 
 	 * @test
-	 * @dataProvider provider_languages
+	 * @dataProvider provider_random_dates
+	 * @param  string   $date
+	 * @param  string   $lang
 	 */
-	public function test_neutral_date_format($lang)
+	public function test_neutral_date_format($date, $lang)
 	{
+		$time = strtotime($date);
+		I18n::lang($lang);
+
+		// Escaped `%` sign
+		$this->assertEquals('%', Date::format($date, '%%'));
+
+		// Milliseconds (timestamp donesn't have milliseconds)
+		$this->assertEquals('000', Date::format($date, '%L'));
+
+		// Timezones and offsets
+		// The GMT offset ("-08:00")
+		$this->assertEquals(date('P', $time), Date::format($date, '%T'));
+		// The GMT offset ("-0800")
+		$this->assertEquals(date('O', $time), Date::format($date, '%z'));
+		// The time zone ("GMT")
+		$this->assertEquals(date('T', $time), Date::format($date, '%Z'));
+
+		// The ordinal of the day of the month
+		$this->assertEquals(date('jS', $time), Date::format($date, '%o'));
+
+		// Timestamp
+		$this->assertEquals($time, Date::format($date, '%s'));
+
+		// The full year (four digits; "2007")
+		$full_year = substr($date, 0, 4);
+		$this->assertEquals($full_year, Date::format($date, '%Y'));
+
+		// The short year (two digits; "07")
+		$short_year = substr($date, 2, 2);
+		$this->assertEquals($short_year, Date::format($date, '%y'));
+
+		// The numerical month to two digits (01 is Jan, 12 is Dec)
+		$month = substr($date, 5, 2);
+		$this->assertEquals($month, Date::format($date, '%m'));
+
+		// 2-digit date (01, 05, etc)
+		$day_of_month = substr($date, 8, 2);
+		$this->assertEquals($day_of_month, Date::format($date, '%d'));
+
+		// Day of the month without leading zeros
+		$day_of_month = (string) intval($day_of_month);
+		$this->assertEquals($day_of_month, Date::format($date, '%e'));
+
+		// The hour to two digits in military time (24 hr mode) (01, 11, 14, etc)
+		$hour_24 = substr($date, 11, 2);
+		$this->assertEquals($hour_24, Date::format($date, '%H'));
+
+		// The hour (24-hour clock) as a digit (range 0 to 23).
+		// Single digits are preceded by a blank space.
+		$hour_24 = str_pad(intval($hour_24), 2, ' ', STR_PAD_LEFT);
+		$this->assertEquals($hour_24, Date::format($date, '%k'));
+
+		// The hour in 12 hour time (1, 11, 2, etc)
+		$hour_12 = (intval($hour_24) % 12);
+		// Note that for 00:xx:xx the 12hr format is 12:xx am
+		$hour_12 = ($hour_12 ? (string) $hour_12 : '12');
+		$this->assertEquals($hour_12, Date::format($date, '%I'));
+
+		// The hour (12-hour clock) as a digit (range 1 to 12).
+		// Single digits are preceded by a blank space.
+		$hour_12 = str_pad(intval($hour_12), 2, ' ', STR_PAD_LEFT);
+		$this->assertEquals($hour_12, Date::format($date, '%l'));
+
+		// The minutes to two digits (01, 40, 59)
+		$minute = substr($date, 14, 2);
+		$this->assertEquals($minute, Date::format($date, '%M'));
+
+		// The seconds to two digits (01, 40, 59)
+		$second = substr($date, 17, 2);
+		$this->assertEquals($second, Date::format($date, '%S'));
+	}
+
+	/**
+	 * Tests common date formats are same acroll all languages
+	 * 
+	 * @test
+	 * @dataProvider provider_random_dates
+	 * @param  string   $date
+	 * @param  string   $lang
+	 */
+	public function test_named_date_format($date, $lang)
+	{
+		$time = strtotime($date);
 		I18n::lang($lang);
 
 		// Named date formats
-		$this->assertEquals(date('Y-m-d H:i:s'), Date::format(time(), 'db'));
-		$this->assertEquals(date('Ymd\THis'), Date::format(time(), 'compact'));
-		$this->assertEquals(gmdate('D, d M Y H:i:s \G\M\T'), Date::format(time(), 'header'));
-		$this->assertEquals(date('c'), Date::format(time(), 'iso8601'));
-		$this->assertEquals(date('r'), Date::format(time(), 'rfc822'));
-		$this->assertEquals(date('r'), Date::format(time(), 'rfc2822'));
-
-		// Escaped `%` sign
-		$this->assertEquals('%', Date::format(time(), '%%'));
-
-		// 2-digit date (01, 05, etc)
-		$this->assertEquals(date('d'), Date::format(time(), '%d'));
-
-		// 3-letter, non-localized textual representation of a day (Mon, Tue)
-		$this->assertEquals(date('D'), Date::format(time(), '%D'));
-
-		
+		$this->assertEquals(date('Y-m-d H:i:s', $time), Date::format($date, 'db'));
+		$this->assertEquals(date('Ymd\THis', $time), Date::format($date, 'compact'));
+		$this->assertEquals(gmdate('D, d M Y H:i:s \G\M\T', $time), Date::format($date, 'header'));
+		$this->assertEquals(date('c', $time), Date::format($date, 'iso8601'));
+		$this->assertEquals(date('r', $time), Date::format($date, 'rfc822'));
+		$this->assertEquals(date('r', $time), Date::format($date, 'rfc2822'));
 	}
 
 	/**
@@ -94,29 +192,29 @@ class DateFormatTest extends I18n_Unittest_Testcase
 	{
 		$provide = array(
 			// January
-			array('2011-01-03 01:00:00', 0),
+			array('2011-01-03 01:49:59', 0),
 			// February
-			array('2011-02-03 01:00:00', 1),
+			array('2011-02-03 02:51:01', 1),
 			// March
-			array('2011-03-03 01:00:00', 2),
+			array('2011-03-03 03:21:00', 2),
 			// April
-			array('2011-04-03 01:05:00', 3),
+			array('2011-04-03 04:59:04', 3),
 			// May
-			array('2011-05-03 01:00:00', 4),
+			array('2011-05-03 06:39:39', 4),
 			// June
-			array('2011-06-03 01:00:00', 5),
+			array('2011-06-03 08:48:10', 5),
 			// July
-			array('2011-07-03 01:00:00', 6),
+			array('2011-07-03 10:30:08', 6),
 			// August
-			array('2011-08-03 01:00:00', 7),
+			array('2011-08-03 12:17:14', 7),
 			// September
-			array('2011-09-03 01:00:00', 8),
+			array('2011-09-03 16:18:08', 8),
 			// October
-			array('2011-10-03 01:00:00', 9),
+			array('2011-10-03 18:14:48', 9),
 			// November
-			array('2011-11-03 01:00:00', 10),
+			array('2011-11-03 20:10:27', 10),
 			// December
-			array('2011-12-03 01:00:00', 11),
+			array('2011-12-03 23:02:02', 11),
 		);
 		return $this->_combine_providers($provide, $this->provider_languages());
 	}
@@ -153,7 +251,7 @@ class DateFormatTest extends I18n_Unittest_Testcase
 	}
 
 	/**
-	 * Provides dates with from different week days
+	 * Provides dates with different week days
 	 * 
 	 * @return array
 	 */
@@ -161,21 +259,43 @@ class DateFormatTest extends I18n_Unittest_Testcase
 	{
 		$provide = array(
 			// Sunday
-			array('2011-11-06 01:00:00', 0),
+			array('2011-11-06 21:45:32', 0),
 			// Monday
-			array('2011-06-06 01:00:00', 1),
+			array('2011-06-06 11:16:37', 1),
 			// Tuesday
-			array('2011-09-06 01:00:00', 2),
+			array('2011-09-06 01:28:56', 2),
 			// Wednesday
-			array('2011-07-06 01:00:00', 3),
+			array('2011-07-06 02:36:03', 3),
 			// Thursday
-			array('2011-10-06 01:05:00', 4),
+			array('2011-10-06 22:35:49', 4),
 			// Friday
-			array('2011-05-06 01:00:00', 5),
+			array('2011-05-06 12:50:24', 5),
 			// Saturday
-			array('2011-08-06 01:00:00', 6),
+			array('2011-08-06 23:59:59', 6),
 		);
 		return $this->_combine_providers($provide, $this->provider_languages());
+	}
+
+	/**
+	 * Tests simple language-neutral weekday formats return the expected values
+	 * 
+	 * @test
+	 * @dataProvider provider_weekday_dates
+	 * @param  string   $date
+	 * @param  integer  $weekday
+	 * @param  string   $lang
+	 */
+	public function test_neutral_weekday_format($date, $weekday, $lang)
+	{
+		I18n::lang($lang);
+
+		// Test $date is on $wekday
+		// The numerical day of the week, one digit (0 is Sunday, 1 is Monday)
+		$this->assertEquals($weekday, Date::format($date, '%w'));
+
+		// 3-letter, non-localized textual representation of a day (Mon, Tue)
+		$time = strtotime($date);
+		$this->assertEquals(date('D', $time), Date::format($date, '%D'));		
 	}
 
 	/**
@@ -208,6 +328,47 @@ class DateFormatTest extends I18n_Unittest_Testcase
 	}
 
 	/**
+	 * Provides dates with different year days
+	 * 
+	 * @return array
+	 */
+	public function provider_yearday_dates()
+	{
+		$provide = array(
+			array('2010-11-09 16:48:01', 312, 45),
+			array('2011-03-23 18:50:09', 81, 12),
+			array('2013-02-14 23:36:11', 44, 7),
+			array('2009-07-21 19:37:19', 201, 30),
+			array('2011-12-31 05:26:59', 364, 52),
+			array('2014-05-09 11:01:38', 128, 19),
+			array('2012-01-01 06:54:41', 0, 52),
+		);
+		return $this->_combine_providers($provide, $this->provider_languages());
+	}
+
+	/**
+	 * Tests simple yearday formats return the expected values
+	 * 
+	 * @test
+	 * @dataProvider provider_yearday_dates
+	 * @param  string   $date
+	 * @param  integer  $yearday
+	 * @param  string   $lang
+	 */
+	public function test_yearday_date_format($date, $yearday, $yearweek, $lang)
+	{
+		I18n::lang($lang);
+
+		// The day of the year to three digits (001 is Jan 1st)
+		$yearday = str_pad($yearday, 3, '0', STR_PAD_LEFT);
+		$this->assertEquals($yearday, Date::format($date, '%j'));
+
+		// The week to two digits (01 is the week of Jan 1, 52 is the week of Dec 31)
+		$yearweek = str_pad($yearweek, 2, '0', STR_PAD_LEFT);
+		$this->assertEquals($yearweek, Date::format($date, '%U'));
+	}
+
+	/**
 	 * Creates a combination from two data providers
 	 * 
 	 * @param   array  $array1
@@ -219,7 +380,8 @@ class DateFormatTest extends I18n_Unittest_Testcase
 		$result = array();
 		foreach ($array2 as $item2)
 		{
-			foreach ($array1 as $item1) {
+			foreach ($array1 as $item1)
+			{
 				$result[] = array_merge($item1, $item2);
 			}
 		}
