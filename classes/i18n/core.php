@@ -79,7 +79,7 @@ class I18n_Core extends Kohana_I18n
 				foreach ($files as $file)
 				{
 					// Merge the language strings into the sub table
-					$tables = self::merge_arrays($t, Kohana::load($file));
+					$tables = self::merge_arrays($tables, Kohana::load($file));
 				}
 
 				// Append the sub table, preventing less specific language
