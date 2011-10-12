@@ -3,7 +3,7 @@
  * @group plurals
  * @group plurals.date
  */
-class DateFormatTest extends I18n_Unittest_Testcase
+class DateFormatTest extends I18n_Unittest_Date
 {
 	public $lang = 'en';
 
