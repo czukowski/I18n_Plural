@@ -52,7 +52,7 @@ class I18n_Core extends Kohana_I18n
 	 *     // Get all defined Spanish messages
 	 *     $messages = I18n::load('es-es');
 	 *
-	 * @param   string   language to load
+	 * @param   string  language to load
 	 * @return  array
 	 */
 	public static function load($lang)
@@ -72,19 +72,19 @@ class I18n_Core extends Kohana_I18n
 		{
 			// Create a path for this set of parts
 			$path = implode(DIRECTORY_SEPARATOR, $parts);
-
-			if ($files = Kohana::find_file('i18n', $path, NULL, TRUE))
+			$files = Kohana::find_file('i18n', $path, NULL, TRUE);
+			if ($files)
 			{
-				$t = array();
+				$tables = array();
 				foreach ($files as $file)
 				{
 					// Merge the language strings into the sub table
-					$t = i18n::merge_arrays($t, Kohana::load($file));
+					$tables = self::merge_arrays($t, Kohana::load($file));
 				}
 
 				// Append the sub table, preventing less specific language
 				// files from overloading more specific files
-				$table += $t;
+				$table += $tables;
 			}
 
 			// Remove the last part
@@ -99,11 +99,11 @@ class I18n_Core extends Kohana_I18n
 	// Thank you, http://www.php.net/manual/en/function.array-merge-recursive.php#102379
 	private static function merge_arrays($array1, $array2)
 	{
-		foreach($array2 as $key => $value)
+		foreach ($array2 as $key => $value)
 		{
-			if(array_key_exists($key, $array1) && is_array($value))
+			if (array_key_exists($key, $array1) && is_array($value))
 			{
-				$array1[$key] = i18n::merge_arrays($array1[$key], $array2[$key]);
+				$array1[$key] = I18n::merge_arrays($array1[$key], $array2[$key]);
 			}	
 			else
 			{
