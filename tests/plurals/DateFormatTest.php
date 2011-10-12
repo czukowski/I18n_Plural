@@ -67,7 +67,7 @@ class DateFormatTest extends I18n_Unittest_Testcase
 
 		// Timezones and offsets
 		// The GMT offset ("-08:00")
-		$this->assertEquals(date('P', $time), Date::format($date, '%T'));
+		$this->assertEquals(date('P', $time), Date::format($date, '%P'));
 		// The GMT offset ("-0800")
 		$this->assertEquals(date('O', $time), Date::format($date, '%z'));
 		// The time zone ("GMT")

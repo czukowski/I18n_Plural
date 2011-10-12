@@ -5,7 +5,7 @@ return array(
 		'db' => '%Y-%m-%d %H:%M:%S',
 		'compact' => '%Y%m%dT%H%M%S',
 		'header' => '%g',
-		'iso8601' => '%Y-%m-%dT%H:%M:%S%T',
+		'iso8601' => '%Y-%m-%dT%H:%M:%S%P',
 		'rfc822' => '%r',
 		'rfc2822' => '%r',
 		// 04 Oct 07:25

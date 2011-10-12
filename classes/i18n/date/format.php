@@ -124,15 +124,15 @@ class I18n_Date_Format extends Kohana_Date
 				return date('jS', $this->timestamp);
 			case 'p':  // The current language equivalent of either AM or PM
 				return ___('date.'.(date('G', $this->timestamp) < 12 ? 'am' : 'pm'));
+			case 'P':  // The GMT offset ("-08:00")
+				       // Non-compliant with MooTools Date.format()
+				return date('P', $this->timestamp);
 			case 'r':  // Added to workaround localization of RFC2822 date format
 				return date('r', $this->timestamp);
 			case 's':
 				return $this->timestamp;
 			case 'S':  // The seconds to two digits (01, 40, 59)
 				return date('s', $this->timestamp);
-			case 'T':  // The GMT offset ("-08:00")
-				       // Non-compliant with MooTools Date.format()
-				return date('P', $this->timestamp);
 			case 'U':  // The week to two digits (01 is the week of Jan 1, 52 is the week of Dec 31)
 				return date('W', $this->timestamp);
 			case 'w':  // The numerical day of the week, one digit (0 is Sunday, 1 is Monday)
