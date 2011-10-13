@@ -117,7 +117,7 @@ class I18n_Plural_Test extends Kohana_Unittest_Testcase
 			array(FALSE),
 			array(0),
 			array(100),
-			array(-PI),
+			array(-3.14),
 		);
 	}
 
