@@ -3,12 +3,12 @@
  * I18n_Plural test
  *
  * @package    Plurals
+ * @category   Unit tests
  * @author     Korney Czukowski
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
-
+ * 
  * @group plurals
- * @group plurals.date
  */
 class I18n_Plural_Test extends Kohana_Unittest_Testcase
 {
