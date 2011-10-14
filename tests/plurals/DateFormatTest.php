@@ -5,8 +5,6 @@
  */
 class DateFormatTest extends I18n_Unittest_Date
 {
-	public $lang = 'en';
-
 	/**
 	 * Provides test data for tests
 	 * 
