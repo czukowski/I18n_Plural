@@ -19,6 +19,7 @@
  * @see plurals.xml (local copy)
  *
  * @package    I18n_Plural
+ * @category   Plural Rules
  * @author     Korney Czukowski
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
