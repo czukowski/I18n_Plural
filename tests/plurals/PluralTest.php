@@ -13,6 +13,43 @@
 class I18n_Plural_Test extends Kohana_Unittest_Testcase
 {
 	/**
+	 * Provides test data from sample i18n files included with the module
+	 * 
+	 * @return  array
+	 */
+	public function provider_counts()
+	{
+		return array(
+			array('en-us', 1, '1 file'),
+			array('en-us', 10, '10 files'),
+			array('cs', 1, '1 soubor'),
+			array('cs', 2, '2 soubory'),
+			array('cs', 10, '10 souborů'),
+			array('ru', 1, '1 файл'),
+			array('ru', 2, '2 файла'),
+			array('ru', 10, '10 файлов'),
+			array('ru', 12, '12 файлов'),
+			array('ru', 112, '112 файлов'),
+			array('ru', 122, '122 файла'),
+			array('ru', 1.46, '1.46 файла'),
+		);
+	}
+
+	/**
+	 * Test translation using `I18n_Plural::get()`
+	 * 
+	 * @dataProvider  provider_counts
+	 * @param  string  $lang
+	 * @param  mixed   $count
+	 * @param  string  $expect
+	 */
+	public function testCountFilesTranslations($lang, $count, $expect)
+	{
+		I18n::lang($lang);
+		$this->assertEquals($expect, ___(':count files', $count, array(':count' => $count)));
+	}
+
+	/**
 	 * @return  array
 	 */
 	public function provider_locales()
