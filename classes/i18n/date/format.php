@@ -6,6 +6,7 @@
  * @see http://github.com/mootools/mootools-more/blob/1.3wip/Source/Types/Date.js#L164
  *
  * @package    I18n_Plural
+ * @category   Date Formatting
  * @author     Korney Czukowski
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
