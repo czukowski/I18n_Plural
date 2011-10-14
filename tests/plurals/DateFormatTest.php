@@ -367,24 +367,4 @@ class DateFormatTest extends I18n_Unittest_Date
 		$yearweek = str_pad($yearweek, 2, '0', STR_PAD_LEFT);
 		$this->assertEquals($yearweek, Date::format($date, '%U'));
 	}
-
-	/**
-	 * Creates a combination from two data providers
-	 * 
-	 * @param   array  $array1
-	 * @param   array  $array2
-	 * @return  array
-	 */
-	protected function _combine_providers($array1, $array2)
-	{
-		$result = array();
-		foreach ($array2 as $item2)
-		{
-			foreach ($array1 as $item1)
-			{
-				$result[] = array_merge($item1, $item2);
-			}
-		}
-		return $result;
-	}
 }

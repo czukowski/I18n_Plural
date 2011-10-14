@@ -25,4 +25,24 @@ abstract class I18n_Unittest_Core extends Kohana_Unittest_Testcase
 		I18n::lang($this->_lang);
 		parent::tearDown();
 	}
+
+	/**
+	 * Creates a combination from two data providers
+	 * 
+	 * @param   array  $array1
+	 * @param   array  $array2
+	 * @return  array
+	 */
+	protected function _combine_providers($array1, $array2)
+	{
+		$result = array();
+		foreach ($array2 as $item2)
+		{
+			foreach ($array1 as $item1)
+			{
+				$result[] = array_merge($item1, $item2);
+			}
+		}
+		return $result;
+	}
 }
