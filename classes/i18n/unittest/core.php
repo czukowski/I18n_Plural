@@ -11,6 +11,21 @@
 abstract class I18n_Unittest_Core extends Kohana_Unittest_Testcase
 {
 	/**
+	 * Provides test data for tests
+	 * 
+	 * @return array
+	 */
+	public function provider_languages()
+	{
+		return array(
+			array('en'),
+			array('pl'),
+			array('ru'),
+			array('cs'),
+		);
+	}
+
+	/**
 	 * Creates a combination from two data providers
 	 * 
 	 * @param   array  $array1

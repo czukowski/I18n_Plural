@@ -6,21 +6,6 @@
 class DateFormatTest extends I18n_Unittest_Date
 {
 	/**
-	 * Provides test data for tests
-	 * 
-	 * @return array
-	 */
-	public function provider_languages()
-	{
-		return array(
-			array('en'),
-			array('pl'),
-			array('ru'),
-			array('cs'),
-		);
-	}
-
-	/**
 	 * Provides some random dates
 	 * 
 	 * @erturn  array
