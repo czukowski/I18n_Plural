@@ -3,6 +3,7 @@
  * Base class for some I18n_Plurals unit tests
  * 
  * @package    I18n_Plural
+ * @category   Unit tests
  * @author     Korney Czukowski
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
