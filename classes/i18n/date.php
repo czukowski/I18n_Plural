@@ -16,6 +16,7 @@ class I18n_Date extends Kohana_Date
 	/**
 	 * Returns the difference between a time and now in a "fuzzy" way.
 	 * Overrides Kohana_Date::fuzzy_span() method.
+	 * 
 	 * @param integer $from UNIX timestamp
 	 * @param integer $to UNIX timestamp, current timestamp is used when NULL
 	 * @return string
@@ -35,6 +36,7 @@ class I18n_Date extends Kohana_Date
 
 	/**
 	 * Returns verbose time interval based on time difference
+	 * 
 	 * @param int $delta time difference in seconds
 	 * @staticvar array $units
 	 * @return string
@@ -79,6 +81,7 @@ class I18n_Date extends Kohana_Date
 
 	/**
 	 * Formats date and time.
+	 * 
 	 * @param mixed timestamp, string with date representation or I18n_Date_Format object; current timestamp if NULL
 	 * @param string format string or shorthand; '%x %X' if NULL
 	 * @return string
