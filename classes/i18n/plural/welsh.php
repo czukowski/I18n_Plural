@@ -34,7 +34,7 @@ class I18n_Plural_Welsh extends I18n_Plural_Rules
 		{
 			return 'zero';
 		}
-		if ($count == 1)
+		elseif ($count == 1)
 		{
 			return 'one';
 		}

@@ -33,7 +33,11 @@ class I18n_Plural_Breton extends I18n_Plural_Rules
 {
 	public function get_category($count)
 	{
-		if ($count == 1)
+		if ($count == 0)
+		{
+			return 'zero';
+		}
+		elseif ($count == 1)
 		{
 			return 'one';
 		}
