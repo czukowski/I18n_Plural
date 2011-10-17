@@ -9,7 +9,7 @@
  */
 return array(
 	// Plural test
-	':count files'	=> array(
+	':count files' => array(
 		'one' => ':count file',
 		'other' => ':count files',
 	),
