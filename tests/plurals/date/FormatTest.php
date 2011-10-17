@@ -30,7 +30,7 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 	}
 
 	/**
-	 * Tests common date formats are same acroll all languages
+	 * Tests common date formats are same across all languages
 	 * 
 	 * @test
 	 * @dataProvider provider_random_dates
