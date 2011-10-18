@@ -352,32 +352,34 @@ is used for replacing parameters.
     ___(':count user is online', 1000, array(':count' => 1000));
     // 1000 users are online
 
- * @param string to translate
- * @param mixed string form or numeric count
- * @param array param values to insert
- * @param string target language
- * @return string
+ * @param   string  $string  to translate
+ * @param   mixed   $context  string form or numeric count
+ * @param   array   $values  parameters to replace in the translated string
+ * @param   string  $lang  target language
+ * @return  string
 
-### class I18n_Plural
+### class I18n_Core
 
-#### public static function get($string, $count = 0)
+#### public static function plural($string, $count = 0)
 
 Returns translation of a string. If no translation exists, the original string will be returned. No parameters
 are replaced.
 
-    $hello = I18n_Plural::get('Hello, my name is :name and I have :count friend.', 10);
+    $hello = I18n::plural('Hello, my name is :name and I have :count friend.', 10);
     // 'Hello, my name is :name and I have :count friends.'
 
- * @param string $string
- * @param mixed $count
- * @return string
+ * @param   string  $string
+ * @param   mixed   $count
+ * @return  string
+
+### class I18n_Plural
 
 #### public static function instance($lang)
 
 Returns class, that handles plural inflection for the given language.
 
- * @param string $lang
- * @return I18n_Plural_Rules
+ * @param   string  $lang
+ * @return  I18n_Plural_Rules
 
 ### class I18n_Date
 
@@ -386,9 +388,9 @@ Returns class, that handles plural inflection for the given language.
 Returns the difference between a time and now in a "fuzzy" way.
 Overrides Kohana_Date::fuzzy_span() method.
 
- * @param integer $from UNIX timestamp
- * @param integer $to UNIX timestamp, current timestamp is used when NULL
- * @return string
+ * @param   integer  $from  UNIX timestamp
+ * @param   integer  $to  UNIX timestamp, current timestamp is used when NULL
+ * @return  string
 
 #### public static function format($timestamp = NULL, $format = NULL)
 
