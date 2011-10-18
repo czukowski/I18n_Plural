@@ -1,4 +1,5 @@
 The MIT License
+===============
 
 Copyright (c) 2011 by Korney Czukowski <carbofos@seznam.cz>
 
