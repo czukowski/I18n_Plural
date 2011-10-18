@@ -158,4 +158,50 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 		I18n::lang($lang);
 		$this->assertEquals($expect, I18n_Core::form($string, $form));
 	}
+
+	/**
+	 * Provides test data for I18n_Core::plural() test
+	 * 
+	 * @return  array
+	 */
+	public function provider_plural()
+	{
+		return array(
+			array('en-us', ':count files', 1, ':count file', array(':count' => $count)),
+			array('en-us', ':count files', 10, ':count files', array(':count' => $count)),
+			array('cs', ':count files', 1, ':count soubor', array(':count' => $count)),
+			array('cs', ':count files', 2, ':count soubory', array(':count' => $count)),
+			array('cs', ':count files', 10, ':count souborů', array(':count' => $count)),
+			array('ru', ':count files', 1, ':count файл', array(':count' => $count)),
+			array('ru', ':count files', 2, ':count файла', array(':count' => $count)),
+			array('ru', ':count files', 10, ':count файлов', array(':count' => $count)),
+			array('ru', ':count files', 12, ':count файлов', array(':count' => $count)),
+			array('ru', ':count files', 112, ':count файлов', array(':count' => $count)),
+			array('ru', ':count files', 122, ':count файла', array(':count' => $count)),
+			array('ru', ':count files', 1.46, ':count файла', array(':count' => $count)),
+		);
+	}
+
+	/**
+	 * Test `I18n::plural()` and `___()`
+	 * 
+	 * @dataProvider   provider_plural
+	 * @param  string  $lang
+	 * @param  string  $string
+	 * @param  mixed   $count
+	 * @param  mixed   $key
+	 * @param  string  $expect
+	 * @param  array   $parameters
+	 */
+	public function test_plural($lang, $string, $count, $expect, $parameters = array())
+	{
+		// Pass `$lang` parameter
+		$this->assertEquals($expect, I18n_Core::plural($string, $count, $lang));
+		// Let language be determined from `I18n::$lang`
+		I18n::lang($lang);
+		$this->assertEquals($expect, I18n_Core::plural($string, $count));
+		// Test using `___()` function
+		$this->assertEquals(strtr($expect, $parameters), ___($string, $count, $parameters));
+	}
+
 }

@@ -26,7 +26,7 @@ function ___($string, $context = 0, $values = NULL, $lang = NULL)
 	if (is_numeric($context))
 	{
 		// Get plural form
-		$string = I18n_Plural::get($string, $context, $lang);
+		$string = I18n::plural($string, $context, $lang);
 	}
 	else
 	{

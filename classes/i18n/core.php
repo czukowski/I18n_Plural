@@ -143,4 +143,25 @@ class I18n_Core extends Kohana_I18n
 		
 		return $array1;
 	}
+
+	/**
+	 * Returns translation of a string. If no translation exists, the original string will be
+	 * returned. No parameters are replaced.
+	 *
+	 *     $hello = I18n::plural('Hello, my name is :name and I have :count friend.', 10);
+	 *     // 'Hello, my name is :name and I have :count friends.'
+	 *
+	 * @param   string  $string
+	 * @param   mixed   $count
+	 * @param   string  $lang
+	 * @return  string
+	 */
+	public static function plural($string, $count = 0, $lang = NULL)
+	{
+		// Get the translation form key
+		$form = I18n_Plural::instance(I18n::$lang)
+			->get_category($count);
+		// Return the translation for that form
+		return self::form($string, $form, $lang);
+	}
 }
