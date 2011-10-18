@@ -46,17 +46,23 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 	/**
 	 * @return  array
 	 */
-	public function provider_get()
+	public function provider_non_existing()
 	{
-		$provide = array();
-		$existing_translations = $this->provider_translations();
-		$non_existing_translations = array(
+		return array(
 			array('en', 'this_1234567890_translation_QWERTY_key_UIOPASD_should_FGHJKL_not_ZXCVBNM_exist'),
 			array('ru', 'этот_1234567890_ключ_ЙЦУКЕН_перевода_НГШЩЗФЫВ_не_АПРОЛД_должен_ЯЧСМИТЬ_существовать'),
 		);
+	}
+
+	/**
+	 * @return  array
+	 */
+	public function provider_get()
+	{
+		$provide = array();
 
 		// Add the whole $item to the test data and each its plural form separately
-		foreach ($existing_translations as $item)
+		foreach ($this->provider_translations() as $item)
 		{
 			$provide[] = $item;
 			list ($lang, $base_string, $plurals) = $item;
@@ -67,7 +73,7 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 		}
 
 		// Add non-existing translation keys, the results should be the same strings
-		foreach ($non_existing_translations as $item)
+		foreach ($this->provider_non_existing() as $item)
 		{
 			list ($lang, $non_existing_string) = $item;
 			$provide[] = array($lang, $non_existing_string, $non_existing_string);
@@ -101,6 +107,7 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 	public function provider_form()
 	{
 		$provide = array();
+
 		foreach ($this->provider_translations() as $item)
 		{
 			// Add each plural form separately
@@ -123,6 +130,14 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 				$provide[] = array($lang, $base_string, 'this-key-makes-no-sense', current($plurals));
 			}
 		}
+
+		// Add non-existing translation keys, the results should be the same strings
+		foreach ($this->provider_non_existing() as $item)
+		{
+			list ($lang, $non_existing_string) = $item;
+			$provide[] = array($lang, $non_existing_string, 'anything', $non_existing_string);
+		}
+
 		return $provide;
 	}
 
@@ -142,6 +157,5 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 		// Let language be determined from I18n::$lang
 		I18n::lang($lang);
 		$this->assertEquals($expect, I18n_Core::form($string, $form));
-
 	}
 }
