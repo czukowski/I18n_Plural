@@ -84,7 +84,7 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 	 * @param  string  $string
 	 * @param  string  $expect
 	 */
-	public function _test_get($lang, $string, $expect)
+	public function test_get($lang, $string, $expect)
 	{
 		// Pass $lang parameter
 		$this->assertEquals($expect, I18n_Core::get($string, $lang));
