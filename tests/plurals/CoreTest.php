@@ -177,18 +177,18 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 	public function provider_plural()
 	{
 		return array(
-			array('en-us', ':count files', 1, ':count file', array(':count' => $count)),
-			array('en-us', ':count files', 10, ':count files', array(':count' => $count)),
-			array('cs', ':count files', 1, ':count soubor', array(':count' => $count)),
-			array('cs', ':count files', 2, ':count soubory', array(':count' => $count)),
-			array('cs', ':count files', 10, ':count souborů', array(':count' => $count)),
-			array('ru', ':count files', 1, ':count файл', array(':count' => $count)),
-			array('ru', ':count files', 2, ':count файла', array(':count' => $count)),
-			array('ru', ':count files', 10, ':count файлов', array(':count' => $count)),
-			array('ru', ':count files', 12, ':count файлов', array(':count' => $count)),
-			array('ru', ':count files', 112, ':count файлов', array(':count' => $count)),
-			array('ru', ':count files', 122, ':count файла', array(':count' => $count)),
-			array('ru', ':count files', 1.46, ':count файла', array(':count' => $count)),
+			array('en-us', ':count files', 1, ':count file', array(':count' => 1)),
+			array('en-us', ':count files', 10, ':count files', array(':count' => 10)),
+			array('cs', ':count files', 1, ':count soubor', array(':count' => 1)),
+			array('cs', ':count files', 2, ':count soubory', array(':count' => 2)),
+			array('cs', ':count files', 10, ':count souborů', array(':count' => 10)),
+			array('ru', ':count files', 1, ':count файл', array(':count' => 1)),
+			array('ru', ':count files', 2, ':count файла', array(':count' => 2)),
+			array('ru', ':count files', 10, ':count файлов', array(':count' => 10)),
+			array('ru', ':count files', 12, ':count файлов', array(':count' => 12)),
+			array('ru', ':count files', 112, ':count файлов', array(':count' => 112)),
+			array('ru', ':count files', 122, ':count файла', array(':count' => 122)),
+			array('ru', ':count files', 1.46, ':count файла', array(':count' => 1.46)),
 		);
 	}
 
