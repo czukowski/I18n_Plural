@@ -162,7 +162,7 @@ class I18n_Date_Format extends Kohana_Date
 	 */
 	protected function _get_item($index, $path, $form = NULL)
 	{
-		$string = I18n_Form::get('date.'.$path, $form);
+		$string = I18n::form('date.'.$path, $form);
 		return $string[$index];
 	}
 }

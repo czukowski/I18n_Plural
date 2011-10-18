@@ -35,7 +35,7 @@ class I18n_Plural
 		// Get the translation form key
 		$form = I18n_Plural::instance(I18n::$lang)->get_category($count);
 		// Return the translation for that form
-		return I18n_Form::get($string, $form, $lang);
+		return I18n::form($string, $form, $lang);
 	}
 
 	/**

@@ -31,7 +31,7 @@ function ___($string, $context = 0, $values = NULL, $lang = NULL)
 	else
 	{
 		// Get custom form
-		$string = I18n_Form::get($string, $context, $lang);
+		$string = I18n::form($string, $context, $lang);
 	}
 	return empty($values) ? $string : strtr($string, $values);
 }
