@@ -214,4 +214,50 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 		$this->assertEquals(strtr($expect, $parameters), ___($string, $count, $parameters));
 	}
 
+	/**
+	 * @return  array
+	 */
+	public function provider_array_merge()
+	{
+		return array(
+			// Simple example
+			array(
+				array('one' => array('ein' => 'NULL')),
+				array('two' => array('zwei' => 'NULL')),
+				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
+			),
+			// Example of simple overwriting scalar value with scalar value
+			array(
+				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
+				array('two' => array('zwei' => 'TRUE')),
+				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'TRUE')),
+			),
+			// Example of overwriting array with scalar value
+			array(
+				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
+				array('two' => 'zwei'),
+				array('one' => array('ein' => 'NULL'), 'two' => 'zwei'),
+			),
+			// Example of overwriting scalar value with array
+			array(
+				array('one' => array('ein' => 'NULL'), 'two' => 'zwei'),
+				array('two' => array('zwei' => 'NULL')),
+				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
+			),
+		);
+	}
+
+	/**
+	 * Tests translations merging
+	 * 
+	 * @dataProvider  provider_array_merge
+	 * @param  array  $array1
+	 * @param  array  $array2
+	 * @param  array  $expect
+	 */
+	public function test_array_merge($array1, $array2, $expect)
+	{
+		// Test the `Arr::merge()` does the job for us
+		$this->assertEquals($expect, Arr::merge($array1, $array2));
+	}
 }
