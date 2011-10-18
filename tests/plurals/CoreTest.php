@@ -83,24 +83,31 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 	}
 
 	/**
-	 * Test I18n_Core::get()
+	 * Test `I18n_Core::get()`
 	 * 
 	 * @dataProvider   provider_get
 	 * @param  string  $lang
 	 * @param  string  $string
 	 * @param  string  $expect
+	 * @param  array   $parameters
 	 */
-	public function test_get($lang, $string, $expect)
+	public function test_get($lang, $string, $expect, $parameters = array())
 	{
-		// Pass $lang parameter
+		// Pass `$lang` parameter
 		$this->assertEquals($expect, I18n_Core::get($string, $lang));
-		// Let language be determined from I18n::$lang
+		// Let language be determined from `I18n::$lang`
 		I18n::lang($lang);
 		$this->assertEquals($expect, I18n_Core::get($string));
+		// Test using `___()` function
+		// Array `$expect` is invalid use case for `___()` function, but valid for `I18n_Core::get()`
+		if ( ! is_array($expect))
+		{
+			$this->assertEquals(strtr($expect, $parameters), ___($string, $parameters));
+		}
 	}
 
 	/**
-	 * Provides test data for I18n_Core::form() test
+	 * Provides test data for `I18n_Core::form()` test
 	 * 
 	 * @return  array
 	 */
@@ -142,21 +149,24 @@ class I18n_Core_Test extends Kohana_Unittest_Testcase
 	}
 
 	/**
-	 * Test I18n_Core::form()
+	 * Test `I18n_Core::form()`
 	 * 
 	 * @dataProvider   provider_form
 	 * @param  string  $lang
 	 * @param  string  $string
 	 * @param  string  $form
 	 * @param  string  $expect
+	 * @param  array   $parameters
 	 */
-	public function test_form($lang, $string, $form, $expect)
+	public function test_form($lang, $string, $form, $expect, $parameters = array())
 	{
-		// Pass $lang parameter
+		// Pass `$lang` parameter
 		$this->assertEquals($expect, I18n_Core::form($string, $form, $lang));
-		// Let language be determined from I18n::$lang
+		// Let language be determined from `I18n::$lang`
 		I18n::lang($lang);
 		$this->assertEquals($expect, I18n_Core::form($string, $form));
+		// Test using `___()` function
+		$this->assertEquals(strtr($expect, $parameters), ___($string, $form, $parameters));
 	}
 
 	/**
