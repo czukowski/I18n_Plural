@@ -84,6 +84,11 @@ class I18n_Validation extends Kohana_Validation
 						// All values must be strings
 						$value = implode(', ', Arr::flatten($value));
 					}
+					elseif (is_object($value))
+					{
+						// Objects cannot be used in message files
+						continue;
+					}
 
 					// Check if a label for this parameter exists
 					if (isset($this->_labels[$value]))
