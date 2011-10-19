@@ -1,5 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
+/**
+ * Polish sample translations
+ * 
+ * @package    I18n_Plural
+ * @author     Jakub Wolny
+ * @copyright  (c) 2011 Jakub Wolny
+ */
 return array(
     // Plural test
     ':count files' => array(
