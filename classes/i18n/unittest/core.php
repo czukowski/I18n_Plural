@@ -12,12 +12,12 @@ abstract class I18n_Unittest_Core extends Kohana_Unittest_Testcase
 {
 	protected $langBackup;
 
-	protected function setUp() {
+	public function setUp() {
 		$this->langBackup = I18n::lang();
 		parent::setUp();
 	}
 
-	protected function tearDown() {
+	public function tearDown() {
 		I18n::lang($this->langBackup);
 		parent::tearDown();
 	}
