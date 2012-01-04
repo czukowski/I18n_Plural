@@ -10,22 +10,32 @@
  */
 abstract class I18n_Unittest_Core extends Kohana_Unittest_Testcase
 {
-	protected $langBackup;
+	protected $lang_backup;
 
-	public function setUp() {
-		$this->langBackup = I18n::lang();
+	public function setUp()
+	{
+		$this->backup_lang();
 		parent::setUp();
 	}
 
-	public function tearDown() {
-		I18n::lang($this->langBackup);
+	public function tearDown()
+	{
+		$this->restore_lang();
 		parent::tearDown();
+	}
+
+	protected function backup_lang()
+	{
+		I18n::lang($this->lang_backup);
+	}
+
+	protected function restore_lang()
+	{
+		I18n::lang($this->lang_backup);
 	}
 
 	/**
 	 * Provides test data for tests
-	 * 
-	 * @return array
 	 */
 	public function provider_languages()
 	{
