@@ -26,7 +26,7 @@ abstract class I18n_Unittest_Core extends Kohana_Unittest_Testcase
 
 	protected function backup_lang()
 	{
-		I18n::lang($this->lang_backup);
+		$this->lang_backup = I18n::lang();
 	}
 
 	protected function restore_lang()
