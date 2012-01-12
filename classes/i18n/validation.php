@@ -46,69 +46,33 @@ class I18n_Validation extends Kohana_Validation
 			list($error, $params) = $set;
 
 			// Get the label for this field
-			$label = $this->_labels[$field];
-
-			if ($translate)
-			{
-				if (is_string($translate))
-				{
-					// Translate the label to the specified language
-					$label = ___($label, NULL, array(), $translate);
-				}
-				else
-				{
-					// Translate the label
-					$label = ___($label);
-				}
-			}
+			$label = $this->label($field, NULL, $translate);
 
 			// Start the translation values list
 			$values = array(
 				':field' => $label,
-				':value' => Arr::get($this, $field),
+				':value' => $this->_field_value_parameter($field),
 			);
-
-			if (is_array($values[':value']))
-			{
-				// All values must be strings
-				$values[':value'] = implode(', ', Arr::flatten($values[':value']));
-			}
 
 			$context = NULL;
 			if ($params)
 			{
 				foreach ($params as $key => $value)
 				{
-					if (is_array($value))
+					// Objects cannot be used in message files
+					if (is_object($value))
 					{
-						// All values must be strings
-						$value = implode(', ', Arr::flatten($value));
-					}
-					elseif (is_object($value))
-					{
-						// Objects cannot be used in message files
 						continue;
 					}
+
+					// All values must be strings
+					$value = $this->_parameter_to_string($value);
 
 					// Check if a label for this parameter exists
 					if (isset($this->_labels[$value]))
 					{
 						// Use the label as the value, eg: related field name for "matches"
-						$value = $this->_labels[$value];
-
-						if ($translate)
-						{
-							if (is_string($translate))
-							{
-								// Translate the value using the specified language
-								$value = ___($value, NULL, array(), $translate);
-							}
-							else
-							{
-								// Translate the value
-								$value = ___($value);
-							}
-						}
+						$value = $this->_translate($this->_labels[$value], NULL, array(), $translate);
 					}
 
 					// Add each parameter as a numbered value, starting from 1
@@ -149,20 +113,20 @@ class I18n_Validation extends Kohana_Validation
 			{
 				if ($message !== NULL)
 				{
-					$translated = ___($message, $context, $values);
+					$translated = $this->_translate($message, $context, $values, $translate);
 				}
-				elseif (($translated = ___($path, $context, $values)) != $path)
+				elseif (($translated = $this->_translate($path, $context, $values, $translate)) != $path)
 				{
 					// Found path translation
 				}
-				elseif (($translated = ___('valid.'.$error, $context, $values)) != 'valid.'.$error)
+				elseif (($translated = $this->_translate('valid.'.$error, $context, $values, $translate)) != 'valid.'.$error)
 				{
 					// Found a default translation for this error
 				}
 				elseif ( (bool) ($message = Kohana::message('validate', $error)))
 				{
 					// Found a default message for this error
-					$translated = ___($message, $context, $values);
+					$translated = $this->_translate($message, $context, $values, $translate);
 				}
 				else
 				{
@@ -181,5 +145,57 @@ class I18n_Validation extends Kohana_Validation
 		}
 
 		return $messages;
+	}
+
+	private function _parameter_to_string($param)
+	{
+		if (is_array($param))
+		{
+			// All values must be strings
+			$param = implode(', ', Arr::flatten($param));
+		}
+		return $param;
+	}
+
+	private function _field_value_parameter($field)
+	{
+		return $this->_parameter_to_string(Arr::get($this, $field));
+	}
+
+	/**
+	 * Returns field label, optionally untranslated
+	 * 
+	 * @param   string   $field
+	 * @param   boolean  $translate
+	 * @return  string
+	 */
+	public function label($field, $label = NULL, $translate = TRUE)
+	{
+		if ($label !== NULL)
+		{
+			// Set label
+			return parent::label($field, $label);
+		}
+		// Get label
+		return $this->_translate($this->_labels[$field], NULL, array(), $translate);
+	}
+
+	/**
+	 * Uses `___()` function to translate any text
+	 * 
+	 * @param   string   $string
+	 * @param   string   $context
+	 * @param   array    $values
+	 * @param   string   $lang
+	 * @return  string
+	 */
+	protected function _translate($string, $context = 0, $values = NULL, $lang = NULL)
+	{
+		if ($lang === TRUE)
+		{
+			// Use current language
+			$lang = NULL;
+		}
+		return ___($string, $context, $values, $lang);
 	}
 }
