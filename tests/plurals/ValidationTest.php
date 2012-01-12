@@ -16,23 +16,8 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	protected $object;
 
 	/**
-	 * @param  array  $array   The array of data
-	 * @param  array  $rules   The array of rules
-	 * @param  array  $labels  The array of field labels
-	 */
-	protected function setup_object($array, $rules, $labels)
-	{
-		$this->object = new I18n_Validation($array);
-		$this->object->labels($labels);
-		foreach ($rules as $field => $field_rules)
-		{
-			$this->object->rules($field, $field_rules);
-		}		
-	}
-
-	/**
 	 * Tests I18n_Validation::errors()
-	 *
+	 * 
 	 * @dataProvider  provide_errors
 	 * @param  array  $array     The array of data
 	 * @param  array  $rules     The array of rules
@@ -40,8 +25,31 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	 * @param  array  $expected  Array of expected errors
 	 */
 	public function test_errors($array, $rules, $labels, $expected)
-	{
+	{ 
 		$this->setup_object($array, $rules, $labels);
+		$this->_test_errors($expected);
+	}
+
+	/**
+	 * Tests Kohana_Validation::errors() with the same parameters as `test_errors()`
+	 * 
+	 * @dataProvider  provide_errors
+	 * @param  array  $array     The array of data
+	 * @param  array  $rules     The array of rules
+	 * @param  array  $labels    The array of field labels
+	 * @param  array  $expected  Array of expected errors
+	 */
+	public function test_kohana_errors($array, $rules, $labels, $expected)
+	{
+		$this->setup_object($array, $rules, $labels, 'Kohana_Validation');
+		$this->_test_errors($expected);
+	}
+
+	/**
+	 * @param  array  $expected
+	 */
+	private function _test_errors($expected)
+	{
 		$this->object->check();
 		$this->assertSame($expected, $this->object->errors('Validation', FALSE));
 		// Should be able to get raw errors array
@@ -50,7 +58,7 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 
 	/**
 	 * Provides test data for test_errors()
-	 *
+	 * 
 	 * @return  array
 	 */
 	public function provide_errors()
@@ -106,17 +114,20 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	 * @param  array   $translated_expected    The array of expected errors when translated
 	 * @param  array   $untranslated_expected  The array of expected errors when not translated
 	 */
-	public function test_translated_errors($lang, $data, $rules, $labels, $translated_expected, $untranslated_expected)
+	public function test_translated_errors($data, $rules, $labels, $translate, $translated_expected, $untranslated_expected)
 	{
-		I18n::lang($lang);
 		$this->setup_object($data, $rules, $labels);
 		$this->object->check();
-		$result_1 = $this->object->errors('Validation', TRUE);
-		$result_2 = $this->object->errors('Validation', 'en');
-		$result_3 = $this->object->errors('Validation', FALSE);
-		$this->assertSame($translated_expected, $result_1);
-		$this->assertSame($translated_expected, $result_2);
-		$this->assertSame($untranslated_expected, $result_3);
+		// 1) Set lang to $translate and use TRUE as 2nd argument (translate to current language)
+		I18n::lang($translate);
+		$this->assertSame($translated_expected, $this->object->errors('Validation', TRUE));
+		// 2) Set lang to non-existing and use $translate as 2nd argument (translate to specific language)
+		I18n::lang('xx-xx');
+		$this->assertSame($translated_expected, $this->object->errors('Validation', $translate));
+		// 3) Use FALSE as 2nd argument (do not translate)
+		$this->assertSame($untranslated_expected, $this->object->errors('Validation', FALSE));
+		// 4) Use 'en' as 2nd argument (translate to default language)
+		$this->assertSame($untranslated_expected, $this->object->errors('Validation', 'en'));
 	}
 
 	/**
@@ -126,23 +137,23 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	 */
 	public function provide_translated_errors()
 	{
-		// [lang, data, rules, expect_translated, expect_untranslated]
+		// [validate_array, rules, labels, translate, expected]
 		return array(
 			array(
+				array('spanish' => ''),
+				array('spanish' => array(array('not_empty', NULL))),
+				array('spanish' => 'Spanish'),
 				'es',
-				array('Spanish' => ''),
-				array('Spanish' => array(array('not_empty', NULL))),
-				array('Spanish' => ''),
 				// Errors are not translated yet so only the label will translate
-				array('Spanish' => 'Español must not be empty'),
-				array('Spanish' => 'Spanish must not be empty'),
+				array('spanish' => 'Español must not be empty'),
+				array('spanish' => 'Spanish must not be empty'),
 			),
-			// Error with another field as a parameter
 			array(
-				'cs',
 				array('password' => '123', 'confirm' => '456'),
 				array('confirm' => array(array('matches', array(':validation', ':field', 'password')))),
 				array('password' => 'Password', 'confirm' => 'Confirm'),
+				'cs',
+				// No translations exist for these labels nor message
 				array('confirm' => 'Confirm must be the same as Password'),
 				array('confirm' => 'Confirm must be the same as Password'),
 			),
@@ -158,5 +169,108 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	public function validation_fail()
 	{
 		return FALSE;
+	}
+
+	/**
+	 * @dataProvider   provide_labels 
+	 * @param  string  $field
+	 * @param  string  $label
+	 */
+	public function test_label($field, $label, $translate)
+	{
+		$this->setup_object();
+		// Set label
+		$object = $this->object->label($field, $label);
+		$this->assertSame($this->object, $object);
+		// Get label
+		$actual = $this->object->label($field, NULL, $translate);
+		$this->assertEquals($label, $actual);
+	}
+
+	public function provide_labels()
+	{
+		return array(
+			array('some-field', 'some-label', FALSE),
+			array('some-field', 'some-label', TRUE),
+		);
+	}
+
+	/**
+	 * Sets up empty validation object
+	 */
+	protected function setup_empty_object()
+	{
+		$this->object = new I18n_Validation(array());
+	}
+
+	/**
+	 * Setup validation object with mocked `_translate()` method, optionally prefilled with parameters
+	 */
+	protected function setup_object($array = array(), $rules = array(), $labels = array(), $className = 'I18n_Validation')
+	{
+		$this->object = $this->getMock($className, array('_translate'), array($array));
+		$this->object->expects($this->any())
+			->method('_translate')
+			->will($this->returnCallback(array($this, 'callback_translate')));
+		$this->object->labels($labels);
+		foreach ($rules as $field => $field_rules)
+		{
+			$this->object->rules($field, $field_rules);
+		}
+	}
+
+	/**
+	 * Translation mock method
+	 */
+	public function callback_translate($key, $context, $params, $lang)
+	{
+		static $dictionary = array(
+			'es' => array(
+				'Spanish' => 'Español',
+			),
+		);
+		if ( ! is_string($lang))
+		{
+			$lang = I18n::lang();
+		}
+		$translated = $key;
+		if (array_key_exists($lang, $dictionary))
+		{
+			if (array_key_exists($key, $dictionary[$lang]))
+			{
+				$translated = $dictionary[$lang][$key];
+			}
+		}
+		return strtr($translated, $params);
+	}
+
+	/**
+	 * @dataProvider   provide_translations
+	 * @param  string  $key
+	 * @param  string  $context
+	 * @param  array   $params
+	 * @param  string  $lang 
+	 * @param  string  $current_lang 
+	 * @param  string  $expected
+	 */
+	public function test_translate($key, $context, $params, $lang, $current_lang, $expected)
+	{
+		I18n::lang($current_lang);
+		$this->setup_empty_object();
+		$translate = new ReflectionMethod($this->object, '_translate');
+		$translate->setAccessible(TRUE);
+		$actual = $translate->invoke($this->object, $key, $context, $params, $lang);
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function provide_translations()
+	{
+		// [key, context, params, lang, current_lang, expected]
+		return array(
+			array(':count files', 'one', array(), TRUE, 'cs', ':count soubor'),
+			array(':count files', 'one', array(':count' => 1), 'cs', 'en', '1 soubor'),
+			array(':count files', 1, array(), 'cs', 'ru', ':count soubor'),
+			array(':count files', 1, array(':count' => 1), 'cs', 'pl', '1 soubor'),
+		);
 	}
 }
