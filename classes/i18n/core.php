@@ -211,6 +211,6 @@ class I18n_Core
 		{
 			return new I18n_Plural_None;
 		}
-		throw new Kohana_Exception('Unknown language prefix: :prefix.', array(':prefix' => $prefix));
+		throw new InvalidArgumentException('Unknown language prefix: '.$prefix.'.');
 	}
 }
