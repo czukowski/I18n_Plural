@@ -1,263 +1,291 @@
 <?php
 /**
+ * I18n_Core test
+ * 
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
- * 
- * @group plurals
+ * @group      plurals
  */
-class I18n_Core_Test extends Kohana_Unittest_Testcase
-{
+use Plurals\Tests;
+
+class I18n_Core_Test extends I18n_Testcase {
+
 	/**
-	 * @return  array
+	 * @dataProvider  provide_form
 	 */
-	public function provider_translations()
+	public function test_form($expected, $key, $form, $lang)
+	{
+		$this->object = new \I18n_Core($this->reader_test_factory());
+		$actual = $this->object->form($key, $form, $lang);
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function provide_form()
 	{
 		return array(
-			array('cs', ':count files', array(
-				'one' => ':count soubor',
-				'few' => ':count soubory',
-				'other' => ':count souborů',
-			)),
-			array('en', ':count files', array(
-				'one' => ':count file',
-				'other' => ':count files',
-			)),
-			array('pl', ':count files', array(
-				'one' => ':count plik',
-				'few' => ':count pliki',
-				'other' => ':count plików',
-			)),
-			array('ru', ':count files', array(
-				'one' => ':count файл',
-				'few' => ':count файла',
-				'many' => ':count файлов',
-				'other' => ':count файла',
-			)),
-			array('en', 'date.time', array(
-				'long' => '%H:%M:%S',
-				'short' => '%I:%M%p',
-			)),
+			// non-existing translation
+			array('unknown', 'unknown', NULL, NULL),
+			array('unknown', 'unknown', NULL, 'en'),
+			array('unknown', 'unknown', NULL, 'cs'),
+			// 'mr' form
+			array('man', 'person', 'mr', 'en'),
+			// 'ms' form
+			array('woman', 'person', 'ms', 'en'),
+			// 'some' form
+			array('person', 'person', 'some', 'en'),
+			// 'other' doesn't exist, first form - 'some' - used
+			array('person', 'person', 'other', 'en'),
+			// 'mr' form
+			array('muž', 'person', 'mr', 'cs'),
+			// assumed 'other'
+			array('člověk', 'person', NULL, 'cs'),
+			// 'some' doesn't exist and there's 'other'
+			array('člověk', 'person', 'some', 'cs'),
 		);
 	}
 
 	/**
-	 * @return  array
+	 * @dataProvider  provide_plural
 	 */
-	public function provider_non_existing()
+	public function test_plural($expected, $key, $count, $lang)
+	{
+		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->reader_test_factory()));
+		$this->object->expects($this->any())
+			->method('plural_rules')
+			->will($this->returnValue($this->rules_test_factory()));
+		$actual = $this->object->plural($key, $count, $lang);
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function provide_plural()
 	{
 		return array(
-			array('en', 'this_1234567890_translation_QWERTY_key_UIOPASD_should_FGHJKL_not_ZXCVBNM_exist'),
-			array('ru', 'этот_1234567890_ключ_ЙЦУКЕН_перевода_НГШЩЗФЫВ_не_АПРОЛД_должен_ЯЧСМИТЬ_существовать'),
+			// non-existing translation
+			array('unknown', 'unknown', 1, NULL),
+			array('unknown', 'unknown', 0, 'en'),
+			array('unknown', 'unknown', 1.1, 'cs'),
+			// non-existing translation
+			array('No countables', 'countable', 0, 'en'),
+			array('One countable', 'countable', 1, 'en'),
+			array('Two countables', 'countable', 2, 'en'),
+			array('Three countables', 'countable', 3, 'en'),
+			array('Many countables', 'countable', 4, 'en'),
+			array('Many countables', 'countable', 100, 'en'),
 		);
 	}
 
 	/**
-	 * @return  array
+	 * @dataProvider  provide_plural_rules
 	 */
-	public function provider_get()
+	public function test_plural_rules($lang, $class_name)
+	{
+		$this->object = new \I18n_Core($this->reader_test_factory());
+		$instance1 = $this->invoke_plural_rules($lang);
+		$instance2 = $this->invoke_plural_rules($lang);
+		$this->assertInstanceOf($class_name, $instance1);
+		$this->assertSame($instance2, $instance1);		
+
+	}
+
+	public function provide_plural_rules()
 	{
 		$provide = array();
-
-		// Add the whole $item to the test data and each its plural form separately
-		foreach ($this->provider_translations() as $item)
+		$locales = $this->provide_locales();
+		foreach ($locales as $parameters)
 		{
-			$provide[] = $item;
-			list ($lang, $base_string, $plurals) = $item;
-			foreach ($plurals as $plural => $translations)
+			foreach ($parameters[0] as $lang)
 			{
-				$provide[] = array($lang, $base_string.'.'.$plural, $translations);
+				$provide[] = array($lang, $parameters[1]);
 			}
 		}
-
-		// Add non-existing translation keys, the results should be the same strings
-		foreach ($this->provider_non_existing() as $item)
-		{
-			list ($lang, $non_existing_string) = $item;
-			$provide[] = array($lang, $non_existing_string, $non_existing_string);
-		}
-
 		return $provide;
 	}
 
-	/**
-	 * Test `I18n_Core::get()`
-	 * 
-	 * @dataProvider   provider_get
-	 * @param  string  $lang
-	 * @param  string  $string
-	 * @param  string  $expect
-	 * @param  array   $parameters
-	 */
-	public function test_get($lang, $string, $expect, $parameters = array())
-	{
-		// Pass `$lang` parameter
-		$this->assertEquals($expect, I18n_Core::get($string, $lang));
-		// Let language be determined from `I18n::$lang`
-		I18n::lang($lang);
-		$this->assertEquals($expect, I18n_Core::get($string));
-		// Test using `___()` function
-		// Array `$expect` is invalid use case for `___()` function, but valid for `I18n_Core::get()`
-		if ( ! is_array($expect))
-		{
-			$this->assertEquals(strtr($expect, $parameters), ___($string, $parameters));
-		}
-	}
-
-	/**
-	 * Provides test data for `I18n_Core::form()` test
-	 * 
-	 * @return  array
-	 */
-	public function provider_form()
-	{
-		$provide = array();
-
-		foreach ($this->provider_translations() as $item)
-		{
-			// Add each plural form separately
-			list ($lang, $base_string, $plurals) = $item;
-			foreach ($plurals as $plural => $translations)
-			{
-				$provide[] = array($lang, $base_string, $plural, $translations);
-			}
-			// Add data sets to test non-existing keys handling
-			if (array_key_exists('other', $plurals))
-			{
-				// For translations with the 'other' key, it should be returned when requested for
-				// non-existing key
-				$provide[] = array($lang, $base_string, 'this-key-makes-no-sense', $plurals['other']);
-			}
-			else
-			{
-				// For translations without the 'other' key, the first key should be returned
-				reset($plurals);
-				$provide[] = array($lang, $base_string, 'this-key-makes-no-sense', current($plurals));
-			}
-		}
-
-		// Add non-existing translation keys, the results should be the same strings
-		foreach ($this->provider_non_existing() as $item)
-		{
-			list ($lang, $non_existing_string) = $item;
-			$provide[] = array($lang, $non_existing_string, 'anything', $non_existing_string);
-		}
-
-		return $provide;
-	}
-
-	/**
-	 * Test `I18n_Core::form()`
-	 * 
-	 * @dataProvider   provider_form
-	 * @param  string  $lang
-	 * @param  string  $string
-	 * @param  string  $form
-	 * @param  string  $expect
-	 * @param  array   $parameters
-	 */
-	public function test_form($lang, $string, $form, $expect, $parameters = array())
-	{
-		// Pass `$lang` parameter
-		$this->assertEquals($expect, I18n_Core::form($string, $form, $lang));
-		// Let language be determined from `I18n::$lang`
-		I18n::lang($lang);
-		$this->assertEquals($expect, I18n_Core::form($string, $form));
-		// Test using `___()` function
-		$this->assertEquals(strtr($expect, $parameters), ___($string, $form, $parameters));
-	}
-
-	/**
-	 * Provides test data for I18n_Core::plural() test
-	 * 
-	 * @return  array
-	 */
-	public function provider_plural()
+	public function provide_locales()
 	{
 		return array(
-			array('en-us', ':count files', 1, ':count file', array(':count' => 1)),
-			array('en-us', ':count files', 10, ':count files', array(':count' => 10)),
-			array('cs', ':count files', 1, ':count soubor', array(':count' => 1)),
-			array('cs', ':count files', 2, ':count soubory', array(':count' => 2)),
-			array('cs', ':count files', 10, ':count souborů', array(':count' => 10)),
-			array('ru', ':count files', 1, ':count файл', array(':count' => 1)),
-			array('ru', ':count files', 2, ':count файла', array(':count' => 2)),
-			array('ru', ':count files', 10, ':count файлов', array(':count' => 10)),
-			array('ru', ':count files', 12, ':count файлов', array(':count' => 12)),
-			array('ru', ':count files', 112, ':count файлов', array(':count' => 112)),
-			array('ru', ':count files', 122, ':count файла', array(':count' => 122)),
-			array('ru', ':count files', 1.46, ':count файла', array(':count' => 1.46)),
-		);
-	}
-
-	/**
-	 * Test `I18n::plural()` and `___()`
-	 * 
-	 * @dataProvider   provider_plural
-	 * @param  string  $lang
-	 * @param  string  $string
-	 * @param  mixed   $count
-	 * @param  mixed   $key
-	 * @param  string  $expect
-	 * @param  array   $parameters
-	 */
-	public function test_plural($lang, $string, $count, $expect, $parameters = array())
-	{
-		// Pass `$lang` parameter
-		$this->assertEquals($expect, I18n_Core::plural($string, $count, $lang));
-		// Let language be determined from `I18n::$lang`
-		I18n::lang($lang);
-		$this->assertEquals($expect, I18n_Core::plural($string, $count));
-		// Test using `___()` function
-		$this->assertEquals(strtr($expect, $parameters), ___($string, $count, $parameters));
-	}
-
-	/**
-	 * @return  array
-	 */
-	public function provider_array_merge()
-	{
-		return array(
-			// Simple example
 			array(
-				array('one' => array('ein' => 'NULL')),
-				array('two' => array('zwei' => 'NULL')),
-				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
+				array(
+					'bem', 'brx', 'da', 'de', 'el', 'en', 'eo', 'es', 'et', 'fi', 'fo', 'gl', 'he', 'iw', 'it', 'nb',
+					'nl', 'nn', 'no', 'sv', 'af', 'bg', 'bn', 'ca', 'eu', 'fur', 'fy', 'gu', 'ha', 'is', 'ku',
+					'lb', 'ml', 'mr', 'nah', 'ne', 'om', 'or', 'pa', 'pap', 'ps', 'so', 'sq', 'sw', 'ta', 'te',
+					'tk', 'ur', 'zu', 'mn', 'gsw', 'chr', 'rm', 'pt',
+				),
+				'\I18n_Plural_One',
 			),
-			// Example of simple overwriting scalar value with scalar value
 			array(
-				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
-				array('two' => array('zwei' => 'TRUE')),
-				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'TRUE')),
+				array('cs', 'sk'),
+				'\I18n_Plural_Czech',
 			),
-			// Example of overwriting array with scalar value
 			array(
-				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
-				array('two' => 'zwei'),
-				array('one' => array('ein' => 'NULL'), 'two' => 'zwei'),
+				array('ff', 'fr', 'kab'),
+				'\I18n_Plural_French',
 			),
-			// Example of overwriting scalar value with array
 			array(
-				array('one' => array('ein' => 'NULL'), 'two' => 'zwei'),
-				array('two' => array('zwei' => 'NULL')),
-				array('one' => array('ein' => 'NULL'), 'two' => array('zwei' => 'NULL')),
+				array('hr', 'ru', 'sr', 'uk', 'be', 'bs', 'sh'),
+				'\I18n_Plural_Balkan',
+			),
+			array(
+				array('lv'),
+				'\I18n_Plural_Latvian',
+			),
+			array(
+				array('lt'),
+				'\I18n_Plural_Lithuanian',
+			),
+			array(
+				array('pl'),
+				'\I18n_Plural_Polish',
+			),
+			array(
+				array('ro', 'mo'),
+				'\I18n_Plural_Romanian',
+			),
+			array(
+				array('sl'),
+				'\I18n_Plural_Slovenian',
+			),
+			array(
+				array('ar'),
+				'\I18n_Plural_Arabic',
+			),
+			array(
+				array('mk'),
+				'\I18n_Plural_Macedonian',
+			),
+			array(
+				array('cy'),
+				'\I18n_Plural_Welsh',
+			),
+			array(
+				array('br'),
+				'\I18n_Plural_Breton',
+			),
+			array(
+				array('lag'),
+				'\I18n_Plural_Langi',
+			),
+			array(
+				array('shi'),
+				'\I18n_Plural_Tachelhit',
+			),
+			array(
+				array('mt'),
+				'\I18n_Plural_Maltese',
+			),
+			array(
+				array('ga', 'se', 'sma', 'smi', 'smj', 'smn', 'sms'),
+				'\I18n_Plural_Two',
+			),
+			array(
+				array('ak', 'am', 'bh', 'fil', 'tl', 'guw', 'hi', 'ln', 'mg', 'nso', 'ti', 'wa'),
+				'\I18n_Plural_Zero',
+			),
+			array(
+				array(
+					'az', 'bm', 'fa', 'ig', 'hu', 'ja', 'kde', 'kea', 'ko', 'my', 'ses', 'sg', 'to',
+					'tr', 'vi', 'wo', 'yo', 'zh', 'bo', 'dz', 'id', 'jv', 'ka', 'km', 'kn', 'ms', 'th',
+				),
+				'\I18n_Plural_None',
 			),
 		);
 	}
 
 	/**
-	 * Tests translations merging
-	 * 
-	 * @dataProvider  provider_array_merge
-	 * @param  array  $array1
-	 * @param  array  $array2
-	 * @param  array  $expect
+	 * @dataProvider  provide_invalid_plural_rules
 	 */
-	public function test_array_merge($array1, $array2, $expect)
+	public function test_invalid_instance($lang)
 	{
-		// Test the `Arr::merge()` does the job for us
-		$this->assertEquals($expect, Arr::merge($array1, $array2));
+		$this->setExpectedException('\InvalidArgumentException');
+		$this->object = new \I18n_Core($this->reader_test_factory());
+		$this->invoke_plural_rules($lang);
 	}
+
+	public function provide_invalid_plural_rules()
+	{
+		return array(
+			array('xx'),
+			array(NULL),
+			array(TRUE),
+			array(FALSE),
+			array(0),
+			array(100),
+			array(-3.14),
+		);
+	}
+
+	/**
+	 * @dataProvider  provide_instance
+	 */
+	public function test_instance($reader, $expected)
+	{
+		if ($reader !== NULL)
+		{
+			new \I18n_Core($reader);
+		}
+		if ($expected instanceof \Exception)
+		{
+			$this->setExpectedException(get_class($expected));
+		}
+		$this->object = \I18n_Core::instance();
+		$this->assertInstanceOf($expected, $this->object);
+	}
+
+	public function provide_instance()
+	{
+		return array(
+			array(NULL, new \RuntimeException('')),
+			array($this->reader_mock_factory(), '\I18n_Core'),
+		);
+	}
+
+	/**
+	 * @dataProvider  provide_construct
+	 */
+	public function test_construct($reader)
+	{
+		$this->object = new \I18n_Core($reader);
+		$this->assertSame(\I18n_Core::instance(), $this->object);
+	}
+
+	public function provide_construct()
+	{
+		return array(
+			array($this->reader_mock_factory()),
+		);
+	}
+
+	public function tearDown()
+	{
+		if ($this->object)
+		{
+			$this->object->__destruct();
+		}
+	}
+
+	private function reader_mock_factory()
+	{
+		return $this->getMock('\I18n_Reader_Interface', array('get'));
+	}
+
+	private function reader_test_factory()
+	{
+		return new Tests\Reader;
+	}
+
+	private function rules_test_factory()
+	{
+		return new Tests\Rules;
+	}
+
+	private function invoke_plural_rules($lang)
+	{
+		$plural_rules = new \ReflectionMethod($this->object, 'plural_rules');
+		$plural_rules->setAccessible(TRUE);
+		return $plural_rules->invoke($this->object, $lang);
+	}
+
 }
