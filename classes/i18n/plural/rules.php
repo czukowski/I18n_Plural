@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Base I18n_Plural_Rules class
+ * Interface for I18n_Plural Rules
  *
  * @package    I18n_Plural
  * @category   Plural Rules
@@ -8,13 +8,13 @@
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
  */
-abstract class I18n_Plural_Rules
+interface I18n_Plural_Interface
 {
 	/**
-	 * Returns category key
+	 * Returns category key by count
 	 * 
 	 * @param   integer  $count
 	 * @return  string
 	 */
-	abstract public function get_category($count);
+	public function get_category($count);
 }

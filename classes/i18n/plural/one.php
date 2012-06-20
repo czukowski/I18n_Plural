@@ -78,7 +78,7 @@
  * @license    MIT License
  *
  */
-class I18n_Plural_One extends I18n_Plural_Rules
+class I18n_Plural_One implements I18n_Plural_Interface
 {
 	public function get_category($count)
 	{

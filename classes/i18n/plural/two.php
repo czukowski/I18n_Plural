@@ -29,7 +29,7 @@
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
  */
-class I18n_Plural_Two extends I18n_Plural_Rules
+class I18n_Plural_Two implements I18n_Plural_Interface
 {
 	public function get_category($count)
 	{
