@@ -15,7 +15,7 @@ class I18n_Reader_Kohana implements I18n_Reader_Interface {
 	/**
 	 * @param  string  $directory
 	 */
-	public function __construct($directory)
+	public function __construct($directory = 'i18n')
 	{
 		$this->directory = $directory;
 	}
