@@ -53,11 +53,46 @@ class I18n_Core
 	}
 
 	/**
+	 * Translation/internationalization function with context support.
+	 * The PHP function [strtr](http://php.net/strtr) is used for replacing parameters.
+	 * 
+	 *    $i18n->translate(':count user is online', 1000, array(':count' => 1000));
+	 *    // 1000 users are online
+	 * 
+	 * @param   string  $string   String to translate
+	 * @param   mixed   $context  String form or numeric count
+	 * @param   array   $values   Param values to insert
+	 * @param   string  $lang     Target language
+	 * @return  string
+	 */
+	public function translate($string, $context = 0, $values = NULL, $lang = NULL)
+	{
+		if (is_array($context) AND ! is_array($values))
+		{
+			// Assume no form is specified and the 2nd argument are parameters
+			$lang = $values;
+			$values = $context;
+			$context = 0;
+		}
+		if (is_numeric($context))
+		{
+			// Get plural form
+			$string = $this->plural($string, $context, $lang);
+		}
+		else
+		{
+			// Get custom form
+			$string = $this->form($string, $context, $lang);
+		}
+		return empty($values) ? $string : strtr($string, $values);
+	}
+
+	/**
 	 * Returns specified form of a string translation. If no translation exists, the original string will be
 	 * returned. No parameters are replaced.
 	 * 
-	 *     $hello = $i18n->form('I\'ve met :name, he is my friend now.', 'f');
-	 *     // 'I\'ve met :name, she is my friend now.'
+	 *     $hello = $i18n->form('I\'ve met :name, he is my friend now.', 'fem');
+	 *     // I've met :name, she is my friend now.
 	 * 
 	 * @param   string  $string
 	 * @param   string  $form, if NULL, looking for 'other' form, else the very first form
@@ -87,7 +122,7 @@ class I18n_Core
 	 * returned. No parameters are replaced.
 	 * 
 	 *     $hello = $i18n->plural('Hello, my name is :name and I have :count friend.', 10);
-	 *     // 'Hello, my name is :name and I have :count friends.'
+	 *     // Hello, my name is :name and I have :count friends.
 	 * 
 	 * @param   string  $string
 	 * @param   mixed   $count

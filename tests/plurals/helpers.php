@@ -17,25 +17,26 @@ class Reader implements \I18n_Reader_Interface {
 
 	public $translations = array(
 		'en' => array(
-			'person' => array(
-				'some' => 'person',
-				'mr' => 'man',
-				'ms' => 'woman',
+			':title person' => array(
+				'some' => ':title person',
+				'mr' => ':title man',
+				'ms' => ':title woman',
 			),
-			'countable' => array(
-				'zero' => 'No countables',
-				'one' => 'One countable',
-				'two' => 'Two countables',
-				'three' => 'Three countables',
-				'other' => 'Many countables',
+			':count countable' => array(
+				'zero' => ':count countables',
+				'one' => ':count countable',
+				'two' => ':count countables',
+				'three' => ':count countables',
+				'other' => ':count countables',
 			),
 		),
 		'cs' => array(
-			'person' => array(
-				'mr' => 'muž',
-				'ms' => 'žena',
-				'other' => 'člověk',
+			':title person' => array(
+				'mr' => ':title muž',
+				'ms' => ':title žena',
+				'other' => ':title člověk',
 			),
+			'something :what' => 'něco :what',
 		),
 	);
 

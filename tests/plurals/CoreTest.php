@@ -14,6 +14,80 @@ use Plurals\Tests;
 class I18n_Core_Test extends I18n_Testcase {
 
 	/**
+	 * @dataProvider  provide_translate
+	 */
+	public function test_translate($expected, $key, $context, $values, $lang)
+	{
+		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->reader_test_factory()));
+		$this->object->expects($this->any())
+			->method('plural_rules')
+			->will($this->returnValue($this->rules_test_factory()));
+		$actual = $this->object->translate($key, $context, $values, $lang);
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function provide_translate()
+	{
+		// [expected, key, context, values, lang]
+		$provider = array_merge($this->provide_form_translation(), $this->provide_plural_translation(), $this->provide_unknown_translation());
+		// Note: $three_arguments has intentionally skewed arguments to test translation without context
+		$three_arguments = array(
+			array('something different', 'something :what', array(':what' => 'different'), 'en', NULL),
+			array('něco jiného', 'something :what', array(':what' => 'jiného'), 'cs', NULL),
+		);
+		return array_merge($three_arguments, array_map(array($this, 'map_translate_provider'), $provider));
+	}
+
+	public function map_translate_provider($item) {
+		return array($item[1], $item[2], $item[3], $item[4], $item[5]);
+	}
+
+	public function provide_form_translation()
+	{
+		// [expectedForm, expectedTranslate, string, context, values, lang]
+		return array(
+			// 'mr' form
+			array(':title man', 'This man', ':title person', 'mr', array(':title' => 'This'), 'en'),
+			// 'ms' form
+			array(':title woman', 'That woman', ':title person', 'ms', array(':title' => 'That'), 'en'),
+			// 'some' form
+			array(':title person', 'A person', ':title person', 'some', array(':title' => 'A'), 'en'),
+			// 'other' doesn't exist, first form - 'some' - used
+			array(':title person', 'Another person', ':title person', 'other', array(':title' => 'Another'), 'en'),
+			// 'mr' form
+			array(':title muž', 'Tamten muž', ':title person', 'mr', array(':title' => 'Tamten'), 'cs'),
+			// assumed 'other'
+			array(':title člověk', 'Tento člověk', ':title person', NULL, array(':title' => 'Tento'), 'cs'),
+			// 'some' doesn't exist and there's 'other'
+			array(':title člověk', 'Nějaký člověk', ':title person', 'some', array(':title' => 'Nějaký'), 'cs'),
+		);
+	}
+
+	public function provide_plural_translation()
+	{
+		// [expectedPlural, expectedTranslate, string, context, values, lang]
+		return array(
+			array(':count countables', 'No countables', ':count countable', 0, array(':count' => 'No'), 'en'),
+			array(':count countable', 'A countable', ':count countable', 1, array(':count' => 'A'), 'en'),
+			array(':count countables', 'Two countables', ':count countable', 2, array(':count' => 'Two'), 'en'),
+			array(':count countables', 'Three countables', ':count countable', 3, array(':count' => 'Three'), 'en'),
+			array(':count countables', 'Four countables', ':count countable', 4, array(':count' => 'Four'), 'en'),
+			array(':count countables', 'Many countables', ':count countable', 100, array(':count' => 'Many'), 'en'),
+		);
+	}
+
+	public function provide_unknown_translation()
+	{
+		// [expectedPlural, expectedTranslate, string, context, values, lang]
+		return array(
+			// non-existing translation
+			array('unknown', 'unknown', 'unknown', NULL, NULL, NULL),
+			array('unknown', 'unknown', 'unknown', NULL, NULL, 'en'),
+			array('unknown', 'unknown', 'unknown', NULL, NULL, 'cs'),
+		);
+	}
+
+	/**
 	 * @dataProvider  provide_form
 	 */
 	public function test_form($expected, $key, $form, $lang)
@@ -25,26 +99,9 @@ class I18n_Core_Test extends I18n_Testcase {
 
 	public function provide_form()
 	{
-		return array(
-			// non-existing translation
-			array('unknown', 'unknown', NULL, NULL),
-			array('unknown', 'unknown', NULL, 'en'),
-			array('unknown', 'unknown', NULL, 'cs'),
-			// 'mr' form
-			array('man', 'person', 'mr', 'en'),
-			// 'ms' form
-			array('woman', 'person', 'ms', 'en'),
-			// 'some' form
-			array('person', 'person', 'some', 'en'),
-			// 'other' doesn't exist, first form - 'some' - used
-			array('person', 'person', 'other', 'en'),
-			// 'mr' form
-			array('muž', 'person', 'mr', 'cs'),
-			// assumed 'other'
-			array('člověk', 'person', NULL, 'cs'),
-			// 'some' doesn't exist and there's 'other'
-			array('člověk', 'person', 'some', 'cs'),
-		);
+		// [expected, key, form, lang]
+		$provider = array_merge($this->provide_form_translation(), $this->provide_unknown_translation());
+		return array_map(array($this, 'map_context_provider'), $provider);
 	}
 
 	/**
@@ -62,19 +119,13 @@ class I18n_Core_Test extends I18n_Testcase {
 
 	public function provide_plural()
 	{
-		return array(
-			// non-existing translation
-			array('unknown', 'unknown', 1, NULL),
-			array('unknown', 'unknown', 0, 'en'),
-			array('unknown', 'unknown', 1.1, 'cs'),
-			// non-existing translation
-			array('No countables', 'countable', 0, 'en'),
-			array('One countable', 'countable', 1, 'en'),
-			array('Two countables', 'countable', 2, 'en'),
-			array('Three countables', 'countable', 3, 'en'),
-			array('Many countables', 'countable', 4, 'en'),
-			array('Many countables', 'countable', 100, 'en'),
-		);
+		// [expected, key, form, lang]
+		$provider = array_merge($this->provide_plural_translation(), $this->provide_unknown_translation());
+		return array_map(array($this, 'map_context_provider'), $provider);
+	}
+
+	public function map_context_provider($item) {
+		return array($item[0], $item[2], $item[3], $item[5]);
 	}
 
 	/**
