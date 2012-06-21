@@ -15,8 +15,11 @@
  */
 function ___($string, $context = 0, $values = NULL, $lang = NULL)
 {
-	return I18n_Core::instance()->translate($string, $context, $values, $lang);
+	static $i18n;
+	if ($i18n === NULL)
+	{
+		// Initialize I18n_Core object
+		$i18n = new I18n_Core(new I18n_Reader_Kohana);
+	}
+	return $i18n->translate($string, $context, $values, $lang);
 }
-
-// Initialize I18n_Core object. It'll be then accessible via `I18n_Core::instance()`
-new I18n_Core(new I18n_Reader_Kohana);

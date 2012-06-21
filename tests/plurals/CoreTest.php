@@ -268,60 +268,6 @@ class I18n_Core_Test extends I18n_Testcase {
 		);
 	}
 
-	/**
-	 * @dataProvider  provide_instance
-	 */
-	public function test_instance($reader, $expected)
-	{
-		if ($reader !== NULL)
-		{
-			new \I18n_Core($reader);
-		}
-		if ($expected instanceof \Exception)
-		{
-			$this->setExpectedException(get_class($expected));
-		}
-		$this->object = \I18n_Core::instance();
-		$this->assertInstanceOf($expected, $this->object);
-	}
-
-	public function provide_instance()
-	{
-		return array(
-			array(NULL, new \RuntimeException('')),
-			array($this->reader_mock_factory(), '\I18n_Core'),
-		);
-	}
-
-	/**
-	 * @dataProvider  provide_construct
-	 */
-	public function test_construct($reader)
-	{
-		$this->object = new \I18n_Core($reader);
-		$this->assertSame(\I18n_Core::instance(), $this->object);
-	}
-
-	public function provide_construct()
-	{
-		return array(
-			array($this->reader_mock_factory()),
-		);
-	}
-
-	public function tearDown()
-	{
-		if ($this->object)
-		{
-			$this->object->__destruct();
-		}
-	}
-
-	private function reader_mock_factory()
-	{
-		return $this->getMock('\I18n_Reader_Interface', array('get'));
-	}
-
 	private function reader_test_factory()
 	{
 		return new Tests\Reader;

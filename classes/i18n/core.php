@@ -9,7 +9,6 @@
  */
 class I18n_Core
 {
-	private static $instance;
 	/**
 	 * @var  I18n_Reader_Interface
 	 */
@@ -20,20 +19,6 @@ class I18n_Core
 	private $rules = array();
 
 	/**
-	 * Singleton access
-	 * 
-	 * @return  I18n_Core
-	 */
-	public static function instance()
-	{
-		if (self::$instance !== NULL)
-		{
-			return self::$instance;
-		}
-		throw new RuntimeException('I18n_Core is not initialized');
-	}
-
-	/**
 	 * Class constructor enables singleton access
 	 * 
 	 * @param  I18n_Reader_Interface  $reader
@@ -41,15 +26,6 @@ class I18n_Core
 	public function __construct(I18n_Reader_Interface $reader)
 	{
 		$this->reader = $reader;
-		self::$instance = $this;
-	}
-
-	/**
-	 * Class destructor removes the singleton access
-	 */
-	public function __destruct()
-	{
-		self::$instance = NULL;
 	}
 
 	/**
