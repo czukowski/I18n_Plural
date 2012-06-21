@@ -21,5 +21,9 @@ function ___($string, $context = 0, $values = NULL, $lang = NULL)
 		// Initialize I18n_Core object
 		$i18n = new I18n_Core(new I18n_Reader_Kohana);
 	}
+	if ($lang === NULL)
+	{
+		$lang = I18n::lang();
+	}
 	return $i18n->translate($string, $context, $values, $lang);
 }
