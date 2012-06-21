@@ -217,18 +217,18 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 		I18n::lang($lang);
 
 		// Short month ("Jan", "Feb")
-		$months_abbr = I18n::form('date.months', 'abbr');
+		$months_abbr = ___('date.months', 'abbr');
 		$this->assertTrue(is_array($months_abbr));
 		$this->assertEquals($months_abbr[$month], Date::format($date, '%b'));
 
 		// Full month ("January")
-		$months_full = I18n::form('date.months');
+		$months_full = ___('date.months');
 		$this->assertTrue(is_array($months_full));
 		$this->assertEquals($months_full[$month], Date::format($date, '%B'));
 
 		// Full month in the genitive case, applies to some languages, doesn't
 		// affect other (e.g. 'Январь' -> 'Января')
-		$months_gen = I18n::form('date.months', 'gen');
+		$months_gen = ___('date.months', 'gen');
 		$this->assertTrue(is_array($months_gen));
 		$this->assertEquals($months_gen[$month], Date::format($date, '%C'));
 	}
@@ -295,17 +295,17 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 		I18n::lang($lang);
 
 		// Short day ("Mon", "Tue")
-		$days_abbr = I18n::form('date.days', 'abbr');
+		$days_abbr = ___('date.days', 'abbr');
 		$this->assertTrue(is_array($days_abbr));
 		$this->assertEquals($days_abbr[$weekday], Date::format($date, '%a'));
 
 		// Full day ("Monday")
-		$days_full = I18n::form('date.days');
+		$days_full = ___('date.days');
 		$this->assertTrue(is_array($days_full));
 		$this->assertEquals($days_full[$weekday], Date::format($date, '%A'));
 
 		// Accusative case of week day name
-		$days_acc = I18n::form('date.days', 'acc');
+		$days_acc = ___('date.days', 'acc');
 		$this->assertTrue(is_array($days_acc));
 		$this->assertEquals($days_acc[$weekday], Date::format($date, '%N'));
 	}

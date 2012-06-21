@@ -46,7 +46,7 @@ class I18n_Date_Format extends Kohana_Date
 			throw new Kohana_Exception('Unsupported time format');
 		}
 
-		$this->_formats = Kohana::config('plurals.date_formats');
+		$this->_formats = Kohana::$config->load('plurals.date_formats');
 	}
 
 	/**
@@ -162,7 +162,7 @@ class I18n_Date_Format extends Kohana_Date
 	 */
 	protected function _get_item($index, $path, $form = NULL)
 	{
-		$string = I18n::form('date.'.$path, $form);
+		$string = ___('date.'.$path, $form);
 		return $string[$index];
 	}
 }
