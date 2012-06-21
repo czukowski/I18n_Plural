@@ -3,19 +3,27 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
- * 
- * @group plurals
+ * @group      plurals
  */
-class I18n_Date_Test extends I18n_Unittest_Date
+class I18n_Date_Test extends I18n_Testcase
 {
+	private $reference_time;
+
 	/**
-	 * Provides time spans with the expected translations
+	 * Tests Date::fuzzy_span output
 	 * 
-	 * @var  array
+	 * @dataProvider  provide_fuzzy_span
 	 */
-	public function provider_fuzzy_span()
+	public function test_fuzzy_span($lang, $time_diff, $expect)
+	{
+		\I18n::lang($lang);
+		$this->assertEquals($expect, \Date::fuzzy_span($this->reference_time + $time_diff, $this->reference_time));
+		$this->assertEquals($expect, \Date::fuzzy_span(time() + $time_diff));
+	}
+
+	public function provide_fuzzy_span()
 	{
 		return array(
 			array('en', 0, 'less than a minute ago'),
@@ -53,26 +61,17 @@ class I18n_Date_Test extends I18n_Unittest_Date
 	}
 
 	/**
-	 * Tests Date::fuzzy_span output
+	 * Tests Date::fuzzy_span output_from_empty
 	 * 
-	 * @dataProvider    provider_fuzzy_span
-	 * @param  string   $lang
-	 * @param  integer  $time_diff
-	 * @param  string   $expect
+	 * @dataProvider  provide_fuzzy_span_from_empty
 	 */
-	public function test_fuzzy_span($lang, $time_diff, $expect)
+	public function test_fuzzy_span_from_empty($lang, $expect)
 	{
-		I18n::lang($lang);
-		$this->assertEquals($expect, Date::fuzzy_span($this->ref + $time_diff, $this->ref));
-		$this->assertEquals($expect, Date::fuzzy_span(time() + $time_diff));
+		\I18n::lang($lang);
+		$this->assertEquals($expect, \Date::fuzzy_span(NULL));
 	}
 
-	/**
-	 * Provides time spans with the expected translations
-	 * 
-	 * @var  array
-	 */
-	public function provider_fuzzy_span_from_empty()
+	public function provide_fuzzy_span_from_empty()
 	{
 		return array(
 			array('en', 'never'),
@@ -80,18 +79,9 @@ class I18n_Date_Test extends I18n_Unittest_Date
 		);
 	}
 
-	/**
-	 * Tests Date::fuzzy_span output_from_empty
-	 * 
-	 * @dataProvider    provider_fuzzy_span_from_empty
-	 * @param  string   $lang
-	 * @param  string   $expect
-	 */
-	public function test_fuzzy_span_from_empty($lang, $expect)
+	public function setUp()
 	{
-		I18n::lang($lang);
-		$this->assertEquals($expect, Date::fuzzy_span(NULL));
+		$this->reference_time = time();
+		parent::setUp();
 	}
-
-	
 }
