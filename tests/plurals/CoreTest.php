@@ -92,7 +92,6 @@ class I18n_Core_Test extends I18n_Testcase {
 	 */
 	public function test_form($expected, $key, $form, $lang)
 	{
-		$this->object = new \I18n_Core($this->reader_test_factory());
 		$actual = $this->object->form($key, $form, $lang);
 		$this->assertEquals($expected, $actual);
 	}
@@ -133,7 +132,6 @@ class I18n_Core_Test extends I18n_Testcase {
 	 */
 	public function test_plural_rules($lang, $class_name)
 	{
-		$this->object = new \I18n_Core($this->reader_test_factory());
 		$instance1 = $this->invoke_plural_rules($lang);
 		$instance2 = $this->invoke_plural_rules($lang);
 		$this->assertInstanceOf($class_name, $instance1);
@@ -268,6 +266,11 @@ class I18n_Core_Test extends I18n_Testcase {
 		);
 	}
 
+	protected function object_constructor_arguments()
+	{
+		return array($this->reader_test_factory());
+	}
+
 	private function reader_test_factory()
 	{
 		return new Tests\Reader;
@@ -284,5 +287,4 @@ class I18n_Core_Test extends I18n_Testcase {
 		$plural_rules->setAccessible(TRUE);
 		return $plural_rules->invoke($this->object, $lang);
 	}
-
 }

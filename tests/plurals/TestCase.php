@@ -20,4 +20,16 @@ abstract class I18n_Testcase extends Kohana_Unittest_Testcase
 	{
 		\I18n::lang(self::$initial_lang);
 	}
+
+	public function setUp()
+	{
+		$class = new \ReflectionClass(preg_replace('#_Test$#', '', get_class($this)));
+		$this->object = $class->newInstanceArgs($this->object_constructor_arguments());
+		parent::setUp();
+	}
+
+	protected function object_constructor_arguments()
+	{
+		return array();
+	}
 }
