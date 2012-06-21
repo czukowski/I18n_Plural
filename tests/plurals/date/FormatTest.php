@@ -1,43 +1,21 @@
 <?php
 /**
- * @group plurals
- * @group plurals.date
+ * @package    Plurals
+ * @category   Unit tests
+ * @author     Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
+ * @license    MIT License
+ * @group      plurals
+ * @group      plurals.date
  */
-class I18n_Date_Format_Test extends I18n_Unittest_Date
+class I18n_Date_Format_Test extends I18n_Testcase
 {
 	/**
-	 * Provides some random dates
+	 * Test common date formats are same across all languages
 	 * 
-	 * @erturn  array
+	 * @dataProvider  provide_random_dates
 	 */
-	public function provider_random_dates()
-	{
-		$provide = array();
-		$providers = array(
-			$this->provider_am_pm_dates(),
-			$this->provider_months_dates(),
-			$this->provider_weekday_dates(),
-			$this->provider_yearday_dates(),
-		);
-		foreach ($providers as $provider)
-		{
-			foreach ($provider as $item)
-			{
-				$provide[] = array($item[0]);
-			}
-		}
-		return $this->_combine_providers($provide, $this->provider_languages());
-	}
-
-	/**
-	 * Tests common date formats are same across all languages
-	 * 
-	 * @test
-	 * @dataProvider provider_random_dates
-	 * @param  string   $date
-	 * @param  string   $lang
-	 */
-	public function test_neutral_date_format($date, $lang)
+	public function test_neutral_date_format($date, $unused, $lang)
 	{
 		$time = strtotime($date);
 		I18n::lang($lang);
@@ -112,14 +90,11 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 	}
 
 	/**
-	 * Tests common date formats are same acroll all languages
+	 * Test common date formats are same acroll all languages
 	 * 
-	 * @test
-	 * @dataProvider provider_random_dates
-	 * @param  string   $date
-	 * @param  string   $lang
+	 * @dataProvider provide_random_dates
 	 */
-	public function test_named_date_format($date, $lang)
+	public function test_named_date_format($date, $unused, $lang)
 	{
 		$time = strtotime($date);
 		I18n::lang($lang);
@@ -133,30 +108,20 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 		$this->assertEquals(date('r', $time), Date::format($date, 'rfc2822'));
 	}
 
-	/**
-	 * Provides dates with different months
-	 * 
-	 * @return array
-	 */
-	public function provider_am_pm_dates()
+	public function provide_random_dates()
 	{
-		$provide = array(
-			array('2011-09-03 01:20:30', 'am'),
-			array('2011-09-03 00:00:00', 'am'),
-			array('2011-09-03 12:00:00', 'pm'),
-			array('2011-09-03 23:59:59', 'pm'),
+		return array_merge(
+			$this->provide_am_pm_dates(),
+			$this->provide_months_dates(),
+			$this->provide_weekday_dates(),
+			$this->provide_yearday_dates()
 		);
-		return $this->_combine_providers($provide, $this->provider_languages());
 	}
 
 	/**
 	 * Tests simple local AM/PM formats return the expected values
 	 * 
-	 * @test
-	 * @dataProvider provider_am_pm_dates
-	 * @param  string   $date
-	 * @param  integer  $abbr
-	 * @param  string   $lang
+	 * @dataProvider  provide_am_pm_dates
 	 */
 	public function test_local_am_pm_format($date, $abbr, $lang)
 	{
@@ -166,12 +131,45 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 		$this->assertEquals(___('date.'.$abbr), Date::format($date, '%p'));
 	}
 
+	public function provide_am_pm_dates()
+	{
+		$provide = array(
+			array('2011-09-03 01:20:30', 'am'),
+			array('2011-09-03 00:00:00', 'am'),
+			array('2011-09-03 12:00:00', 'pm'),
+			array('2011-09-03 23:59:59', 'pm'),
+		);
+		return $this->_combine_providers($provide, $this->provide_languages());
+	}
+
 	/**
-	 * Provides dates with different months
+	 * Tests simple local month formats return the expected values
 	 * 
-	 * @return array
+	 * @dataProvider  provide_months_dates
 	 */
-	public function provider_months_dates()
+	public function test_local_month_format($date, $month, $lang)
+	{
+		// Set language
+		I18n::lang($lang);
+
+		// Short month ("Jan", "Feb")
+		$months_abbr = ___('date.months', 'abbr');
+		$this->assertTrue(is_array($months_abbr));
+		$this->assertEquals($months_abbr[$month], Date::format($date, '%b'));
+
+		// Full month ("January")
+		$months_full = ___('date.months');
+		$this->assertTrue(is_array($months_full));
+		$this->assertEquals($months_full[$month], Date::format($date, '%B'));
+
+		// Full month in the genitive case, applies to some languages, doesn't
+		// affect other (e.g. 'Январь' -> 'Января')
+		$months_gen = ___('date.months', 'gen');
+		$this->assertTrue(is_array($months_gen));
+		$this->assertEquals($months_gen[$month], Date::format($date, '%C'));
+	}
+
+	public function provide_months_dates()
 	{
 		$provide = array(
 			// January
@@ -199,74 +197,13 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 			// December
 			array('2011-12-03 23:02:02', 11),
 		);
-		return $this->_combine_providers($provide, $this->provider_languages());
-	}
-
-	/**
-	 * Tests simple local month formats return the expected values
-	 * 
-	 * @test
-	 * @dataProvider provider_months_dates
-	 * @param  string   $date
-	 * @param  integer  $month
-	 * @param  string   $lang
-	 */
-	public function test_local_month_format($date, $month, $lang)
-	{
-		// Set language
-		I18n::lang($lang);
-
-		// Short month ("Jan", "Feb")
-		$months_abbr = ___('date.months', 'abbr');
-		$this->assertTrue(is_array($months_abbr));
-		$this->assertEquals($months_abbr[$month], Date::format($date, '%b'));
-
-		// Full month ("January")
-		$months_full = ___('date.months');
-		$this->assertTrue(is_array($months_full));
-		$this->assertEquals($months_full[$month], Date::format($date, '%B'));
-
-		// Full month in the genitive case, applies to some languages, doesn't
-		// affect other (e.g. 'Январь' -> 'Января')
-		$months_gen = ___('date.months', 'gen');
-		$this->assertTrue(is_array($months_gen));
-		$this->assertEquals($months_gen[$month], Date::format($date, '%C'));
-	}
-
-	/**
-	 * Provides dates with different week days
-	 * 
-	 * @return array
-	 */
-	public function provider_weekday_dates()
-	{
-		$provide = array(
-			// Sunday
-			array('2011-11-06 21:45:32', 0),
-			// Monday
-			array('2011-06-06 11:16:37', 1),
-			// Tuesday
-			array('2011-09-06 01:28:56', 2),
-			// Wednesday
-			array('2011-07-06 02:36:03', 3),
-			// Thursday
-			array('2011-10-06 22:35:49', 4),
-			// Friday
-			array('2011-05-06 12:50:24', 5),
-			// Saturday
-			array('2011-08-06 23:59:59', 6),
-		);
-		return $this->_combine_providers($provide, $this->provider_languages());
+		return $this->_combine_providers($provide, $this->provide_languages());
 	}
 
 	/**
 	 * Tests simple language-neutral weekday formats return the expected values
 	 * 
-	 * @test
-	 * @dataProvider provider_weekday_dates
-	 * @param  string   $date
-	 * @param  integer  $weekday
-	 * @param  string   $lang
+	 * @dataProvider  provide_weekday_dates
 	 */
 	public function test_neutral_weekday_format($date, $weekday, $lang)
 	{
@@ -284,11 +221,7 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 	/**
 	 * Tests simple local weekday formats return the expected values
 	 * 
-	 * @test
-	 * @dataProvider provider_weekday_dates
-	 * @param  string   $date
-	 * @param  integer  $weekday
-	 * @param  string   $lang
+	 * @dataProvider  provide_weekday_dates
 	 */
 	public function test_local_weekday_format($date, $weekday, $lang)
 	{
@@ -311,32 +244,35 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 	}
 
 	/**
-	 * Provides dates with different year days
+	 * Provides dates with different week days
 	 * 
 	 * @return array
 	 */
-	public function provider_yearday_dates()
+	public function provide_weekday_dates()
 	{
 		$provide = array(
-			array('2010-11-09 16:48:01', 312, 45),
-			array('2011-03-23 18:50:09', 81, 12),
-			array('2013-02-14 23:36:11', 44, 7),
-			array('2009-07-21 19:37:19', 201, 30),
-			array('2011-12-31 05:26:59', 364, 52),
-			array('2014-05-09 11:01:38', 128, 19),
-			array('2012-01-01 06:54:41', 0, 52),
+			// Sunday
+			array('2011-11-06 21:45:32', 0),
+			// Monday
+			array('2011-06-06 11:16:37', 1),
+			// Tuesday
+			array('2011-09-06 01:28:56', 2),
+			// Wednesday
+			array('2011-07-06 02:36:03', 3),
+			// Thursday
+			array('2011-10-06 22:35:49', 4),
+			// Friday
+			array('2011-05-06 12:50:24', 5),
+			// Saturday
+			array('2011-08-06 23:59:59', 6),
 		);
-		return $this->_combine_providers($provide, $this->provider_languages());
+		return $this->_combine_providers($provide, $this->provide_languages());
 	}
 
 	/**
 	 * Tests simple yearday formats return the expected values
 	 * 
-	 * @test
-	 * @dataProvider provider_yearday_dates
-	 * @param  string   $date
-	 * @param  integer  $yearday
-	 * @param  string   $lang
+	 * @dataProvider  provide_yearday_dates
 	 */
 	public function test_yearday_date_format($date, $yearday, $yearweek, $lang)
 	{
@@ -349,5 +285,54 @@ class I18n_Date_Format_Test extends I18n_Unittest_Date
 		// The week to two digits (01 is the week of Jan 1, 52 is the week of Dec 31)
 		$yearweek = str_pad($yearweek, 2, '0', STR_PAD_LEFT);
 		$this->assertEquals($yearweek, Date::format($date, '%U'));
+	}
+
+	/**
+	 * Provides dates with different year days
+	 * 
+	 * @return array
+	 */
+	public function provide_yearday_dates()
+	{
+		$provide = array(
+			array('2010-11-09 16:48:01', 312, 45),
+			array('2011-03-23 18:50:09', 81, 12),
+			array('2013-02-14 23:36:11', 44, 7),
+			array('2009-07-21 19:37:19', 201, 30),
+			array('2011-12-31 05:26:59', 364, 52),
+			array('2014-05-09 11:01:38', 128, 19),
+			array('2012-01-01 06:54:41', 0, 52),
+		);
+		return $this->_combine_providers($provide, $this->provide_languages());
+	}
+
+	public function provide_languages()
+	{
+		return array(
+			array('en'),
+			array('pl'),
+			array('ru'),
+			array('cs'),
+		);
+	}
+
+	/**
+	 * Creates a combination from two data providers
+	 * 
+	 * @param   array  $array1
+	 * @param   array  $array2
+	 * @return  array
+	 */
+	protected function _combine_providers($array1, $array2)
+	{
+		$result = array();
+		foreach ($array2 as $item2)
+		{
+			foreach ($array1 as $item1)
+			{
+				$result[] = array_merge($item1, $item2);
+			}
+		}
+		return $result;
 	}
 }
