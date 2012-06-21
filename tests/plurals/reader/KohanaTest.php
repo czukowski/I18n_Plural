@@ -3,19 +3,15 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
- * 
- * @group plurals
+ * @group      plurals
  */
-class I18n_Reader_Kohana_Test extends I18n_Testcase
-{
-
-	protected $object;
+class I18n_Reader_Kohana_Test extends I18n_Testcase {
 
 	public function setup() {
 		parent::setup();
-		$this->object = new I18n_Reader_Kohana('i18n');
+		$this->object = new \I18n_Reader_Kohana('i18n');
 		\I18n::lang('xx');
 	}
 
@@ -102,7 +98,7 @@ class I18n_Reader_Kohana_Test extends I18n_Testcase
 	public function test_array_merge($array1, $array2, $expect)
 	{
 		// Test the `Arr::merge()` does the job for us
-		$this->assertEquals($expect, Arr::merge($array1, $array2));
+		$this->assertEquals($expect, \Arr::merge($array1, $array2));
 	}
 
 	public function provide_array_merge()
