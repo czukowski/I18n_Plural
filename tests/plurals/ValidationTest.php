@@ -8,13 +8,8 @@
  * 
  * @group plurals
  */
-class I18n_Validation_Test extends I18n_Unittest_Core
+class I18n_Validation_Test extends I18n_Testcase
 {
-	/**
-	 * @var  I18n_Validation
-	 */
-	protected $object;
-
 	/**
 	 * Tests I18n_Validation::errors()
 	 * 
@@ -41,7 +36,7 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	 */
 	public function test_kohana_errors($array, $rules, $labels, $expected)
 	{
-		$this->setup_object($array, $rules, $labels, 'Kohana_Validation');
+		$this->setup_object($array, $rules, $labels, '\Kohana_Validation');
 		$this->_test_errors($expected);
 	}
 
@@ -119,10 +114,10 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 		$this->setup_object($data, $rules, $labels);
 		$this->object->check();
 		// 1) Set lang to $translate and use TRUE as 2nd argument (translate to current language)
-		I18n::lang($translate);
+		\I18n::lang($translate);
 		$this->assertSame($translated_expected, $this->object->errors('Validation', TRUE));
 		// 2) Set lang to non-existing and use $translate as 2nd argument (translate to specific language)
-		I18n::lang('xx-xx');
+		\I18n::lang('xx-xx');
 		$this->assertSame($translated_expected, $this->object->errors('Validation', $translate));
 		// 3) Use FALSE as 2nd argument (do not translate)
 		$this->assertSame($untranslated_expected, $this->object->errors('Validation', FALSE));
@@ -198,15 +193,15 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	/**
 	 * Sets up empty validation object
 	 */
-	protected function setup_empty_object()
+	public function setup_empty_object()
 	{
-		$this->object = new I18n_Validation(array());
+		$this->object = new \I18n_Validation(array());
 	}
 
 	/**
 	 * Setup validation object with mocked `_translate()` method, optionally prefilled with parameters
 	 */
-	protected function setup_object($array = array(), $rules = array(), $labels = array(), $className = 'I18n_Validation')
+	public function setup_object($array = array(), $rules = array(), $labels = array(), $className = '\I18n_Validation')
 	{
 		$this->object = $this->getMock($className, array('_translate'), array($array));
 		$this->object->expects($this->any())
@@ -231,7 +226,7 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 		);
 		if ( ! is_string($lang))
 		{
-			$lang = I18n::lang();
+			$lang = \I18n::lang();
 		}
 		$translated = $key;
 		if (array_key_exists($lang, $dictionary))
@@ -255,9 +250,9 @@ class I18n_Validation_Test extends I18n_Unittest_Core
 	 */
 	public function test_translate($key, $context, $params, $lang, $current_lang, $expected)
 	{
-		I18n::lang($current_lang);
+		\I18n::lang($current_lang);
 		$this->setup_empty_object();
-		$translate = new ReflectionMethod($this->object, '_translate');
+		$translate = new \ReflectionMethod($this->object, '_translate');
 		$translate->setAccessible(TRUE);
 		$actual = $translate->invoke($this->object, $key, $context, $params, $lang);
 		$this->assertEquals($expected, $actual);
