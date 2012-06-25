@@ -21,11 +21,10 @@ abstract class I18n_Testcase extends Kohana_Unittest_Testcase
 		\I18n::lang(self::$initial_lang);
 	}
 
-	public function setUp()
+	public function setup_object()
 	{
-		parent::setUp();
 		$class = new \ReflectionClass(preg_replace('#_Test$#', '', get_class($this)));
-		$this->object = $class->newInstanceArgs($this->_object_constructor_arguments());
+		$this->object = $class->newInstanceArgs($this->_object_constructor_arguments());		
 	}
 
 	protected function _object_constructor_arguments()

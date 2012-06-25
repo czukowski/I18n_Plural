@@ -335,9 +335,4 @@ class I18n_Date_Format_Test extends I18n_Testcase
 		}
 		return $result;
 	}
-
-	protected function object_constructor_arguments()
-	{
-		return array(NULL);
-	}
 }

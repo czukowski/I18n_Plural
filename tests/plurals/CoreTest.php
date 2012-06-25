@@ -266,6 +266,12 @@ class I18n_Core_Test extends I18n_Testcase {
 		);
 	}
 
+	public function setUp()
+	{
+		parent::setUp();
+		$this->setup_object();
+	}
+
 	protected function _object_constructor_arguments()
 	{
 		return array($this->_reader_test_factory());

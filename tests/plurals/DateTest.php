@@ -81,7 +81,7 @@ class I18n_Date_Test extends I18n_Testcase
 
 	public function setUp()
 	{
-		$this->reference_time = time();
 		parent::setUp();
+		$this->reference_time = time();
 	}
 }
