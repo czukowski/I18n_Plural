@@ -14,12 +14,9 @@
  * @group plurals
  * @group plurals.rules
  */
-class I18n_Plural_None_Test extends I18n_Unittest_Plural
+class I18n_Plural_None_Test extends I18n_PluralTestcase
 {
-	/**
-	 * return  array
-	 */
-	public function provider_counts()
+	public function provide_categories()
 	{
 		return array(
 			array(0, 'other'),
