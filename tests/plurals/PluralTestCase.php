@@ -16,6 +16,6 @@ abstract class I18n_PluralTestcase extends I18n_Testcase
 		$actual = $this->object->get_category($count);
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	abstract public function provide_categories();
 }
