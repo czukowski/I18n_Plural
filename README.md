@@ -3,9 +3,7 @@ Introduction
 
 This module has started as a helper class to help achieve accurate language-dependent plural inflections,
 but has grown since into almost complete alternative to Kohana 3.2 I18n system (branches for previous
-Kohana 3.x versions are also available).
-
-**Notice**: this readme is not yet updated to reflect the major API changes in this branch.
+Kohana 3.x versions are also available, although no longer supported).
 
 Current features are:
 
@@ -21,7 +19,7 @@ Why would you want to use this
  * You want to be able to use `___('user.register.complete')`, like in old Kohana 2.3.4 days
  * You also want to use just `___('User password')` for short strings
  * You want to inflect the translations depending on various circumstances, such as user's gender and so on.
- * You want to translate things like `I've scanned X directories and found Y files` accurately to any language.
+ * You want to be able to translate things like `I've scanned X directories and found Y files` accurately to any language.
  * You have some legacy code using original Kohana I18n system and you don't want it to break, and you want
    to reuse some of its translations at the same time.
  * You want to have better `Date::fuzzy_span()` output, with actual numbers, again, in any language.
@@ -121,7 +119,7 @@ module includes all these rules and a function, that converts any number into a 
 language. The possible contexts are `zero`, `one`, `two`, `few`, `many` and `other`. Most languages will
 only have 2-3 of these, and any of them will always have `other` context.
 
-The rules are defined in [these classes](https://github.com/czukowski/I18n_Plural/tree/3.1%2Fmaster/classes/i18n/plural).
+The rules are defined in [these classes](https://github.com/czukowski/I18n_Plural/tree/3.2%2Fmaster/classes/i18n/plural).
 If you don't see your language immediately, try looking into one.php, two.php and other generic names, they
 aggregate a large number of languages, that share same rules. All the files include the rules in human
 readable format and a list of languages they apply to.
@@ -199,8 +197,8 @@ In your code:
 Note, how the 2nd and 3rd translations differ between the languages. For English, it's the same form ('years
 old'), while in Russian the translations are totally different.
 
-Date and time translating
-=========================
+Date and time translating (optional)
+====================================
 
 This part provides date formatting method, which reflects MooTools [Date.format()](http://mootools.net/docs/more/Native/Date#Date:format)
 and better translation. I liked the way MooTools team made date formatting, and especially 'time difference
@@ -269,8 +267,8 @@ Following format shorthands are currrently supported:
 Note: 'header' format and '%g' key are not in MooTools. I've added them for convenience to use with HTTP
 headers, that have dates in them, such as 'Expires' header and so on.
 
-Validation messages translating
-===============================
+Validation messages translating (optional)
+==========================================
 
 This part aims to provide correct inflection of validation messages. To use it in your project, add this
 class to your application folder:
@@ -288,7 +286,7 @@ messages are translated as `valid.{$error}` in the i18n files included with this
 Example
 -------
 
-There are 2 ways of defining validation messages directly in i18n files, avoiding messages files:
+There are two ways of defining validation messages directly in i18n files, avoiding messages files:
 
 i18n/en.php
 
@@ -320,12 +318,10 @@ use it. This is to keep some kind of backward compatibility.
 Installation
 ============
 
-This module has classes, that extend some Kohana native classes and override some of its functions. To
-connect and use them, add these empty classes to your application folder:
+Install it as any other Kohana module, but note the following:
 
-To be able to use structured i18n files (like messages files):
-
-    class I18n extends I18n_Core {}
+This module has optional classes, that extend some Kohana native classes and override some of its functions.
+To connect and use them, add these empty classes to your application folder:
 
 To use custom Date::fuzzy_span():
 
@@ -335,24 +331,12 @@ To use modified Validation::errors() function:
 
     class Validate extends I18n_Validation {}
 
-*Please note*, that you need to have the Kohana modules loaded by the point, where any of these classes
-are called. For example, it is common to find `I18n::lang()` call early in bootstrap.php. You need to move
-that line somewhere after `Kohana::modules()` call or you'll get Class not found errors.
-
 API
 ===
-
-Note: the below reference is not complete yet.
 
 ### init.php
 
 #### function ___($string, $context = 0, $values = NULL, $lang = NULL)
-
-Kohana translation/internationalization function with context support. The PHP function [strtr](http://php.net/strtr)
-is used for replacing parameters.
-
-    ___(':count user is online', 1000, array(':count' => 1000));
-    // 1000 users are online
 
  * @param   string  $string  to translate
  * @param   mixed   $context  string form or numeric count
@@ -360,44 +344,89 @@ is used for replacing parameters.
  * @param   string  $lang  target language
  * @return  string
 
+This is basically a gateway to the i18n system, as any static access from the class has been removed.
+For the lack of a better container, it keeps a static instance of an `I18n_Core` class. You're welcome
+to keep its instance in any other way you find comfortable.
+
+    ___(':count user is online', 1000, array(':count' => 1000));
+    // 1000 users are online
+
+Normally, it's not necessary to use any other function to translate your stuff, but if you plan to extend
+the functionality, the API description that follows may be useful.
+
 ### class I18n_Core
 
-#### public static function plural($string, $count = 0)
+#### public function __construct(I18n_Reader_Interface $reader)
 
-Returns translation of a string. If no translation exists, the original string will be returned. No parameters
-are replaced.
+  * @param  I18n_Reader_Interface  $reader
 
-    $hello = I18n::plural('Hello, my name is :name and I have :count friend.', 10);
-    // 'Hello, my name is :name and I have :count friends.'
+Class constructor takes a class instance that implements `I18n_Reader_Interface`. The default reader is
+`I18n_Reader_Kohana`, which reads translations from the Kohana i18n files, but you can implement your own
+readers to provide translations from any source of your choise.
+
+#### public function translate($string, $context = 0, $values = NULL, $lang = NULL)
+
+ * @param   string  $string   String to translate
+ * @param   mixed   $context  String form or numeric count
+ * @param   array   $values   Param values to insert
+ * @param   string  $lang     Target language
+ * @return  string
+
+Translation/internationalization function with context support. The PHP function
+[strtr](http://php.net/strtr) is used for replacing parameters.
+
+    $i18n->translate(':count user is online', 1000, array(':count' => 1000));
+    // 1000 users are online
+
+#### public function form($string, $form = NULL, $lang = NULL)
+
+ * @param   string  $string
+ * @param   string  $form, if NULL, looking for 'other' form, else the very first form
+ * @param   string  $lang
+ * @return  string
+
+Returns specified form of a string translation. If no translation exists, the original string will be
+returned. No parameters are replaced.
+
+    $hello = $i18n->form('I\'ve met :name, he is my friend now.', 'fem');
+    // I've met :name, she is my friend now.
+ 
+#### public function plural($string, $count = 0)
 
  * @param   string  $string
  * @param   mixed   $count
  * @return  string
 
-### class I18n_Plural
+Returns translation of a string. If no translation exists, the original string will be returned.
+No parameters are replaced.
 
-#### public static function instance($lang)
+    $hello = $i18n->plural('Hello, my name is :name and I have :count friend.', 10);
+    // 'Hello, my name is :name and I have :count friends.'
 
-Returns class, that handles plural inflection for the given language.
+### class I18n_Reader_Interface
 
- * @param   string  $lang
- * @return  I18n_Plural_Rules
+#### public function get($string, $lang = NULL)
+
+ * @param   string   text to translate
+ * @param   string   target language
+ * @return  string
+
+Returns translation of a string. No parameters are replaced. It is up to the implementation where it gets it.
 
 ### class I18n_Date
 
-#### public static function fuzzy_span($from, $to = NULL)
-
-Returns the difference between a time and now in a "fuzzy" way.
-Overrides Kohana_Date::fuzzy_span() method.
-
- * @param   integer  $from  UNIX timestamp
- * @param   integer  $to  UNIX timestamp, current timestamp is used when NULL
- * @return  string
-
 #### public static function format($timestamp = NULL, $format = NULL)
+
+ * @param   mixed   $timestamp  String with date representation or unix timestamp; current time if NULL
+ * @param   string  $format     String or shorthand; '%x %X' if NULL
+ * @return  string
 
 Formats date and time.
 
- * @param mixed timestamp, string with date representation or I18n_Date_Format object; current timestamp if NULL
- * @param string format string or shorthand; '%x %X' if NULL
- * @return string
+#### public static function fuzzy_span($from, $to = NULL)
+
+ * @param   integer  $from  Unix timestamp
+ * @param   integer  $to    Unix timestamp; current timestamp is used when NULL
+ * @return  string
+
+Returns the difference between the time bounds in a "fuzzy" way. Overrides `Kohana_Date::fuzzy_span()` method.
