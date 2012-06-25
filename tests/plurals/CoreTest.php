@@ -18,10 +18,10 @@ class I18n_Core_Test extends I18n_Testcase {
 	 */
 	public function test_translate($expected, $key, $context, $values, $lang)
 	{
-		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->reader_test_factory()));
+		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->_reader_test_factory()));
 		$this->object->expects($this->any())
 			->method('plural_rules')
-			->will($this->returnValue($this->rules_test_factory()));
+			->will($this->returnValue($this->_rules_test_factory()));
 		$actual = $this->object->translate($key, $context, $values, $lang);
 		$this->assertEquals($expected, $actual);
 	}
@@ -108,10 +108,10 @@ class I18n_Core_Test extends I18n_Testcase {
 	 */
 	public function test_plural($expected, $key, $count, $lang)
 	{
-		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->reader_test_factory()));
+		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->_reader_test_factory()));
 		$this->object->expects($this->any())
 			->method('plural_rules')
-			->will($this->returnValue($this->rules_test_factory()));
+			->will($this->returnValue($this->_rules_test_factory()));
 		$actual = $this->object->plural($key, $count, $lang);
 		$this->assertEquals($expected, $actual);
 	}
@@ -132,8 +132,8 @@ class I18n_Core_Test extends I18n_Testcase {
 	 */
 	public function test_plural_rules($lang, $class_name)
 	{
-		$instance1 = $this->invoke_plural_rules($lang);
-		$instance2 = $this->invoke_plural_rules($lang);
+		$instance1 = $this->_invoke_plural_rules($lang);
+		$instance2 = $this->_invoke_plural_rules($lang);
 		$this->assertInstanceOf($class_name, $instance1);
 		$this->assertSame($instance2, $instance1);		
 
@@ -249,8 +249,8 @@ class I18n_Core_Test extends I18n_Testcase {
 	public function test_invalid_instance($lang)
 	{
 		$this->setExpectedException('\InvalidArgumentException');
-		$this->object = new \I18n_Core($this->reader_test_factory());
-		$this->invoke_plural_rules($lang);
+		$this->object = new \I18n_Core($this->_reader_test_factory());
+		$this->_invoke_plural_rules($lang);
 	}
 
 	public function provide_invalid_plural_rules()
@@ -266,22 +266,22 @@ class I18n_Core_Test extends I18n_Testcase {
 		);
 	}
 
-	protected function object_constructor_arguments()
+	protected function _object_constructor_arguments()
 	{
-		return array($this->reader_test_factory());
+		return array($this->_reader_test_factory());
 	}
 
-	private function reader_test_factory()
+	private function _reader_test_factory()
 	{
 		return new Tests\Reader;
 	}
 
-	private function rules_test_factory()
+	private function _rules_test_factory()
 	{
 		return new Tests\Rules;
 	}
 
-	private function invoke_plural_rules($lang)
+	private function _invoke_plural_rules($lang)
 	{
 		$plural_rules = new \ReflectionMethod($this->object, 'plural_rules');
 		$plural_rules->setAccessible(TRUE);
