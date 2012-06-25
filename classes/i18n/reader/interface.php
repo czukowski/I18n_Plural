@@ -14,7 +14,7 @@ interface I18n_Reader_Interface {
 	 * 
 	 * @param   string   text to translate
 	 * @param   string   target language
-	 * @return  string
+	 * @return  mixed
 	 */
 	public function get($string, $lang = NULL);
 
