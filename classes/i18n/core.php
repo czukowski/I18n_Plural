@@ -12,11 +12,11 @@ class I18n_Core
 	/**
 	 * @var  I18n_Reader_Interface
 	 */
-	private $reader;
+	private $_reader;
 	/**
 	 * @var  array  Plural rules classes instances
 	 */
-	private $rules = array();
+	private $_rules = array();
 
 	/**
 	 * Class constructor
@@ -25,7 +25,7 @@ class I18n_Core
 	 */
 	public function __construct(I18n_Reader_Interface $reader)
 	{
-		$this->reader = $reader;
+		$this->_reader = $reader;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class I18n_Core
 	 */
 	public function form($string, $form = NULL, $lang = NULL)
 	{
-		$translation = $this->reader->get($string, $lang);
+		$translation = $this->_reader->get($string, $lang);
 		if (is_array($translation))
 		{
 			if (array_key_exists($form, $translation))
@@ -122,13 +122,13 @@ class I18n_Core
 	 */
 	protected function plural_rules($lang)
 	{
-		if ( ! isset($this->rules[$lang]))
+		if ( ! isset($this->_rules[$lang]))
 		{
 			// Get language code prefix
 			$parts = explode('-', $lang, 2);
-			$this->rules[$lang] = $this->plural_rules_factory($parts[0]);
+			$this->_rules[$lang] = $this->plural_rules_factory($parts[0]);
 		}
-		return $this->rules[$lang];
+		return $this->_rules[$lang];
 	}
 
 	/**
