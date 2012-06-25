@@ -13,7 +13,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	/**
 	 * Test common date formats are same across all languages
 	 * 
-	 * @dataProvider  provide_random_dates
+	 * @dataProvider  provide_neutral_formats
 	 */
 	public function test_neutral_date_format($date, $unused, $lang)
 	{
@@ -92,7 +92,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	/**
 	 * Test common date formats are same acroll all languages
 	 * 
-	 * @dataProvider provide_random_dates
+	 * @dataProvider provide_neutral_formats
 	 */
 	public function test_named_date_format($date, $unused, $lang)
 	{
@@ -108,20 +108,20 @@ class I18n_Date_Format_Test extends I18n_Testcase
 		$this->assertEquals(date('r', $time), Date::format($date, 'rfc2822'));
 	}
 
-	public function provide_random_dates()
+	public function provide_neutral_formats()
 	{
 		return array_merge(
-			$this->provide_am_pm_dates(),
-			$this->provide_months_dates(),
-			$this->provide_weekday_dates(),
-			$this->provide_yearday_dates()
+			$this->provide_am_pm_formats(),
+			$this->provide_months_formats(),
+			$this->provide_weekday_formats(),
+			$this->provide_yearday_formats()
 		);
 	}
 
 	/**
 	 * Tests simple local AM/PM formats return the expected values
 	 * 
-	 * @dataProvider  provide_am_pm_dates
+	 * @dataProvider  provide_am_pm_formats
 	 */
 	public function test_local_am_pm_format($date, $abbr, $lang)
 	{
@@ -131,7 +131,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 		$this->assertEquals(___('date.'.$abbr), Date::format($date, '%p'));
 	}
 
-	public function provide_am_pm_dates()
+	public function provide_am_pm_formats()
 	{
 		$provide = array(
 			array('2011-09-03 01:20:30', 'am'),
@@ -145,7 +145,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	/**
 	 * Tests simple local month formats return the expected values
 	 * 
-	 * @dataProvider  provide_months_dates
+	 * @dataProvider  provide_months_formats
 	 */
 	public function test_local_month_format($date, $month, $lang)
 	{
@@ -169,7 +169,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 		$this->assertEquals($months_gen[$month], Date::format($date, '%C'));
 	}
 
-	public function provide_months_dates()
+	public function provide_months_formats()
 	{
 		$provide = array(
 			// January
@@ -203,7 +203,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	/**
 	 * Tests simple language-neutral weekday formats return the expected values
 	 * 
-	 * @dataProvider  provide_weekday_dates
+	 * @dataProvider  provide_weekday_formats
 	 */
 	public function test_neutral_weekday_format($date, $weekday, $lang)
 	{
@@ -221,7 +221,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	/**
 	 * Tests simple local weekday formats return the expected values
 	 * 
-	 * @dataProvider  provide_weekday_dates
+	 * @dataProvider  provide_weekday_formats
 	 */
 	public function test_local_weekday_format($date, $weekday, $lang)
 	{
@@ -248,7 +248,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	 * 
 	 * @return array
 	 */
-	public function provide_weekday_dates()
+	public function provide_weekday_formats()
 	{
 		$provide = array(
 			// Sunday
@@ -272,7 +272,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	/**
 	 * Tests simple yearday formats return the expected values
 	 * 
-	 * @dataProvider  provide_yearday_dates
+	 * @dataProvider  provide_yearday_formats
 	 */
 	public function test_yearday_date_format($date, $yearday, $yearweek, $lang)
 	{
@@ -292,7 +292,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	 * 
 	 * @return array
 	 */
-	public function provide_yearday_dates()
+	public function provide_yearday_formats()
 	{
 		$provide = array(
 			array('2010-11-09 16:48:01', 312, 45),
