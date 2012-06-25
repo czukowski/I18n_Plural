@@ -30,6 +30,9 @@ class Reader implements \I18n_Reader_Interface {
 				'other' => ':count countables',
 			),
 		),
+		'es' => array(
+			'Spanish' => 'Español',
+		),
 		'cs' => array(
 			':title person' => array(
 				'mr' => ':title muž',
