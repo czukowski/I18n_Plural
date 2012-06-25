@@ -31,5 +31,5 @@ Kohana::modules(array(
 
 // Load some required classes
 require DOCROOT.'helpers'.EXT;
-require DOCROOT.'Testcase'.EXT;
-require DOCROOT.'PluralTestcase'.EXT;
+require DOCROOT.'TestCase'.EXT;
+require DOCROOT.'PluralTestCase'.EXT;
