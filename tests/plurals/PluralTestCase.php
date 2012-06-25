@@ -8,6 +8,12 @@
  */
 abstract class I18n_PluralTestcase extends I18n_Testcase
 {
+	public function setUp()
+	{
+		parent::setUp();
+		$this->setup_object();
+	}
+
 	/**
 	 * @dataProvider  provide_categories
 	 */
