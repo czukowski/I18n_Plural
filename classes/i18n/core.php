@@ -10,22 +10,22 @@
 class I18n_Core
 {
 	/**
-	 * @var  I18n_Reader_Interface
+	 * @var  array  I18n_Reader_Interface instances
 	 */
-	private $_reader;
+	private $_readers = array();
 	/**
 	 * @var  array  Plural rules classes instances
 	 */
 	private $_rules = array();
 
 	/**
-	 * Class constructor
+	 * Attach an i18n reader
 	 * 
 	 * @param  I18n_Reader_Interface  $reader
 	 */
-	public function __construct(I18n_Reader_Interface $reader)
+	public function attach(I18n_Reader_Interface $reader)
 	{
-		$this->_reader = $reader;
+		$this->_readers[] = $reader;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class I18n_Core
 	 */
 	public function form($string, $form = NULL, $lang = NULL)
 	{
-		$translation = $this->_reader->get($string, $lang);
+		$translation = $this->get($string, $lang);
 		if (is_array($translation))
 		{
 			if (array_key_exists($form, $translation))
@@ -112,6 +112,26 @@ class I18n_Core
 			->get_category($count);
 		// Return the translation for that form
 		return $this->form($string, $form, $lang);
+	}
+
+	/**
+	 * Returns the translation from the first reader where it exists, or the input string
+	 * if no translation is available.
+	 * 
+	 * @param   string  $string
+	 * @param   string  $lang
+	 * @return  string
+	 */
+	protected function get($string, $lang)
+	{
+		foreach ($this->_readers as $reader)
+		{
+			if (($translation = $reader->get($string, $lang)))
+			{
+				return $translation;
+			}
+		}
+		return $string;
 	}
 
 	/**

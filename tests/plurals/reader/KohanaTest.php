@@ -46,7 +46,7 @@ class I18n_Reader_Kohana_Test extends I18n_Testcase {
 		foreach ($this->provide_non_existing() as $item)
 		{
 			list ($lang, $non_existing_string) = $item;
-			$provide[] = array($lang, $non_existing_string, $non_existing_string);
+			$provide[] = array($lang, $non_existing_string, NULL);
 		}
 
 		return $provide;

@@ -18,10 +18,7 @@ class I18n_Core_Test extends I18n_Testcase {
 	 */
 	public function test_translate($expected, $key, $context, $values, $lang)
 	{
-		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->_reader_test_factory()));
-		$this->object->expects($this->any())
-			->method('plural_rules')
-			->will($this->returnValue($this->_rules_test_factory()));
+		$this->setup_mock_object();
 		$actual = $this->object->translate($key, $context, $values, $lang);
 		$this->assertEquals($expected, $actual);
 	}
@@ -108,10 +105,7 @@ class I18n_Core_Test extends I18n_Testcase {
 	 */
 	public function test_plural($expected, $key, $count, $lang)
 	{
-		$this->object = $this->getMock('\I18n_Core', array('plural_rules'), array($this->_reader_test_factory()));
-		$this->object->expects($this->any())
-			->method('plural_rules')
-			->will($this->returnValue($this->_rules_test_factory()));
+		$this->setup_mock_object();
 		$actual = $this->object->plural($key, $count, $lang);
 		$this->assertEquals($expected, $actual);
 	}
@@ -270,11 +264,16 @@ class I18n_Core_Test extends I18n_Testcase {
 	{
 		parent::setUp();
 		$this->setup_object();
+		$this->object->attach($this->_reader_test_factory());
 	}
 
-	protected function _object_constructor_arguments()
+	protected function setup_mock_object()
 	{
-		return array($this->_reader_test_factory());
+		$this->object = $this->getMock('\I18n_Core', array('plural_rules'));
+		$this->object->expects($this->any())
+			->method('plural_rules')
+			->will($this->returnValue($this->_rules_test_factory()));
+		$this->object->attach($this->_reader_test_factory());
 	}
 
 	private function _reader_test_factory()

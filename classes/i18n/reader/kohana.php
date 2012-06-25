@@ -21,8 +21,8 @@ class I18n_Reader_Kohana implements I18n_Reader_Interface {
 	}
 
 	/**
-	 * Returns translation of a string. If no translation exists, the original
-	 * string will be returned. No parameters are replaced.
+	 * Returns the translation(s) of a string or NULL if there's no translation for the string.
+	 * No parameters are replaced.
 	 * 
 	 * @param   string   text to translate
 	 * @param   string   target language
@@ -48,7 +48,7 @@ class I18n_Reader_Kohana implements I18n_Reader_Interface {
 		{
 			return $translation;
 		}
-		return $string;
+		return NULL;
 	}
 
 	/**

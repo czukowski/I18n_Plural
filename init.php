@@ -21,7 +21,8 @@ if ( ! function_exists('___'))
 		if ($i18n === NULL)
 		{
 			// Initialize I18n_Core object
-			$i18n = new I18n_Core(new I18n_Reader_Kohana);
+			$i18n = new I18n_Core;
+			$i18n->attach(new I18n_Reader_Kohana);
 		}
 		if ($lang === NULL)
 		{

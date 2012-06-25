@@ -49,7 +49,7 @@ class Reader implements \I18n_Reader_Interface {
 		{
 			return $this->translations[$lang][$string];
 		}
-		return $string;
+		return NULL;
 	}
 }
 

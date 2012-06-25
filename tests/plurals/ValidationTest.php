@@ -219,7 +219,8 @@ class I18n_Validation_Test extends I18n_Testcase
 	 */
 	public function callback_translate($key, $context, $params, $lang)
 	{
-		$i18n = new \I18n_Core(new \Plurals\Tests\Reader);
+		$i18n = new \I18n_Core;
+		$i18n->attach(new \Plurals\Tests\Reader);
 		if ( ! is_string($lang))
 		{
 			$lang = \I18n::lang();

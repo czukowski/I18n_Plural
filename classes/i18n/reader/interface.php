@@ -10,7 +10,8 @@
 interface I18n_Reader_Interface {
 
 	/**
-	 * Returns translation of a string. No parameters are replaced.
+	 * Returns the translation(s) of a string or NULL if there's no translation for the string.
+	 * No parameters are replaced.
 	 * 
 	 * @param   string   text to translate
 	 * @param   string   target language

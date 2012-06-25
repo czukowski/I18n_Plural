@@ -9,6 +9,7 @@ Current features are:
 
  * Support for multiple translation options for any term
  * Support for deep array structures in i18n files
+ * Support for multiple custom i18n readers (implement your own to translate from database, gettext, etc.)
  * Choosing correct translation option when translating plural amount of any term, based on
    [CLDR Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
  * Translating and correctly inflecting time spans
@@ -356,11 +357,11 @@ the functionality, the API description that follows may be useful.
 
 ### class I18n_Core
 
-#### public function __construct(I18n_Reader_Interface $reader)
+#### public function attach(I18n_Reader_Interface $reader)
 
   * @param  I18n_Reader_Interface  $reader
 
-Class constructor takes a class instance that implements `I18n_Reader_Interface`. The default reader is
+This method takes a class instance that implements `I18n_Reader_Interface`. The default reader is
 `I18n_Reader_Kohana`, which reads translations from the Kohana i18n files, but you can implement your own
 readers to provide translations from any source of your choise.
 
@@ -405,13 +406,17 @@ No parameters are replaced.
 
 ### class I18n_Reader_Interface
 
+The Reader must be able to return an associative array, if more than one translation option is available.
+The 'other' key has a special meaning of a default translation.
+
 #### public function get($string, $lang = NULL)
 
  * @param   string   text to translate
  * @param   string   target language
- * @return  string
+ * @return  mixed
 
-Returns translation of a string. No parameters are replaced. It is up to the implementation where it gets it.
+Returns translation of a string or array of translation options. No parameters are replaced. It is up
+to the implementation where it gets it.
 
 ### class I18n_Date
 
