@@ -35,10 +35,6 @@ class I18n_Date_Format extends Kohana_Date
 		{
 			$this->_timestamp = strtotime($time);
 		}
-		elseif ($time instanceof Format_Date)
-		{
-			$this->_timestamp = $time->_timestamp;
-		}
 		else
 		{
 			throw new Kohana_Exception('Unsupported time format');
