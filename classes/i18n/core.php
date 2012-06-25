@@ -19,7 +19,7 @@ class I18n_Core
 	private $rules = array();
 
 	/**
-	 * Class constructor enables singleton access
+	 * Class constructor
 	 * 
 	 * @param  I18n_Reader_Interface  $reader
 	 */
