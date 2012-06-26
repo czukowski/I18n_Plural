@@ -404,7 +404,7 @@ No parameters are replaced.
     $hello = $i18n->plural('Hello, my name is :name and I have :count friend.', 10);
     // 'Hello, my name is :name and I have :count friends.'
 
-### class I18n_Reader_Interface
+### interface I18n_Reader_Interface
 
 The Reader must be able to return an associative array, if more than one translation option is available.
 The 'other' key has a special meaning of a default translation.
