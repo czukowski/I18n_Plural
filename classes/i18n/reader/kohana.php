@@ -2,6 +2,8 @@
 /**
  * Kohana I18n Reader
  * 
+ * Uses Kohana i18n files, the code is a slightly modified version of `Kohana_I18n` class.
+ * 
  * @package    I18n_Reader
  * @author     Korney Czukowski
  * @copyright  (c) 2012 Korney Czukowski
