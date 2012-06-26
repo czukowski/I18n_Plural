@@ -2,6 +2,9 @@
 /**
  * I18n Reader Interface
  * 
+ * The Reader must be able to return an associative array, if more than one translation option is available.
+ * The 'other' key has a special meaning of a default translation.
+ * 
  * @package    I18n_Reader
  * @author     Korney Czukowski
  * @copyright  (c) 2012 Korney Czukowski
