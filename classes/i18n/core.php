@@ -109,7 +109,7 @@ class I18n_Core
 	{
 		// Get the translation form key
 		$form = $this->plural_rules($lang)
-			->get_category($count);
+			->plural_category($count);
 		// Return the translation for that form
 		return $this->form($string, $form, $lang);
 	}

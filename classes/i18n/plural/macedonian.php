@@ -24,7 +24,7 @@
  */
 class I18n_Plural_Macedonian implements I18n_Plural_Interface
 {
-	public function get_category($count)
+	public function plural_category($count)
 	{
 		if (is_int($count) AND $count % 10 == 1 AND $count != 11)
 		{

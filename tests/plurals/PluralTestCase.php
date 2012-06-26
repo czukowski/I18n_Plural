@@ -19,7 +19,7 @@ abstract class I18n_PluralTestcase extends I18n_Testcase
 	 */
 	public function test_get_category($count, $expected)
 	{
-		$actual = $this->object->get_category($count);
+		$actual = $this->object->plural_category($count);
 		$this->assertEquals($expected, $actual);
 	}
 

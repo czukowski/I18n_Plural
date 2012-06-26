@@ -16,5 +16,5 @@ interface I18n_Plural_Interface
 	 * @param   integer  $count
 	 * @return  string
 	 */
-	public function get_category($count);
+	public function plural_category($count);
 }

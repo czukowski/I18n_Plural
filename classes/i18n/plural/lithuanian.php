@@ -25,7 +25,7 @@
  */
 class I18n_Plural_Lithuanian implements I18n_Plural_Interface
 {
-	public function get_category($count)
+	public function plural_category($count)
 	{
 		if (is_int($count) AND $count % 10 == 1 AND ! (($i = $count % 100) >= 11 AND $i <= 19))
 		{

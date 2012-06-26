@@ -65,7 +65,7 @@ class Rules implements \I18n_Plural_Interface {
 		3 => 'three',
 	);
 
-	public function get_category($count)
+	public function plural_category($count)
 	{
 		return isset($this->rules[$count]) ? $this->rules[$count] : 'other';
 	}

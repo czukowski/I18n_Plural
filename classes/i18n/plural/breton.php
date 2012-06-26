@@ -31,7 +31,7 @@
  */
 class I18n_Plural_Breton implements I18n_Plural_Interface
 {
-	public function get_category($count)
+	public function plural_category($count)
 	{
 		if ($count == 0)
 		{
