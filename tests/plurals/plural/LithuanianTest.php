@@ -5,16 +5,16 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- * 	one → n mod 10 is 1 and n mod 100 not in 11..19;		1, 21, 31, 41, 51, 61...
- * 	few → n mod 10 in 2..9 and n mod 100 not in 11..19;		2-9, 22-29, 32-39...
- * 	other → everything else									0, 10-20, 30, 40, 50...; 1.31, 2.31, 10.31...
+ * 	one → n mod 10 is 1 and n mod 100 not in 11..19;       1, 21, 31, 41, 51, 61...
+ * 	few → n mod 10 in 2..9 and n mod 100 not in 11..19;    2-9, 22-29, 32-39...
+ * 	other → everything else                                0, 10-20, 30, 40, 50...; 1.31, 2.31, 10.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Lithuanian_Test extends I18n_PluralTestcase
 {

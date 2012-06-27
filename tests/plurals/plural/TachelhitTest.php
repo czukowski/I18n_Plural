@@ -5,16 +5,16 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- * 	one → n within 0..1;		0, 1
- * 	few → n in 2..10;			2-10
- * 	other → everything else		11-999; 1.31, 2.31, 11.31...
+ * 	one → n within 0..1;       0, 1
+ * 	few → n in 2..10;          2-10
+ * 	other → everything else    11-999; 1.31, 2.31, 11.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Tachelhit_Test extends I18n_PluralTestcase
 {

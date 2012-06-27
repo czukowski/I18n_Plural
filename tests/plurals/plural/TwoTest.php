@@ -5,16 +5,16 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- *  one → n is 1;				1
- *  two → n is 2;				2
- *  other → everything else		0, 3-999; 1.31, 2.31, 3.31...
+ *  one → n is 1;              1
+ *  two → n is 2;              2
+ *  other → everything else    0, 3-999; 1.31, 2.31, 3.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Two_Test extends I18n_PluralTestcase
 {

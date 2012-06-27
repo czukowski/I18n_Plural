@@ -5,16 +5,16 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- * 	zero → n is 0;										0
- * 	one → n mod 10 is 1 and n mod 100 is not 11;		1, 21, 31, 41, 51, 61...
- * 	other → everything else								2-20, 22-30, 32-40...; 0.31, 1.31, 2.31...
+ * 	zero → n is 0;                                  0
+ * 	one → n mod 10 is 1 and n mod 100 is not 11;    1, 21, 31, 41, 51, 61...
+ * 	other → everything else                         2-20, 22-30, 32-40...; 0.31, 1.31, 2.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Latvian_Test extends I18n_PluralTestcase
 {

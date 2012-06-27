@@ -5,15 +5,15 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- *  one → n within 0..2 and n is not 2;		0, 1, 1.31...
- *  other → everything else					2-999; 2.31...
+ *  one → n within 0..2 and n is not 2;    0, 1, 1.31...
+ *  other → everything else                2-999; 2.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_French_Test extends I18n_PluralTestcase
 {

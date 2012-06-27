@@ -5,16 +5,16 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- * 	one → n is 1;				1
- * 	few → n in 2..4;			2-4
- * 	other → everything else		0, 5-999, 1.31, 2.31, 5.31...
+ * 	one → n is 1;              1
+ * 	few → n in 2..4;           2-4
+ * 	other → everything else    0, 5-999; 1.31, 2.31, 5.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Czech_Test extends I18n_PluralTestcase
 {

@@ -5,16 +5,16 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- * 	one → n is 1;																		1
- * 	few → n mod 10 in 2..4 and n mod 100 not in 12..14 and n mod 100 not in 22..24;		2-4, 22-24, 32-34...
- * 	other → everything else																0, 5-21, 25-31, 35-41...; 1.31, 2.31, 5.31...
+ * 	one → n is 1;                                                                      1
+ * 	few → n mod 10 in 2..4 and n mod 100 not in 12..14 and n mod 100 not in 22..24;    2-4, 22-24, 32-34...
+ * 	other → everything else                                                            0, 5-21, 25-31, 35-41...; 1.31, 2.31, 5.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Polish_Test extends I18n_PluralTestcase
 {

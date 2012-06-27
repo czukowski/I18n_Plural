@@ -1,26 +1,26 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Plural rules for Lithuanian language
+ * Plural rules for Lithuanian language:
  * 
  * Locales: lt
- *
+ * 
  * Languages:
  * - Lithuanian (lt)
- *
+ * 
  * Rules:
  * 	one → n mod 10 is 1 and n mod 100 not in 11..19;
  * 	few → n mod 10 in 2..9 and n mod 100 not in 11..19;
  * 	other → everything else
- *
- * Reference CLDR Version 1.9 beta (2010-11-16 21:48:45 GMT)
- * @see http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
- * @see http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
- * @see plurals.xml (local copy)
- *
+ * 
+ * Reference CLDR Version 21 (2012-03-01 03:27:30 GMT)
+ * @see  http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+ * @see  http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
+ * @see  plurals.xml (local copy)
+ * 
  * @package    I18n_Plural
  * @category   Plural Rules
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
 class I18n_Plural_Lithuanian implements I18n_Plural_Interface

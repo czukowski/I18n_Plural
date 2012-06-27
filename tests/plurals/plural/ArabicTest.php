@@ -5,19 +5,19 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- * 	zero → n is 0;					0
- * 	one → n is 1;					1
- * 	two → n is 2;					2
- * 	few → n mod 100 in 3..10;		3-10, 103-110, 203-210...
- * 	many → n mod 100 in 11..99;		11-99, 111-199, 211-299...
- * 	other → everything else			100-102, 200-202, 300-302..., 0.31, 1.31, 2.31, 3.31, 11.31, 100.31...
+ * 	zero → n is 0;                 0
+ * 	one → n is 1;                  1
+ * 	two → n is 2;                  2
+ * 	few → n mod 100 in 3..10;      3-10, 103-110, 203-210...
+ * 	many → n mod 100 in 11..99;    11-99, 111-199, 211-299...
+ * 	other → everything else        100-102, 200-202, 300-302...; 0.31, 1.31, 2.31, 3.31, 11.31, 100.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Arabic_Test extends I18n_PluralTestcase
 {

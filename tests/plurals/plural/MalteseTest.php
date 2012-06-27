@@ -5,17 +5,17 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  * 
  * Test Rules:
- * 	one → n is 1;							1
- * 	few → n is 0 or n mod 100 in 2..10;		0, 2-10, 102-110, 202-210...
- * 	many → n mod 100 in 11..19;				11-19, 111-119, 211-219...
- * 	other → everything else					20-101, 120-201, 220-301...; 1.31, 2.31, 11.31, 20.31...
+ * 	one → n is 1;                          1
+ * 	few → n is 0 or n mod 100 in 2..10;    0, 2-10, 102-110, 202-210...
+ * 	many → n mod 100 in 11..19;            11-19, 111-119, 211-219...
+ * 	other → everything else                20-101, 120-201, 220-301...; 1.31, 2.31, 11.31, 20.31...
  * 
- * @group plurals
- * @group plurals.rules
+ * @group  plurals
+ * @group  plurals.rules
  */
 class I18n_Plural_Maltese_Test extends I18n_PluralTestcase
 {
