@@ -159,86 +159,114 @@ class I18n_Core
 	 */
 	protected function plural_rules_factory($prefix)
 	{
-		// Choose class
-		if (in_array($prefix, array(
-			'bem', 'brx', 'da', 'de', 'el', 'en', 'eo', 'es', 'et', 'fi', 'fo', 'gl', 'he', 'iw', 'it', 'nb',
-			'nl', 'nn', 'no', 'sv', 'af', 'bg', 'bn', 'ca', 'eu', 'fur', 'fy', 'gu', 'ha', 'is', 'ku',
-			'lb', 'ml', 'mr', 'nah', 'ne', 'om', 'or', 'pa', 'pap', 'ps', 'so', 'sq', 'sw', 'ta', 'te',
-			'tk', 'ur', 'zu', 'mn', 'gsw', 'chr', 'rm', 'pt')))
+		if ($prefix == 'pl')
 		{
-			return new I18n_Plural_One;
+			return new I18n_Plural_Polish;
 		}
 		elseif (in_array($prefix, array('cs', 'sk')))
 		{
 			return new I18n_Plural_Czech;
 		}
-		elseif (in_array($prefix, array('ff', 'fr', 'kab')))
+		elseif (in_array($prefix, array('fr', 'ff', 'kab')))
 		{
 			return new I18n_Plural_French;
 		}
-		elseif (in_array($prefix, array('hr', 'ru', 'sr', 'uk', 'be', 'bs', 'sh')))
+		elseif (in_array($prefix, array('ru', 'sr', 'uk', 'sh', 'be', 'hr', 'bs')))
 		{
 			return new I18n_Plural_Balkan;
 		}
-		elseif ($prefix == 'lv')
+		elseif (in_array($prefix, array(
+			'en', 'ny', 'nr', 'no', 'om', 'os', 'ps', 'pa', 'nn', 'or', 'nl', 'lg', 'lb', 'ky', 'ml', 'mr',
+			'ne', 'nd', 'nb', 'pt', 'rm', 'ts', 'tn', 'tk', 'ur', 'vo', 'zu', 'xh', 've', 'te', 'ta', 'sq',
+			'so', 'sn', 'ss', 'st', 'sw', 'sv', 'ku', 'mn', 'et', 'eo', 'el', 'eu', 'fi', 'fy', 'fo', 'ee',
+			'dv', 'bg', 'af', 'bn', 'ca', 'de', 'da', 'gl', 'es', 'it', 'is', 'ks', 'ha', 'kk', 'kl', 'gu',
+			'brx', 'mas', 'teo', 'chr', 'cgg', 'tig', 'wae', 'xog', 'ast', 'vun', 'bem', 'syr', 'bez', 'asa',
+			'rof', 'ksb', 'rwk', 'haw', 'pap', 'gsw', 'fur', 'saq', 'seh', 'nyn', 'kcg', 'ssy', 'kaj', 'jmc',
+			'nah', 'ckb')))
 		{
-			return new I18n_Plural_Latvian;
-		}
-		elseif ($prefix == 'lt')
-		{
-			return new I18n_Plural_Lithuanian;
-		}
-		elseif ($prefix == 'pl')
-		{
-			return new I18n_Plural_Polish;
-		}
-		elseif (in_array($prefix, array('ro', 'mo')))
-		{
-			return new I18n_Plural_Romanian;
-		}
-		elseif ($prefix == 'sl')
-		{
-			return new I18n_Plural_Slovenian;
-		}
-		elseif ($prefix == 'ar')
-		{
-			return new I18n_Plural_Arabic;
-		}
-		elseif ($prefix == 'mk')
-		{
-			return new I18n_Plural_Macedonian;
-		}
-		elseif ($prefix == 'cy')
-		{
-			return new I18n_Plural_Welsh;
-		}
-		elseif ($prefix == 'br')
-		{
-			return new I18n_Plural_Breton;
-		}
-		elseif ($prefix == 'lag')
-		{
-			return new I18n_Plural_Langi;
-		}
-		elseif ($prefix == 'shi')
-		{
-			return new I18n_Plural_Tachelhit;
+			return new I18n_Plural_One;
 		}
 		elseif ($prefix == 'mt')
 		{
 			return new I18n_Plural_Maltese;
 		}
-		elseif (in_array($prefix, array('ga', 'se', 'sma', 'smi', 'smj', 'smn', 'sms')))
+		elseif ($prefix == 'gv')
+		{
+			return new I18n_Plural_Manx;
+		}
+		elseif ($prefix == 'sl')
+		{
+			return new I18n_Plural_Slovenian;
+		}
+		elseif ($prefix == 'cy')
+		{
+			return new I18n_Plural_Welsh;
+		}
+		elseif ($prefix == 'ar')
+		{
+			return new I18n_Plural_Arabic;
+		}
+		elseif ($prefix == 'shi')
+		{
+			return new I18n_Plural_Tachelhit;
+		}
+		elseif ($prefix == 'tzm')
+		{
+			return new I18n_Plural_Tamazight;
+		}
+		elseif ($prefix == 'mk')
+		{
+			return new I18n_Plural_Macedonian;
+		}
+		elseif ($prefix == 'lt')
+		{
+			return new I18n_Plural_Lithuanian;
+		}
+		elseif ($prefix == 'he')
+		{
+			return new I18n_Plural_Hebrew;
+		}
+		elseif ($prefix == 'gd')
+		{
+			return new I18n_Plural_Gaelic;
+		}
+		elseif ($prefix == 'ga')
+		{
+			return new I18n_Plural_Irish;
+		}
+		elseif ($prefix == 'lag')
+		{
+			return new I18n_Plural_Langi;
+		}
+		elseif ($prefix == 'lv')
+		{
+			return new I18n_Plural_Latvian;
+		}
+		elseif ($prefix == 'br')
+		{
+			return new I18n_Plural_Breton;
+		}
+		elseif ($prefix == 'ksh')
+		{
+			return new I18n_Plural_Colognian;
+		}
+		elseif (in_array($prefix, array('mo', 'ro')))
+		{
+			return new I18n_Plural_Romanian;
+		}
+		elseif (in_array($prefix, array(
+			'se', 'kw', 'iu', 'smn', 'sms', 'smj', 'sma', 'naq', 'smi')))
 		{
 			return new I18n_Plural_Two;
 		}
-		elseif (in_array($prefix, array('ak', 'am', 'bh', 'fil', 'tl', 'guw', 'hi', 'ln', 'mg', 'nso', 'ti', 'wa')))
+		elseif (in_array($prefix, array(
+			'hi', 'ln', 'mg', 'ak', 'tl', 'am', 'bh', 'wa', 'ti', 'guw', 'fil', 'nso')))
 		{
 			return new I18n_Plural_Zero;
 		}
 		elseif (in_array($prefix, array(
-			'az', 'bm', 'fa', 'ig', 'hu', 'ja', 'kde', 'kea', 'ko', 'my', 'ses', 'sg', 'to',
-			'tr', 'vi', 'wo', 'yo', 'zh', 'bo', 'dz', 'id', 'jv', 'ka', 'km', 'kn', 'ms', 'th')))
+			'my', 'sg', 'ms', 'lo', 'kn', 'ko', 'th', 'to', 'yo', 'zh', 'wo', 'vi', 'tr', 'az', 'km', 'id',
+			'ig', 'fa', 'dz', 'bm', 'bo', 'ii', 'hu', 'ka', 'jv', 'ja', 'kde', 'ses', 'sah', 'kea')))
 		{
 			return new I18n_Plural_None;
 		}

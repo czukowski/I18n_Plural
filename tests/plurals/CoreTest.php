@@ -152,7 +152,7 @@ class I18n_Core_Test extends I18n_Testcase {
 		return array(
 			array(
 				array(
-					'bem', 'brx', 'da', 'de', 'el', 'en', 'eo', 'es', 'et', 'fi', 'fo', 'gl', 'he', 'iw', 'it', 'nb',
+					'bem', 'brx', 'da', 'de', 'el', 'en', 'eo', 'es', 'et', 'fi', 'fo', 'gl', 'it', 'nb',
 					'nl', 'nn', 'no', 'sv', 'af', 'bg', 'bn', 'ca', 'eu', 'fur', 'fy', 'gu', 'ha', 'is', 'ku',
 					'lb', 'ml', 'mr', 'nah', 'ne', 'om', 'or', 'pa', 'pap', 'ps', 'so', 'sq', 'sw', 'ta', 'te',
 					'tk', 'ur', 'zu', 'mn', 'gsw', 'chr', 'rm', 'pt',
@@ -220,7 +220,31 @@ class I18n_Core_Test extends I18n_Testcase {
 				'\I18n_Plural_Maltese',
 			),
 			array(
-				array('ga', 'se', 'sma', 'smi', 'smj', 'smn', 'sms'),
+				array('he'),
+				'\I18n_Plural_Hebrew',
+			),
+			array(
+				array('ga'),
+				'\I18n_Plural_Irish',
+			),
+			array(
+				array('gd'),
+				'\I18n_Plural_Gaelic',
+			),
+			array(
+				array('gv'),
+				'\I18n_Plural_Manx',
+			),
+			array(
+				array('tzm'),
+				'\I18n_Plural_Tamazight',
+			),
+			array(
+				array('ksh'),
+				'\I18n_Plural_Colognian',
+			),
+			array(
+				array('se', 'sma', 'smi', 'smj', 'smn', 'sms'),
 				'\I18n_Plural_Two',
 			),
 			array(
