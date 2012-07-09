@@ -1,7 +1,7 @@
 <?php
 // Initialize paths
 define('EXT', '.php');
-define('DOCROOT', realpath(__DIR__.'/..').DIRECTORY_SEPARATOR);
+define('DOCROOT', realpath(__DIR__).DIRECTORY_SEPARATOR);
 define('APPPATH', realpath(DOCROOT.'application').DIRECTORY_SEPARATOR);
 define('MODPATH', realpath(DOCROOT.'../../../../modules').DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath(DOCROOT.'../../../../system').DIRECTORY_SEPARATOR);
@@ -20,6 +20,7 @@ Kohana::init(array(
 	'base_url' => '/',
 	'index_file' => FALSE,
 	'caching' => FALSE,
+	'cache_dir' => __DIR__,
 	'errors' => FALSE,
 ));
 

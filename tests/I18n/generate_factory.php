@@ -19,7 +19,7 @@
  * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-require_once __DIR__.'/application/bootstrap.php';
+require_once __DIR__.'/kohana.php';
 
 $args = $_SERVER['argv'];
 
