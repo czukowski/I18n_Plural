@@ -7,9 +7,9 @@ define('MODPATH', realpath(DOCROOT.'../../../../modules').DIRECTORY_SEPARATOR);
 define('SYSPATH', realpath(DOCROOT.'../../../../system').DIRECTORY_SEPARATOR);
 
 // Load some core Kohana classes
-require SYSPATH.'classes/kohana/core'.EXT;
-require SYSPATH.'classes/kohana/i18n'.EXT;
-require SYSPATH.'classes/kohana'.EXT;
+require SYSPATH.'classes/Kohana/Core'.EXT;
+require SYSPATH.'classes/Kohana/I18n'.EXT;
+require SYSPATH.'classes/Kohana'.EXT;
 
 // Bootstrap the application
 spl_autoload_register(array('Kohana', 'auto_load'));
@@ -20,6 +20,7 @@ Kohana::init(array(
 	'base_url' => '/',
 	'index_file' => FALSE,
 	'caching' => FALSE,
+	'errors' => FALSE,
 ));
 
 // Initialize the config and modules
@@ -30,4 +31,4 @@ Kohana::modules(array(
 ));
 
 // Load some required classes
-require DOCROOT.'helpers'.EXT;
+require_once DOCROOT.'helpers'.EXT;
