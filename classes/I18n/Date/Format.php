@@ -67,9 +67,8 @@ class Format
 
 	/**
 	 * Callback to replace format
-	 * @param array $match
 	 */
-	public function _replace_format($match)
+	protected function _replace_format($match)
 	{
 		switch ($match[1])
 		{
