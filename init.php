@@ -8,7 +8,7 @@ if ( ! function_exists('___'))
 	 *    ___(':count user is online', 1000, array(':count' => 1000));
 	 *    // 1000 users are online
 	 * 
-	 * @uses    I18n_Core::translate()
+	 * @uses    \I18n\Core::translate()
 	 * @param   string  $string to translate
 	 * @param   mixed   $context string form or numeric count
 	 * @param   array   $values param values to insert
@@ -20,9 +20,9 @@ if ( ! function_exists('___'))
 		static $i18n;
 		if ($i18n === NULL)
 		{
-			// Initialize I18n_Core object
-			$i18n = new I18n_Core;
-			$i18n->attach(new I18n_Reader_Kohana);
+			// Initialize I18n Core object
+			$i18n = new \I18n\Core;
+			$i18n->attach(new \I18n\Reader\Kohana);
 		}
 		if ($lang === NULL)
 		{

@@ -16,7 +16,9 @@
  * @group  plurals
  * @group  plurals.rules
  */
-class I18n_Plural_Langi_Test extends I18n_PluralTestcase
+namespace I18n\Plural;
+
+class LangiTest extends Testcase
 {
 	public function provide_categories()
 	{

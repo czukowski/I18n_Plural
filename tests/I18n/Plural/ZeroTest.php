@@ -15,7 +15,9 @@
  * @group  plurals
  * @group  plurals.rules
  */
-class I18n_Plural_Zero_Test extends I18n_PluralTestcase
+namespace I18n\Plural;
+
+class ZeroTest extends Testcase
 {
 	public function provide_categories()
 	{

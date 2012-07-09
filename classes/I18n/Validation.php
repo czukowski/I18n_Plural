@@ -1,15 +1,19 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 /**
- * I18n_Validation class
- * Attempts to provide grammatically accurate error translations, where plurals are involved
- * The I18n_Validation::errors() method is a slightly modified original Kohana_Validation::errors()
+ * I18n Validation class
  * 
- * @package    I18n_Plural
+ * Attempts to provide grammatically accurate error translations, where plurals are involved
+ * The `Validation::errors()` method is a slightly modified original `Kohana_Validation::errors()`.
+ * 
+ * @package    I18n
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-class I18n_Validation extends Kohana_Validation
+namespace I18n;
+use \Kohana;
+
+class Validation extends \Kohana_Validation
 {
 	/**
 	 * Returns the error messages. If no file is specified, the error message
@@ -152,14 +156,14 @@ class I18n_Validation extends Kohana_Validation
 		if (is_array($param))
 		{
 			// All values must be strings
-			$param = implode(', ', Arr::flatten($param));
+			$param = implode(', ', \Arr::flatten($param));
 		}
 		return $param;
 	}
 
 	private function _field_value_parameter($field)
 	{
-		return $this->_parameter_to_string(Arr::get($this, $field));
+		return $this->_parameter_to_string(\Arr::get($this, $field));
 	}
 
 	/**

@@ -6,7 +6,10 @@
  * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-abstract class I18n_PluralTestcase extends I18n_Testcase
+namespace I18n\Plural;
+use I18n;
+
+abstract class Testcase extends I18n\Testcase
 {
 	public function setUp()
 	{

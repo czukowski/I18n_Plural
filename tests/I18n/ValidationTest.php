@@ -6,12 +6,14 @@
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
  * 
- * @group plurals
+ * @group  plurals
  */
-class I18n_Validation_Test extends I18n_Testcase
+namespace I18n;
+
+class ValidationTest extends Testcase
 {
 	/**
-	 * Tests I18n_Validation::errors()
+	 * Tests Validation::errors()
 	 * 
 	 * @dataProvider  provide_errors
 	 * @param  array  $array     The array of data
@@ -26,7 +28,7 @@ class I18n_Validation_Test extends I18n_Testcase
 	}
 
 	/**
-	 * Tests Kohana_Validation::errors() with the same parameters as `test_errors()`
+	 * Tests \Kohana_Validation::errors() with the same parameters as `test_errors()`
 	 * 
 	 * @dataProvider  provide_errors
 	 * @param  array  $array     The array of data
@@ -99,7 +101,7 @@ class I18n_Validation_Test extends I18n_Testcase
 	}
 
 	/**
-	 * Tests I18n_Validation::errors()
+	 * Tests Validation::errors()
 	 *
 	 * @dataProvider   provide_translated_errors
 	 * @param  string  $lang                   Language
@@ -195,13 +197,13 @@ class I18n_Validation_Test extends I18n_Testcase
 	 */
 	public function setup_empty_object()
 	{
-		$this->object = new \I18n_Validation(array());
+		$this->object = new Validation(array());
 	}
 
 	/**
 	 * Setup validation object with mocked `_translate()` method, optionally prefilled with parameters
 	 */
-	public function setup_object($array = array(), $rules = array(), $labels = array(), $className = '\I18n_Validation')
+	public function setup_object($array = array(), $rules = array(), $labels = array(), $className = '\I18n\Validation')
 	{
 		$this->object = $this->getMock($className, array('_translate'), array($array));
 		$this->object->expects($this->any())
@@ -219,8 +221,8 @@ class I18n_Validation_Test extends I18n_Testcase
 	 */
 	public function callback_translate($key, $context, $params, $lang)
 	{
-		$i18n = new \I18n_Core;
-		$i18n->attach(new \Plurals\Tests\Reader);
+		$i18n = new Core;
+		$i18n->attach(new \I18n\Tests\Reader);
 		if ( ! is_string($lang))
 		{
 			$lang = \I18n::lang();

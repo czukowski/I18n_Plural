@@ -7,7 +7,9 @@
  * @license    MIT License
  * @group      plurals
  */
-class I18n_Date_Test extends I18n_Testcase
+namespace I18n;
+
+class DateTest extends Testcase
 {
 	private $reference_time;
 
@@ -19,8 +21,8 @@ class I18n_Date_Test extends I18n_Testcase
 	public function test_fuzzy_span($lang, $time_diff, $expect)
 	{
 		\I18n::lang($lang);
-		$this->assertEquals($expect, \Date::fuzzy_span($this->reference_time + $time_diff, $this->reference_time));
-		$this->assertEquals($expect, \Date::fuzzy_span(time() + $time_diff));
+		$this->assertEquals($expect, Date::fuzzy_span($this->reference_time + $time_diff, $this->reference_time));
+		$this->assertEquals($expect, Date::fuzzy_span(time() + $time_diff));
 	}
 
 	public function provide_fuzzy_span()
@@ -68,7 +70,7 @@ class I18n_Date_Test extends I18n_Testcase
 	public function test_fuzzy_span_from_empty($lang, $expect)
 	{
 		\I18n::lang($lang);
-		$this->assertEquals($expect, \Date::fuzzy_span(NULL));
+		$this->assertEquals($expect, Date::fuzzy_span(NULL));
 	}
 
 	public function provide_fuzzy_span_from_empty()

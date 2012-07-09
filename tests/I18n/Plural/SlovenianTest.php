@@ -17,7 +17,9 @@
  * @group  plurals
  * @group  plurals.rules
  */
-class I18n_Plural_Slovenian_Test extends I18n_PluralTestcase
+namespace I18n\Plural;
+
+class SlovenianTest extends Testcase
 {
 	public function provide_categories()
 	{

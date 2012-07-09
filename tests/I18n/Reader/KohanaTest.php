@@ -7,12 +7,20 @@
  * @license    MIT License
  * @group      plurals
  */
-class I18n_Reader_Kohana_Test extends I18n_Testcase {
+namespace I18n\Reader;
+use I18n;
 
-	public function setup() {
-		parent::setup();
-		$this->object = new \I18n_Reader_Kohana('i18n');
+class KohanaTest extends I18n\Testcase {
+
+	public function setUp() {
+		parent::setUp();
+		$this->setup_object();
 		\I18n::lang('xx');
+	}
+
+	protected function _object_constructor_arguments()
+	{
+		return array('i18n');
 	}
 
 	/**

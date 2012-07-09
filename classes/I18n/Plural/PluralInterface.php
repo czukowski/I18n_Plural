@@ -1,14 +1,16 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 /**
  * Interface for I18n_Plural Rules
  *
- * @package    I18n_Plural
+ * @package    I18n
  * @category   Plural Rules
  * @author     Korney Czukowski
  * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-interface I18n_Plural_Interface
+namespace I18n\Plural;
+
+interface PluralInterface
 {
 	/**
 	 * Returns category key by count

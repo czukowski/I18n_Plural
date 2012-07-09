@@ -18,7 +18,9 @@
  * @group  plurals
  * @group  plurals.rules
  */
-class I18n_Plural_Irish_Test extends I18n_PluralTestcase
+namespace I18n\Plural;
+
+class IrishTest extends Testcase
 {
 	public function provide_categories()
 	{

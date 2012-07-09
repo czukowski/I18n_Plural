@@ -8,12 +8,13 @@
  * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-namespace Plurals\Tests;
+namespace I18n\Tests;
+use I18n;
 
 /**
  * Test translation reader that returns predefined results
  */
-class Reader implements \I18n_Reader_Interface {
+class Reader implements I18n\Reader\ReaderInterface {
 
 	public $translations = array(
 		'en' => array(
@@ -56,7 +57,7 @@ class Reader implements \I18n_Reader_Interface {
 /**
  * Test plural rules that return predefined values
  */
-class Rules implements \I18n_Plural_Interface {
+class Rules implements I18n\Plural\PluralInterface {
 
 	public $rules = array(
 		0 => 'zero',
@@ -246,8 +247,17 @@ class Generator {
 	{
 		if (($class_locales = $this->_class_locales($classname)))
 		{
-			$this->rules[$classname] = $class_locales;
+			$this->rules[$this->_format_classname($classname)] = $class_locales;
 		}
+	}
+
+	/**
+	 * @param   string  $classname
+	 * @return  string
+	 */
+	private function _format_classname($classname)
+	{
+		return preg_replace('#^'.preg_quote('\I18n\\').'#', '', $classname);
 	}
 
 	/**

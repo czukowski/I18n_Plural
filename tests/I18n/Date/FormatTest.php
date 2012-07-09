@@ -8,7 +8,11 @@
  * @group      plurals
  * @group      plurals.date
  */
-class I18n_Date_Format_Test extends I18n_Testcase
+namespace I18n\Date;
+use I18n;
+use I18n\Date;
+
+class FormatTest extends I18n\Testcase
 {
 	/**
 	 * Test common date formats are same across all languages
@@ -18,7 +22,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	public function test_neutral_date_format($date, $unused, $lang)
 	{
 		$time = strtotime($date);
-		I18n::lang($lang);
+		\I18n::lang($lang);
 
 		// Escaped `%` sign
 		$this->assertEquals('%', Date::format($date, '%%'));
@@ -97,7 +101,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	public function test_named_date_format($date, $unused, $lang)
 	{
 		$time = strtotime($date);
-		I18n::lang($lang);
+		\I18n::lang($lang);
 
 		// Named date formats
 		$this->assertEquals(date('Y-m-d H:i:s', $time), Date::format($date, 'db'));
@@ -126,7 +130,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	public function test_local_am_pm_format($date, $abbr, $lang)
 	{
 		// Set language
-		I18n::lang($lang);
+		\I18n::lang($lang);
 
 		$this->assertEquals(___('date.'.$abbr), Date::format($date, '%p'));
 	}
@@ -150,7 +154,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	public function test_local_month_format($date, $month, $lang)
 	{
 		// Set language
-		I18n::lang($lang);
+		\I18n::lang($lang);
 
 		// Short month ("Jan", "Feb")
 		$months_abbr = ___('date.months', 'abbr');
@@ -207,7 +211,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	 */
 	public function test_neutral_weekday_format($date, $weekday, $lang)
 	{
-		I18n::lang($lang);
+		\I18n::lang($lang);
 
 		// Test $date is on $wekday
 		// The numerical day of the week, one digit (0 is Sunday, 1 is Monday)
@@ -225,7 +229,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	 */
 	public function test_local_weekday_format($date, $weekday, $lang)
 	{
-		I18n::lang($lang);
+		\I18n::lang($lang);
 
 		// Short day ("Mon", "Tue")
 		$days_abbr = ___('date.days', 'abbr');
@@ -276,7 +280,7 @@ class I18n_Date_Format_Test extends I18n_Testcase
 	 */
 	public function test_yearday_date_format($date, $yearday, $yearweek, $lang)
 	{
-		I18n::lang($lang);
+		\I18n::lang($lang);
 
 		// The day of the year to three digits (001 is Jan 1st)
 		$yearday = str_pad($yearday, 3, '0', STR_PAD_LEFT);

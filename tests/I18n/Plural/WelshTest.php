@@ -19,7 +19,9 @@
  * @group  plurals
  * @group  plurals.rules
  */
-class I18n_Plural_Welsh_Test extends I18n_PluralTestcase
+namespace I18n\Plural;
+
+class WelshTest extends Testcase
 {
 	public function provide_categories()
 	{

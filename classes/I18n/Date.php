@@ -1,21 +1,26 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 /**
- * I18n_Date class
- * Provides date formatting and translation methods to achieve consistency with MooTools Date.format()
- * I18n_Date::get_time_phrase() based on MooTools Date.get_time_phrase()
+ * I18n Date class
+ * 
+ * Provides date formatting and translation methods to achieve consistency with MooTools `Date.format()`
+ * `Date::get_time_phrase()` based on MooTools `Date.get_time_phrase()`
  *
- * Create 'class Date extends I18n_Date{}' in your application to override Kohana_Date::fuzzy_span() method
+ * Create 'class Date extends \I18n\Date {}' in your application to override `Kohana_Date::fuzzy_span()`
+ * method.
  *
- * @package    I18n_Plural
+ * @package    I18n
  * @author     Korney Czukowski
- * @copyright  (c) 2011 Korney Czukowski
+ * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-class I18n_Date extends Kohana_Date
+namespace I18n;
+use I18n\Date;
+
+class Date extends \Kohana_Date
 {
 	/**
 	 * Returns the difference between a time and now in a "fuzzy" way.
-	 * Overrides Kohana_Date::fuzzy_span() method.
+	 * Overrides `Kohana_Date::fuzzy_span()` method.
 	 * 
 	 * @param   integer  $from  UNIX timestamp
 	 * @param   integer  $to  UNIX timestamp, current timestamp is used when NULL
@@ -92,7 +97,7 @@ class I18n_Date extends Kohana_Date
 		{
 			$timestamp = time();
 		}
-		$time = new I18n_Date_Format($timestamp);
+		$time = new Date\Format($timestamp);
 		return $time->format($format);
 	}
 }

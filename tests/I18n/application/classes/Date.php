@@ -1,2 +1,2 @@
 <?php
-class Date extends I18n_Date {}
+class Date extends \I18n\Date {}

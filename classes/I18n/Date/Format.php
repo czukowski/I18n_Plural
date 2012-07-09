@@ -1,17 +1,21 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 /**
- * I18n_Date_Format class
- * Provides date formatting and translation methods to achieve consistency with MooTools Date.format()
- * I18n_Date_Format::format() based on MooTools Date.format()
- * @see http://github.com/mootools/mootools-more/blob/1.3wip/Source/Types/Date.js#L164
- *
- * @package    I18n_Plural
+ * I18n Date Format class
+ * 
+ * Provides date formatting and translation methods to achieve consistency with MooTools `Date.format()`
+ * `Format::format()` based on MooTools `Date.format()`
+ * 
+ * @see  http://github.com/mootools/mootools-more/blob/1.3wip/Source/Types/Date.js#L164
+ * 
+ * @package    I18n
  * @category   Date Formatting
  * @author     Korney Czukowski
  * @copyright  (c) 2011 Korney Czukowski
  * @license    MIT License
  */
-class I18n_Date_Format extends Kohana_Date
+namespace I18n\Date;
+
+class Format
 {
 	/**
 	 * @var  array  Named formats
@@ -37,9 +41,9 @@ class I18n_Date_Format extends Kohana_Date
 		}
 		else
 		{
-			throw new Kohana_Exception('Unsupported time format');
+			throw new \Kohana_Exception('Unsupported time format');
 		}
-		$this->_formats = Kohana::$config->load('plurals.date_formats');
+		$this->_formats = \Kohana::$config->load('plurals.date_formats');
 	}
 
 	/**

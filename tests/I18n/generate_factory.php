@@ -29,7 +29,7 @@ call_user_func(function() use ($args) {
 		'function' => 'protected function plural_rules_factory($prefix)',
 		'if_one' => "\t\t:elseif (\$prefix == ':locale')",
 		'if_many' => "\t\t:elseif (in_array(\$prefix, array(:locales)))",
-		'else' => "\t\tthrow new InvalidArgumentException('Unknown language prefix: '.\$prefix.'.');",
+		'else' => "\t\tthrow new \InvalidArgumentException('Unknown language prefix: '.\$prefix.'.');",
 		'new_instance' => "\t\t\treturn new :class_name;",
 		'line_width' => 90,
 		'options' => array(
@@ -84,11 +84,11 @@ call_user_func(function() use ($args) {
 
 	// Sort locales and plural rules sets to potentially reduce number of compare operations for a factory
 	// before a locale is matched to the corresponding rules set.
-	$helper = new \Plurals\Tests\Generator($tokens['options']);
-	$test_files = Kohana::list_files('classes/i18n/plural');
+	$helper = new \I18n\Tests\Generator($tokens['options']);
+	$test_files = Kohana::list_files('classes/I18n/Plural');
 	foreach ($test_files as $file)
 	{
-		$helper->process_class('I18n_Plural_'.ucfirst(basename($file, EXT)));
+		$helper->process_class('\I18n\Plural\\'.ucfirst(basename($file, EXT)));
 	}
 	$rules = $helper->get_rules();
 

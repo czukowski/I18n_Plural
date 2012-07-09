@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 /**
  * Plural rules for Welsh language:
  * 
@@ -20,13 +20,15 @@
  * @see  http://unicode.org/repos/cldr/trunk/common/supplemental/plurals.xml
  * @see  plurals.xml (local copy)
  * 
- * @package    I18n_Plural
+ * @package    I18n
  * @category   Plural Rules
  * @author     Korney Czukowski
  * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-class I18n_Plural_Welsh implements I18n_Plural_Interface
+namespace I18n\Plural;
+
+class Welsh implements PluralInterface
 {
 	public function plural_category($count)
 	{

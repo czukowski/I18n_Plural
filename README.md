@@ -2,8 +2,8 @@ Introduction
 ============
 
 This module has started as a helper class to help achieve accurate language-dependent plural inflections,
-but has grown since into almost complete alternative to Kohana 3.2 I18n system (branches for previous
-Kohana 3.x versions are also available, although no longer supported).
+but has grown since into almost complete alternative to Kohana 3.3 I18n system (branches for previous
+Kohana 3.x versions are also available, although may no longer be supported).
 
 Current features are:
 
@@ -354,6 +354,8 @@ to keep its instance in any other way you find comfortable.
 
 Normally, it's not necessary to use any other function to translate your stuff, but if you plan to extend
 the functionality, the API description that follows may be useful.
+
+**Note:** you may define your own `___()` function before the `init.php` is called.
 
 ### class I18n_Core
 

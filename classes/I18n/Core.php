@@ -1,13 +1,16 @@
-<?php defined('SYSPATH') or die('No direct script access.');
+<?php
 /**
- * I18n_Core class
+ * I18n Core class
  * 
  * @package    I18n
  * @author     Korney Czukowski
  * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-class I18n_Core
+namespace I18n;
+use I18n\Plural;
+
+class Core
 {
 	/**
 	 * @var  array  I18n_Reader_Interface instances
@@ -23,7 +26,7 @@ class I18n_Core
 	 * 
 	 * @param  I18n_Reader_Interface  $reader
 	 */
-	public function attach(I18n_Reader_Interface $reader)
+	public function attach(Reader\ReaderInterface $reader)
 	{
 		$this->_readers[] = $reader;
 	}
@@ -138,7 +141,7 @@ class I18n_Core
 	 * Plural rules lazy initialization
 	 * 
 	 * @param   string  $lang
-	 * @return  I18n_Plural_Rules
+	 * @return  Plural\Rules
 	 */
 	protected function plural_rules($lang)
 	{
@@ -155,25 +158,25 @@ class I18n_Core
 	 * Chooses inflection class to use according to CLDR plural rules
 	 * 
 	 * @param   string  $prefix
-	 * @return  I18n_Plural_Rules
+	 * @return  Plural\PluralInterface
 	 */
 	protected function plural_rules_factory($prefix)
 	{
 		if ($prefix == 'pl')
 		{
-			return new I18n_Plural_Polish;
+			return new Plural\Polish;
 		}
 		elseif (in_array($prefix, array('cs', 'sk')))
 		{
-			return new I18n_Plural_Czech;
+			return new Plural\Czech;
 		}
 		elseif (in_array($prefix, array('fr', 'ff', 'kab')))
 		{
-			return new I18n_Plural_French;
+			return new Plural\French;
 		}
 		elseif (in_array($prefix, array('ru', 'sr', 'uk', 'sh', 'be', 'hr', 'bs')))
 		{
-			return new I18n_Plural_Balkan;
+			return new Plural\Balkan;
 		}
 		elseif (in_array($prefix, array(
 			'en', 'ny', 'nr', 'no', 'om', 'os', 'ps', 'pa', 'nn', 'or', 'nl', 'lg', 'lb', 'ky', 'ml', 'mr',
@@ -184,92 +187,92 @@ class I18n_Core
 			'rof', 'ksb', 'rwk', 'haw', 'pap', 'gsw', 'fur', 'saq', 'seh', 'nyn', 'kcg', 'ssy', 'kaj', 'jmc',
 			'nah', 'ckb')))
 		{
-			return new I18n_Plural_One;
+			return new Plural\One;
 		}
 		elseif ($prefix == 'mt')
 		{
-			return new I18n_Plural_Maltese;
+			return new Plural\Maltese;
 		}
 		elseif ($prefix == 'gv')
 		{
-			return new I18n_Plural_Manx;
+			return new Plural\Manx;
 		}
 		elseif ($prefix == 'sl')
 		{
-			return new I18n_Plural_Slovenian;
+			return new Plural\Slovenian;
 		}
 		elseif ($prefix == 'cy')
 		{
-			return new I18n_Plural_Welsh;
+			return new Plural\Welsh;
 		}
 		elseif ($prefix == 'ar')
 		{
-			return new I18n_Plural_Arabic;
+			return new Plural\Arabic;
 		}
 		elseif ($prefix == 'shi')
 		{
-			return new I18n_Plural_Tachelhit;
+			return new Plural\Tachelhit;
 		}
 		elseif ($prefix == 'tzm')
 		{
-			return new I18n_Plural_Tamazight;
+			return new Plural\Tamazight;
 		}
 		elseif ($prefix == 'mk')
 		{
-			return new I18n_Plural_Macedonian;
+			return new Plural\Macedonian;
 		}
 		elseif ($prefix == 'lt')
 		{
-			return new I18n_Plural_Lithuanian;
+			return new Plural\Lithuanian;
 		}
 		elseif ($prefix == 'he')
 		{
-			return new I18n_Plural_Hebrew;
+			return new Plural\Hebrew;
 		}
 		elseif ($prefix == 'gd')
 		{
-			return new I18n_Plural_Gaelic;
+			return new Plural\Gaelic;
 		}
 		elseif ($prefix == 'ga')
 		{
-			return new I18n_Plural_Irish;
+			return new Plural\Irish;
 		}
 		elseif ($prefix == 'lag')
 		{
-			return new I18n_Plural_Langi;
+			return new Plural\Langi;
 		}
 		elseif ($prefix == 'lv')
 		{
-			return new I18n_Plural_Latvian;
+			return new Plural\Latvian;
 		}
 		elseif ($prefix == 'br')
 		{
-			return new I18n_Plural_Breton;
+			return new Plural\Breton;
 		}
 		elseif ($prefix == 'ksh')
 		{
-			return new I18n_Plural_Colognian;
+			return new Plural\Colognian;
 		}
 		elseif (in_array($prefix, array('mo', 'ro')))
 		{
-			return new I18n_Plural_Romanian;
+			return new Plural\Romanian;
 		}
 		elseif (in_array($prefix, array(
 			'se', 'kw', 'iu', 'smn', 'sms', 'smj', 'sma', 'naq', 'smi')))
 		{
-			return new I18n_Plural_Two;
+			return new Plural\Two;
 		}
 		elseif (in_array($prefix, array(
 			'hi', 'ln', 'mg', 'ak', 'tl', 'am', 'bh', 'wa', 'ti', 'guw', 'fil', 'nso')))
 		{
-			return new I18n_Plural_Zero;
+			return new Plural\Zero;
 		}
 		elseif (in_array($prefix, array(
 			'my', 'sg', 'ms', 'lo', 'kn', 'ko', 'th', 'to', 'yo', 'zh', 'wo', 'vi', 'tr', 'az', 'km', 'id',
 			'ig', 'fa', 'dz', 'bm', 'bo', 'ii', 'hu', 'ka', 'jv', 'ja', 'kde', 'ses', 'sah', 'kea')))
 		{
-			return new I18n_Plural_None;
+			return new Plural\None;
 		}
-		throw new InvalidArgumentException('Unknown language prefix: '.$prefix.'.');
+		throw new \InvalidArgumentException('Unknown language prefix: '.$prefix.'.');
 	}
 }

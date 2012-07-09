@@ -16,7 +16,9 @@
  * @group  plurals
  * @group  plurals.rules
  */
-class I18n_Plural_Czech_Test extends I18n_PluralTestcase
+namespace I18n\Plural;
+
+class CzechTest extends Testcase
 {
 	public function provide_categories()
 	{

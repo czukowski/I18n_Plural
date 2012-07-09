@@ -9,9 +9,10 @@
  * @license    MIT License
  * @group      plurals
  */
-use Plurals\Tests;
+namespace I18n;
+use I18n\Tests;
 
-class I18n_Core_Test extends I18n_Testcase {
+class CoreTest extends Testcase {
 
 	/**
 	 * @dataProvider  provide_translate
@@ -157,106 +158,106 @@ class I18n_Core_Test extends I18n_Testcase {
 					'lb', 'ml', 'mr', 'nah', 'ne', 'om', 'or', 'pa', 'pap', 'ps', 'so', 'sq', 'sw', 'ta', 'te',
 					'tk', 'ur', 'zu', 'mn', 'gsw', 'chr', 'rm', 'pt',
 				),
-				'\I18n_Plural_One',
+				'\I18n\Plural\One',
 			),
 			array(
 				array('cs', 'sk'),
-				'\I18n_Plural_Czech',
+				'\I18n\Plural\Czech',
 			),
 			array(
 				array('ff', 'fr', 'kab'),
-				'\I18n_Plural_French',
+				'\I18n\Plural\French',
 			),
 			array(
 				array('hr', 'ru', 'sr', 'uk', 'be', 'bs', 'sh'),
-				'\I18n_Plural_Balkan',
+				'\I18n\Plural\Balkan',
 			),
 			array(
 				array('lv'),
-				'\I18n_Plural_Latvian',
+				'\I18n\Plural\Latvian',
 			),
 			array(
 				array('lt'),
-				'\I18n_Plural_Lithuanian',
+				'\I18n\Plural\Lithuanian',
 			),
 			array(
 				array('pl'),
-				'\I18n_Plural_Polish',
+				'\I18n\Plural\Polish',
 			),
 			array(
 				array('ro', 'mo'),
-				'\I18n_Plural_Romanian',
+				'\I18n\Plural\Romanian',
 			),
 			array(
 				array('sl'),
-				'\I18n_Plural_Slovenian',
+				'\I18n\Plural\Slovenian',
 			),
 			array(
 				array('ar'),
-				'\I18n_Plural_Arabic',
+				'\I18n\Plural\Arabic',
 			),
 			array(
 				array('mk'),
-				'\I18n_Plural_Macedonian',
+				'\I18n\Plural\Macedonian',
 			),
 			array(
 				array('cy'),
-				'\I18n_Plural_Welsh',
+				'\I18n\Plural\Welsh',
 			),
 			array(
 				array('br'),
-				'\I18n_Plural_Breton',
+				'\I18n\Plural\Breton',
 			),
 			array(
 				array('lag'),
-				'\I18n_Plural_Langi',
+				'\I18n\Plural\Langi',
 			),
 			array(
 				array('shi'),
-				'\I18n_Plural_Tachelhit',
+				'\I18n\Plural\Tachelhit',
 			),
 			array(
 				array('mt'),
-				'\I18n_Plural_Maltese',
+				'\I18n\Plural\Maltese',
 			),
 			array(
 				array('he'),
-				'\I18n_Plural_Hebrew',
+				'\I18n\Plural\Hebrew',
 			),
 			array(
 				array('ga'),
-				'\I18n_Plural_Irish',
+				'\I18n\Plural\Irish',
 			),
 			array(
 				array('gd'),
-				'\I18n_Plural_Gaelic',
+				'\I18n\Plural\Gaelic',
 			),
 			array(
 				array('gv'),
-				'\I18n_Plural_Manx',
+				'\I18n\Plural\Manx',
 			),
 			array(
 				array('tzm'),
-				'\I18n_Plural_Tamazight',
+				'\I18n\Plural\Tamazight',
 			),
 			array(
 				array('ksh'),
-				'\I18n_Plural_Colognian',
+				'\I18n\Plural\Colognian',
 			),
 			array(
 				array('se', 'sma', 'smi', 'smj', 'smn', 'sms'),
-				'\I18n_Plural_Two',
+				'\I18n\Plural\Two',
 			),
 			array(
 				array('ak', 'am', 'bh', 'fil', 'tl', 'guw', 'hi', 'ln', 'mg', 'nso', 'ti', 'wa'),
-				'\I18n_Plural_Zero',
+				'\I18n\Plural\Zero',
 			),
 			array(
 				array(
 					'az', 'bm', 'fa', 'ig', 'hu', 'ja', 'kde', 'kea', 'ko', 'my', 'ses', 'sg', 'to',
 					'tr', 'vi', 'wo', 'yo', 'zh', 'bo', 'dz', 'id', 'jv', 'ka', 'km', 'kn', 'ms', 'th',
 				),
-				'\I18n_Plural_None',
+				'\I18n\Plural\None',
 			),
 		);
 	}
@@ -267,7 +268,7 @@ class I18n_Core_Test extends I18n_Testcase {
 	public function test_invalid_instance($lang)
 	{
 		$this->setExpectedException('\InvalidArgumentException');
-		$this->object = new \I18n_Core($this->_reader_test_factory());
+		$this->object = new Core($this->_reader_test_factory());
 		$this->_invoke_plural_rules($lang);
 	}
 
@@ -293,7 +294,7 @@ class I18n_Core_Test extends I18n_Testcase {
 
 	protected function setup_mock_object()
 	{
-		$this->object = $this->getMock('\I18n_Core', array('plural_rules'));
+		$this->object = $this->getMock($this->class_name(), array('plural_rules'));
 		$this->object->expects($this->any())
 			->method('plural_rules')
 			->will($this->returnValue($this->_rules_test_factory()));

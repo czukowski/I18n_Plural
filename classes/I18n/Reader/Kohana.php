@@ -4,12 +4,15 @@
  * 
  * Uses Kohana i18n files, the code is a slightly modified version of `Kohana_I18n` class.
  * 
- * @package    I18n_Reader
+ * @package    I18n
+ * @category   Readers
  * @author     Korney Czukowski
  * @copyright  (c) 2012 Korney Czukowski
  * @license    MIT License
  */
-class I18n_Reader_Kohana implements I18n_Reader_Interface {
+namespace I18n\Reader;
+
+class Kohana implements ReaderInterface {
 
 	private $cache = array();
 	private $directory;
@@ -86,7 +89,7 @@ class I18n_Reader_Kohana implements I18n_Reader_Interface {
 				foreach ($files as $file)
 				{
 					// Merge the language strings into the sub table
-					$tables = \Arr::merge($tables, Kohana::load($file));
+					$tables = \Arr::merge($tables, \Kohana::load($file));
 				}
 
 				// Append the sub table, preventing less specific language
