@@ -41,7 +41,7 @@ class I18n_Core
 	 * @param   string  $lang     Target language
 	 * @return  string
 	 */
-	public function translate($string, $context, $values, $lang)
+	public function translate($string, $context, $values, $lang = NULL)
 	{
 		if (is_array($context) AND ! is_array($values))
 		{

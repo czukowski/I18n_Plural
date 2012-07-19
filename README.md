@@ -365,12 +365,12 @@ This method takes a class instance that implements `I18n_Reader_Interface`. The 
 `I18n_Reader_Kohana`, which reads translations from the Kohana i18n files, but you can implement your own
 readers to provide translations from any source of your choise.
 
-#### public function translate($string, $context = 0, $values = NULL, $lang = NULL)
+#### public function translate($string, $context, $values, $lang = NULL)
 
  * @param   string  $string   String to translate
  * @param   mixed   $context  String form or numeric count
  * @param   array   $values   Param values to insert
- * @param   string  $lang     Target language
+ * @param   string  $lang     Target language (optional)
  * @return  string
 
 Translation/internationalization function with context support. The PHP function
@@ -381,9 +381,9 @@ Translation/internationalization function with context support. The PHP function
 
 #### public function form($string, $form = NULL, $lang = NULL)
 
- * @param   string  $string
- * @param   string  $form, if NULL, looking for 'other' form, else the very first form
- * @param   string  $lang
+ * @param   string  $string  String to translate
+ * @param   string  $form    String context form, if NULL, looking for 'other' form, else the very first form
+ * @param   string  $lang    Target language (optional)
  * @return  string
 
 Returns specified form of a string translation. If no translation exists, the original string will be
@@ -392,10 +392,11 @@ returned. No parameters are replaced.
     $hello = $i18n->form('I\'ve met :name, he is my friend now.', 'fem');
     // I've met :name, she is my friend now.
  
-#### public function plural($string, $count = 0)
+#### public function plural($string, $count = 0, $lang = NULL)
 
- * @param   string  $string
- * @param   mixed   $count
+ * @param   string  $string  String to translate
+ * @param   mixed   $count   Integer context form, 0 by default
+ * @param   string  $lang    Target language (optional)
  * @return  string
 
 Returns translation of a string. If no translation exists, the original string will be returned.
