@@ -44,15 +44,8 @@ class Core
 	 * @param   string  $lang     Target language
 	 * @return  string
 	 */
-	public function translate($string, $context = 0, $values = NULL, $lang = NULL)
+	public function translate($string, $context, $values, $lang)
 	{
-		if (is_array($context) AND ! is_array($values))
-		{
-			// Assume no form is specified and the 2nd argument are parameters
-			$lang = $values;
-			$values = $context;
-			$context = 0;
-		}
 		if (is_numeric($context))
 		{
 			// Get plural form

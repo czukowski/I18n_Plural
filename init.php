@@ -24,6 +24,13 @@ if ( ! function_exists('___'))
 			$i18n = new \I18n\Core;
 			$i18n->attach(new \I18n\Reader\Kohana);
 		}
+		if (is_array($context) AND ! is_array($values))
+		{
+			// Assume no form is specified and the 2nd argument are parameters
+			$lang = $values;
+			$values = $context;
+			$context = 0;
+		}
 		if ($lang === NULL)
 		{
 			$lang = I18n::lang();
