@@ -29,8 +29,8 @@ class I18n_Core_Test extends I18n_Testcase {
 		$provider = array_merge($this->provide_form_translation(), $this->provide_plural_translation(), $this->provide_unknown_translation());
 		// Note: $three_arguments has intentionally skewed arguments to test translation without context
 		$three_arguments = array(
-			array('something different', 'something :what', array(':what' => 'different'), 'en', NULL),
-			array('něco jiného', 'something :what', array(':what' => 'jiného'), 'cs', NULL),
+			array('something different', 'something :what', NULL, array(':what' => 'different'), 'en'),
+			array('něco jiného', 'something :what', NULL, array(':what' => 'jiného'), 'cs'),
 		);
 		return array_merge($three_arguments, array_map(array($this, 'map_translate_provider'), $provider));
 	}
