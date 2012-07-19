@@ -44,7 +44,7 @@ class Core
 	 * @param   string  $lang     Target language
 	 * @return  string
 	 */
-	public function translate($string, $context, $values, $lang)
+	public function translate($string, $context, $values, $lang = NULL)
 	{
 		if (is_numeric($context))
 		{
