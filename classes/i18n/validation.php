@@ -196,6 +196,13 @@ class I18n_Validation extends Kohana_Validation
 			// Use current language
 			$lang = NULL;
 		}
-		return ___($string, $context, $values, $lang);
+		$translation = ___($string, $context, $values, $lang);
+		if (is_array($translation))
+		{
+			// Found translation is actually a subsection of translations.
+			// Return the original string as if the translation didn't exist.
+			return $string;
+		}
+		return $translation;
 	}
 }
