@@ -257,6 +257,8 @@ class ValidationTest extends Testcase
 			array(':count files', 'one', array(':count' => 1), 'cs', 'en', '1 soubor'),
 			array(':count files', 1, array(), 'cs', 'ru', ':count soubor'),
 			array(':count files', 1, array(':count' => 1), 'cs', 'pl', '1 soubor'),
+			// Test that array won't be returned
+			array('date', NULL, array(), 'cs', 'pl', 'date'),
 		);
 	}
 }
