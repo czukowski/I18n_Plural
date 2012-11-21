@@ -3,5 +3,6 @@
 require __DIR__.'/kohana.php';
 
 // Load some required classes
-require DOCROOT.'Testcase'.EXT;
-require DOCROOT.'Plural/Testcase'.EXT;
+require_once DOCROOT.'helpers'.EXT;
+require_once DOCROOT.'Testcase'.EXT;
+require_once DOCROOT.'Plural/Testcase'.EXT;

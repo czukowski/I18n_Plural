@@ -30,6 +30,3 @@ Kohana::modules(array(
 	'plurals' => MODPATH.'plurals',
 	'unittest' => MODPATH.'unittest',
 ));
-
-// Load some required classes
-require_once DOCROOT.'helpers'.EXT;
