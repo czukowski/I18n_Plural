@@ -214,13 +214,13 @@ Russian and Polish (thanks to Jakub Wolny).
 Usage
 -----
 
-The `I18n_Date` class extends `Kohana_Date` class, so if you create this:
+The `I18n\Date` class extends `Kohana_Date` class, so if you create this:
 
-    class Date extends I18n_Date {}
+    class Date extends I18n\Date {}
 
 then you can use it transparently. Only `fuzzy_span()` method is overriden, so that it behaves as MooTools'
 `Date.timeDiffInWords()` method. In the following examples, I'll use `Date::span_name()`, but you could as
-well `I18n_Date::span_name()`, if you don't want to override original Kohana function.
+well `I18n\Date::span_name()`, if you don't want to override original Kohana function.
 
 	$time = time();
 	Date::fuzzy_span($time, $time - 10); // -10 seconds
@@ -274,7 +274,7 @@ Validation messages translating (optional)
 This part aims to provide correct inflection of validation messages. To use it in your project, add this
 class to your application folder:
 
-    class Validation extends I18n_Validation {}
+    class Validation extends I18n\Validation {}
 
 The overriden function is `Validation::errors()`. It detects the first numeric parameter for a rule and uses
 it as a context. It is useful for such fields, as 'decimal', 'min_length', 'max_length' and so on.
@@ -326,11 +326,11 @@ To connect and use them, add these empty classes to your application folder:
 
 To use custom Date::fuzzy_span():
 
-    class Date extends I18n_Date {}
+    class Date extends I18n\Date {}
 
 To use modified Validation::errors() function:
 
-    class Validate extends I18n_Validation {}
+    class Validate extends I18n\Validation {}
 
 API
 ===
@@ -357,11 +357,11 @@ the functionality, the API description that follows may be useful.
 
 **Note:** you may define your own `___()` function before the `init.php` is called.
 
-### class I18n_Core
+### class I18n\Core
 
-#### public function attach(I18n_Reader_Interface $reader)
+#### public function attach(I18n\Reader\ReaderInterface $reader)
 
-  * @param  I18n_Reader_Interface  $reader
+  * @param  I18n\Reader\ReaderInterface  $reader
 
 This method takes a class instance that implements `I18n_Reader_Interface`. The default reader is
 `I18n_Reader_Kohana`, which reads translations from the Kohana i18n files, but you can implement your own
@@ -407,7 +407,7 @@ No parameters are replaced.
     $hello = $i18n->plural('Hello, my name is :name and I have :count friend.', 10);
     // 'Hello, my name is :name and I have :count friends.'
 
-### interface I18n_Reader_Interface
+### interface I18n\Reader\ReaderInterface
 
 The Reader must be able to return an associative array, if more than one translation option is available.
 The 'other' key has a special meaning of a default translation.
@@ -421,7 +421,7 @@ The 'other' key has a special meaning of a default translation.
 Returns translation of a string or array of translation options. No parameters are replaced. It is up
 to the implementation where it gets it.
 
-### class I18n_Date
+### class I18n\Date
 
 #### public static function format($timestamp = NULL, $format = NULL)
 
