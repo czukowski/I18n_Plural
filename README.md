@@ -50,7 +50,7 @@ problem in English, we can find an example there, too: suppose you want to displ
 this: "His/her name is _name_" and you know the name of a person and his or her gender. The most trivial would
 be to do this:
 
-    echo ___($gender == 'f' ? 'His' : 'Her').___('name is :name', array(':name' => $name));
+	echo ___($gender == 'f' ? 'His' : 'Her').___('name is :name', array(':name' => $name));
 
 Although you can probably see it's not flexible at all. This message doesn't have to begin with pronoun in
 other languages. This is already better:
@@ -60,29 +60,29 @@ other languages. This is already better:
 But what if there is a language, that changes other words as well? That's where the contextual translation
 comes in handy. Consider just this:
 
-    echo ___('Their name is :name', $gender);
+	echo ___('Their name is :name', $gender);
 
 For that to work, we have defined the translation key `Their name is :name` with 2 contexts - `f` and `m`:
 
-    return array(
-        'Their name is :name' => array(
-            'f' => 'Her name is :name',
-            'm' => 'His name is :name',
-        ),
-    );
+	return array(
+		'Their name is :name' => array(
+			'f' => 'Her name is :name',
+			'm' => 'His name is :name',
+		),
+	);
 
 Example
 -------
 
-    foreach (array('aimee', 'bob') as $username)
-    {
-        $person = ORM::factory('profile')->find($username);
-        echo ___('Their name is :name', $person->gender, array(':name' => $person->name));
-    }
+	foreach (array('aimee', 'bob') as $username)
+	{
+		$person = ORM::factory('profile')->find($username);
+		echo ___('Their name is :name', $person->gender, array(':name' => $person->name));
+	}
 
-    // Outputs:
-    // Her name is Aimee
-    // His name is Bob
+	// Outputs:
+	// Her name is Aimee
+	// His name is Bob
 
 Example
 -------
@@ -95,18 +95,18 @@ of a context in another way, a context can be just an object we want it to be re
 Let's take Russian for an example (i18n/ru.php), although many others will have similar translation structure
 as well.
 
-    return array(
-        'Enabled' => array(
-            'user' => 'Включен',
-            'role' => 'Включена',
-            'other' => 'Включено',
-        ),
-    );
+	return array(
+		'Enabled' => array(
+			'user' => 'Включен',
+			'role' => 'Включена',
+			'other' => 'Включено',
+		),
+	);
 
 Somewhere else:
 
-    echo ___('Enabled', 'user');
-    // Включен
+	echo ___('Enabled', 'user');
+	// Включен
 
 Note the `other` key, that'll be used for any other context than `user` or `role`.
 
@@ -130,22 +130,22 @@ Example
 
 i18n/en.php:
 
-    return array(
-        'You have :count messages' => array(
-            'one' => 'You have one message',        // 1 message
-            'other' => 'You have :count messages',  // more messages
-        ),
-    );
+	return array(
+		'You have :count messages' => array(
+			'one' => 'You have one message',        // 1 message
+			'other' => 'You have :count messages',  // more messages
+		),
+	);
 
 i18n/cs.php:
 
-    return array(
-        'You have :count messages' => array(
-            'one' => 'Máte jednu zprávu',      // 1 message
-            'few' => 'Máte :count zprávy',     // 2 - 4 messages
-            'other' => 'Máte :count zpráv',    // more messages
-        ),
-    );
+	return array(
+		'You have :count messages' => array(
+			'one' => 'Máte jednu zprávu',      // 1 message
+			'few' => 'Máte :count zprávy',     // 2 - 4 messages
+			'other' => 'Máte :count zpráv',    // more messages
+		),
+	);
 
 *Note:* before doing something like I did above (I've replaced :count with actual 'one' value for the
 context `one`), check with the language rules, whether that context really applies only when the number
@@ -157,43 +157,43 @@ Example
 
 i18n/en.php:
 
-    return array(
-        'hello' => array(
+	return array(
+		'hello' => array(
 			'myage'=> array(
 				'one' => 'Hello world, I\'m :age year old',
 				'other' => 'Hello world, I\'m :age years old',
 			),
-        ),
-    );
+		),
+	);
 
 i18n/ru.php:
 
-    return array(
-        'hello.myage' => array(
-            'one' => 'Привет мир, мне уже :age год',
-            'few' => 'Привет мир, мне уже :age года',
-            'many' => 'Привет мир, мне уже :age лет',
-            'other' => 'Привет мир, мне уже :age лет',
-        ),
-    );
+	return array(
+		'hello.myage' => array(
+			'one' => 'Привет мир, мне уже :age год',
+			'few' => 'Привет мир, мне уже :age года',
+			'many' => 'Привет мир, мне уже :age лет',
+			'other' => 'Привет мир, мне уже :age лет',
+		),
+	);
 
 In your code:
 
-    echo ___('hello.myage', 1, array(':age' => 1));
-    // Hello world, I\'m 1 year old
-    echo ___('hello.myage', 2, array(':age' => 2));
-    // Hello world, I\'m 2 years old
-    echo ___('hello.myage', 10, array(':age' => 10));
-    // Hello world, I\'m 10 years old
-    
-    I18n::lang('ru'); // Switch Kohana to another language
-    
-    echo ___('hello.myage', 1, array(':age' => 1));
-    // Привет мир, мне уже 1 год
-    echo ___('hello.myage', 2, array(':age' => 2));
-    // Привет мир, мне уже 2 года
-    echo ___('hello.myage', 10, array(':age' => 10));
-    // Привет мир, мне уже 10 лет
+	echo ___('hello.myage', 1, array(':age' => 1));
+	// Hello world, I\'m 1 year old
+	echo ___('hello.myage', 2, array(':age' => 2));
+	// Hello world, I\'m 2 years old
+	echo ___('hello.myage', 10, array(':age' => 10));
+	// Hello world, I\'m 10 years old
+	
+	I18n::lang('ru'); // Switch Kohana to another language
+	
+	echo ___('hello.myage', 1, array(':age' => 1));
+	// Привет мир, мне уже 1 год
+	echo ___('hello.myage', 2, array(':age' => 2));
+	// Привет мир, мне уже 2 года
+	echo ___('hello.myage', 10, array(':age' => 10));
+	// Привет мир, мне уже 10 лет
 
 Note, how the 2nd and 3rd translations differ between the languages. For English, it's the same form ('years
 old'), while in Russian the translations are totally different.
@@ -216,7 +216,7 @@ Usage
 
 The `I18n\Date` class extends `Kohana_Date` class, so if you create this:
 
-    class Date extends I18n\Date {}
+	class Date extends I18n\Date {}
 
 then you can use it transparently. Only `fuzzy_span()` method is overriden, so that it behaves as MooTools'
 `Date.timeDiffInWords()` method. In the following examples, I'll use `Date::span_name()`, but you could as
@@ -224,31 +224,31 @@ well `I18n\Date::span_name()`, if you don't want to override original Kohana fun
 
 	$time = time();
 	Date::fuzzy_span($time, $time - 10); // -10 seconds
-    // less than a minute ago
+	// less than a minute ago
 	Date::fuzzy_span($time, $time - 50); // -50 seconds
-    // about a minute ago
+	// about a minute ago
 	Date::fuzzy_span($time, $time - 100); // 1:40 ago
-    // 2 minutes ago
+	// 2 minutes ago
 	Date::fuzzy_span($time, $time + 86400); // +24 hours
-    // 1 day from now
+	// 1 day from now
 
 and so on. The string returned will be translated to the current language.
 
 You can also format dates with various formats using `Date::format()` method. Possible formatting keys are
 same as with MooTools [Date.format()](http://mootools.net/docs/more/Native/Date#Date:format) method:
 
-    Date::format($time, '%m/%d/%Y');
-    // 10/05/2010
-    Date::format($time); // Default is %x %X
-    // 10/05/2010 10:53PM
-    Date::format($time, 'db'); // using shorthands
-    // 2010-10-05 10:53:24
-    Date::format($time, 'short');
-    // 05 Oct 10:53
-    Date::format($time, 'long');
-    // October 05, 2010 10:53
-    Date::format($time, 'iso8601');
-    // 2010-10-05T10:53:24+02:00
+	Date::format($time, '%m/%d/%Y');
+	// 10/05/2010
+	Date::format($time); // Default is %x %X
+	// 10/05/2010 10:53PM
+	Date::format($time, 'db'); // using shorthands
+	// 2010-10-05 10:53:24
+	Date::format($time, 'short');
+	// 05 Oct 10:53
+	Date::format($time, 'long');
+	// October 05, 2010 10:53
+	Date::format($time, 'iso8601');
+	// 2010-10-05T10:53:24+02:00
 
 If you don't specify format, it will assume `%x %X`, which is a current date and time in the current language
 prefered format. It's defined in Kohana translation files, see files from this package for examples
@@ -274,7 +274,7 @@ Validation messages translating (optional)
 This part aims to provide correct inflection of validation messages. To use it in your project, add this
 class to your application folder:
 
-    class Validation extends I18n\Validation {}
+	class Validation extends I18n\Validation {}
 
 The overriden function is `Validation::errors()`. It detects the first numeric parameter for a rule and uses
 it as a context. It is useful for such fields, as 'decimal', 'min_length', 'max_length' and so on.
@@ -291,27 +291,27 @@ There are two ways of defining validation messages directly in i18n files, avoid
 
 i18n/en.php
 
-    return array(
-        'user' => array(    // "File"-specific
-            'password' => array(
-                'min_length' => array(
-                    'one' => 'New passowrd must be at least one character long',
-                    'other' => 'New password must be at least :param1 characters long',
-                ),
-            ),
-        ),
-        'valid' => array(   // Default
-            'regex' => ':field does not match the required format',
-        )
-    );
+	return array(
+		'user' => array(    // "File"-specific
+			'password' => array(
+				'min_length' => array(
+					'one' => 'New passowrd must be at least one character long',
+					'other' => 'New password must be at least :param1 characters long',
+				),
+			),
+		),
+		'valid' => array(   // Default
+			'regex' => ':field does not match the required format',
+		)
+	);
 
 Somewhere else:
 
-    $validation = Validation::factory($_POST)
-        ->rule('password', 'min_length', array(6));
-    $validation->check();
-    $validation->errors('user');
-    // array('New password must be at least 6 characters long')
+	$validation = Validation::factory($_POST)
+		->rule('password', 'min_length', array(6));
+	$validation->check();
+	$validation->errors('user');
+	// array('New password must be at least 6 characters long')
 
 Note, that if matching message exists in message files, the modified `Validation::errors()` function will
 use it. This is to keep some kind of backward compatibility.
@@ -326,11 +326,11 @@ To connect and use them, add these empty classes to your application folder:
 
 To use custom Date::fuzzy_span():
 
-    class Date extends I18n\Date {}
+	class Date extends I18n\Date {}
 
 To use modified Validation::errors() function:
 
-    class Validate extends I18n\Validation {}
+	class Validate extends I18n\Validation {}
 
 API
 ===
@@ -349,8 +349,8 @@ This is basically a gateway to the i18n system, as any static access from the cl
 For the lack of a better container, it keeps a static instance of an `I18n_Core` class. You're welcome
 to keep its instance in any other way you find comfortable.
 
-    ___(':count user is online', 1000, array(':count' => 1000));
-    // 1000 users are online
+	___(':count user is online', 1000, array(':count' => 1000));
+	// 1000 users are online
 
 Normally, it's not necessary to use any other function to translate your stuff, but if you plan to extend
 the functionality, the API description that follows may be useful.
@@ -378,8 +378,8 @@ readers to provide translations from any source of your choise.
 Translation/internationalization function with context support. The PHP function
 [strtr](http://php.net/strtr) is used for replacing parameters.
 
-    $i18n->translate(':count user is online', 1000, array(':count' => 1000));
-    // 1000 users are online
+	$i18n->translate(':count user is online', 1000, array(':count' => 1000));
+	// 1000 users are online
 
 #### public function form($string, $form = NULL, $lang = NULL)
 
@@ -391,9 +391,9 @@ Translation/internationalization function with context support. The PHP function
 Returns specified form of a string translation. If no translation exists, the original string will be
 returned. No parameters are replaced.
 
-    $hello = $i18n->form('I\'ve met :name, he is my friend now.', 'fem');
-    // I've met :name, she is my friend now.
- 
+	$hello = $i18n->form('I\'ve met :name, he is my friend now.', 'fem');
+	// I've met :name, she is my friend now.
+
 #### public function plural($string, $count = 0, $lang = NULL)
 
  * @param   string  $string  String to translate
@@ -404,8 +404,8 @@ returned. No parameters are replaced.
 Returns translation of a string. If no translation exists, the original string will be returned.
 No parameters are replaced.
 
-    $hello = $i18n->plural('Hello, my name is :name and I have :count friend.', 10);
-    // 'Hello, my name is :name and I have :count friends.'
+	$hello = $i18n->plural('Hello, my name is :name and I have :count friend.', 10);
+	// 'Hello, my name is :name and I have :count friends.'
 
 ### interface I18n\Reader\ReaderInterface
 
