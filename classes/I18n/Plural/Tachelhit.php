@@ -36,10 +36,10 @@ class Tachelhit implements PluralInterface
 		elseif (is_int($count) AND $count >= 2 AND $count <= 10)
 		{
 			return 'few';
-        }
+		}
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }

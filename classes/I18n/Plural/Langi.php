@@ -36,10 +36,10 @@ class Langi implements PluralInterface
 		elseif ($count > 0 AND $count < 2)
 		{
 			return 'one';
-        }
+		}
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }

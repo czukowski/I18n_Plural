@@ -33,10 +33,10 @@ class French implements PluralInterface
 		if ($count >= 0 AND $count < 2)
 		{
 			return 'one';
-        }
+		}
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }

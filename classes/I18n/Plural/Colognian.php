@@ -33,13 +33,13 @@ class Colognian implements PluralInterface
 		{
 			return 'zero';
 		}
-        if ($count == 1)
+		if ($count == 1)
 		{
 			return 'one';
-        }
+		}
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }

@@ -125,6 +125,9 @@ If you don't see your language immediately, try looking into one.php, two.php an
 aggregate a large number of languages, that share same rules. All the files include the rules in human
 readable format and a list of languages they apply to.
 
+*It is important to note*, that the plural context must be numeric in order to be tested against the language
+plural rules. When in doubt, do the appropriate type casting!
+
 Example
 -------
 

@@ -31,10 +31,10 @@ class Tamazight implements PluralInterface
 		if (is_int($count) AND ($count == 0 OR $count == 1 OR ($count >= 11 AND $count <= 99)))
 		{
 			return 'one';
-        }
+		}
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }

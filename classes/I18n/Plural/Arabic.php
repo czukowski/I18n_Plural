@@ -55,6 +55,6 @@ class Arabic implements PluralInterface
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }

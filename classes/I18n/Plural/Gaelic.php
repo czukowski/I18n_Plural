@@ -45,6 +45,6 @@ class Gaelic implements PluralInterface
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }

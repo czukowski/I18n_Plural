@@ -38,13 +38,13 @@ class Zero implements PluralInterface
 {
 	public function plural_category($count)
 	{
-        if ($count == 0 || $count == 1)
+		if ($count == 0 || $count == 1)
 		{
 			return 'one';
-        }
+		}
 		else
 		{
 			return 'other';
-        }
+		}
 	}
 }
