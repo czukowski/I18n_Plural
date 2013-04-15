@@ -24,6 +24,9 @@ class TamazightTest extends Testcase
 		return array(
 			array(0, 'one'),
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(11, 'one'),
 			array(12, 'one'),
 			array(19, 'one'),

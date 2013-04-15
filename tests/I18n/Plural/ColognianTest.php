@@ -24,7 +24,13 @@ class ColognianTest extends Testcase
 	{
 		return array(
 			array(0, 'zero'),
+			array('0', 'zero'),
+			array(0.0, 'zero'),
+			array('0.0', 'zero'),
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(2, 'other'),
 			array(3, 'other'),
 			array(4, 'other'),

@@ -24,11 +24,11 @@
  */
 namespace I18n\Plural;
 
-class Manx implements PluralInterface
+class Manx extends IntegerRule
 {
 	public function plural_category($count)
 	{
-		if (is_int($count) AND (in_array($count % 10, array(1, 2)) OR ($count % 20 == 0)))
+		if ($this->is_int($count) AND (in_array($count % 10, array(1, 2)) OR ($count % 20 == 0)))
 		{
 			return 'one';
 		}

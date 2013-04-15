@@ -24,11 +24,15 @@ class LangiTest extends Testcase
 	{
 		return array(
 			array(0, 'zero'),
+			array(0.0, 'zero'),
 			array(0.01, 'one'),
 			array(0.51, 'one'),
+			array('0.71', 'one'),
 			array(1, 'one'),
+			array(1.0, 'one'),
 			array(1.31, 'one'),
-			array(1.99, 'one'),
+			array(1.88, 'one'),
+			array('1.99', 'one'),
 			array(2, 'other'),
 			array(5, 'other'),
 			array(7, 'other'),

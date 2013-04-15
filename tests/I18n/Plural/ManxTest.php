@@ -23,6 +23,9 @@ class ManxTest extends Testcase
 	{
 		return array(
 			array(0, 'one'),
+			array('0', 'one'),
+			array(0.0, 'one'),
+			array('0.0', 'one'),
 			array(1, 'one'),
 			array(2, 'one'),
 			array(11, 'one'),

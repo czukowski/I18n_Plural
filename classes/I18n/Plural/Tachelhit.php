@@ -25,7 +25,7 @@
  */
 namespace I18n\Plural;
 
-class Tachelhit implements PluralInterface
+class Tachelhit extends IntegerRule
 {
 	public function plural_category($count)
 	{
@@ -33,7 +33,7 @@ class Tachelhit implements PluralInterface
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND $count >= 2 AND $count <= 10)
+		elseif ($this->is_int($count) AND $count >= 2 AND $count <= 10)
 		{
 			return 'few';
 		}

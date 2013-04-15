@@ -26,7 +26,7 @@
  */
 namespace I18n\Plural;
 
-class Gaelic implements PluralInterface
+class Gaelic extends IntegerRule
 {
 	public function plural_category($count)
 	{
@@ -38,7 +38,7 @@ class Gaelic implements PluralInterface
 		{
 			return 'two';
 		}
-		elseif (is_int($count) AND (($count >= 3 AND $count <= 10) OR ($count >= 13 AND $count <= 19)))
+		elseif ($this->is_int($count) AND (($count >= 3 AND $count <= 10) OR ($count >= 13 AND $count <= 19)))
 		{
 			return 'few';
 		}

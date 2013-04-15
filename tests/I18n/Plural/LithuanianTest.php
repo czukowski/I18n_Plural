@@ -24,12 +24,18 @@ class LithuanianTest extends Testcase
 	{
 		return array(
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(21, 'one'),
 			array(31, 'one'),
 			array(41, 'one'),
 			array(51, 'one'),
 			array(101, 'one'),
 			array(2, 'few'),
+			array('2', 'few'),
+			array(2.0, 'few'),
+			array('2.0', 'few'),
 			array(3, 'few'),
 			array(5, 'few'),
 			array(7, 'few'),

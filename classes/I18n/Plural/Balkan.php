@@ -32,19 +32,20 @@
  */
 namespace I18n\Plural;
 
-class Balkan implements PluralInterface
+class Balkan extends IntegerRule
 {
 	public function plural_category($count)
 	{
-		if (is_int($count) AND $count % 10 == 1 AND $count % 100 != 11)
+		$is_int = $this->is_int($count);
+		if ($is_int AND $count % 10 == 1 AND $count % 100 != 11)
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 4 AND ! (($i = $count % 100) >= 12 AND $i <= 14)) 
+		elseif ($is_int AND ($i = $count % 10) >= 2 AND $i <= 4 AND ! (($i = $count % 100) >= 12 AND $i <= 14)) 
 		{
 			return 'few';
 		}
-		elseif (is_int($count) AND (($i = $count % 10) == 0 OR ($i >= 5 AND $i <= 9) OR (($i = $count % 100) >= 11 AND $i <= 14)))
+		elseif ($is_int AND (($i = $count % 10) == 0 OR ($i >= 5 AND $i <= 9) OR (($i = $count % 100) >= 11 AND $i <= 14)))
 		{
 			return 'many';
 		}

@@ -25,7 +25,7 @@
  */
 namespace I18n\Plural;
 
-class Latvian implements PluralInterface
+class Latvian extends IntegerRule
 {
 	public function plural_category($count)
 	{
@@ -33,7 +33,7 @@ class Latvian implements PluralInterface
 		{
 			return 'zero';
 		}
-		elseif (is_int($count) AND $count % 10 == 1 AND $count % 100 != 11)
+		elseif ($this->is_int($count) AND $count % 10 == 1 AND $count % 100 != 11)
 		{
 			return 'one';
 		}

@@ -25,15 +25,16 @@
  */
 namespace I18n\Plural;
 
-class Lithuanian implements PluralInterface
+class Lithuanian extends IntegerRule
 {
 	public function plural_category($count)
 	{
-		if (is_int($count) AND $count % 10 == 1 AND ! (($i = $count % 100) >= 11 AND $i <= 19))
+		$is_int = $this->is_int($count);
+		if ($is_int AND $count % 10 == 1 AND ! (($i = $count % 100) >= 11 AND $i <= 19))
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 9 AND ! (($i = $count % 100) >= 11 AND $i <= 19))
+		elseif ($is_int AND ($i = $count % 10) >= 2 AND $i <= 9 AND ! (($i = $count % 100) >= 11 AND $i <= 19))
 		{
 			return 'few';
 		}

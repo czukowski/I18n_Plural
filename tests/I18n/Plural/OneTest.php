@@ -23,6 +23,9 @@ class OneTest extends Testcase
 	{
 		return array(
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(0, 'other'),
 			array(10, 'other'),
 			array(301, 'other'),

@@ -27,19 +27,20 @@
  */
 namespace I18n\Plural;
 
-class Breton implements PluralInterface
+class Breton extends IntegerRule
 {
 	public function plural_category($count)
 	{
-		if (is_int($count) AND $count % 10 === 1 AND ! in_array($count % 100, array(11, 71, 91)))
+		$is_int = $this->is_int($count);
+		if ($is_int AND $count % 10 === 1 AND ! in_array($count % 100, array(11, 71, 91)))
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND $count % 10 === 2 AND ! in_array($count % 100, array(12, 72, 92)))
+		elseif ($is_int AND $count % 10 === 2 AND ! in_array($count % 100, array(12, 72, 92)))
 		{
 			return 'two';
 		}
-		elseif (is_int($count) AND in_array($count % 10, array(3, 4, 9)) AND ! ((($i = $count % 100) >= 10 AND $i <= 19) OR ($i >= 70 AND $i <= 79) OR ($i >= 90 AND $i <= 99)))
+		elseif ($is_int AND in_array($count % 10, array(3, 4, 9)) AND ! ((($i = $count % 100) >= 10 AND $i <= 19) OR ($i >= 70 AND $i <= 79) OR ($i >= 90 AND $i <= 99)))
 		{
 			return 'few';
 		}

@@ -25,7 +25,13 @@ class MalteseTest extends Testcase
 	{
 		return array(
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(0, 'few'),
+			array('0', 'few'),
+			array(0.0, 'few'),
+			array('0.0', 'few'),
 			array(2, 'few'),
 			array(3, 'few'),
 			array(5, 'few'),
@@ -45,6 +51,9 @@ class MalteseTest extends Testcase
 			array(209, 'few'),
 			array(210, 'few'),
 			array(11, 'many'),
+			array('11', 'many'),
+			array(11.0, 'many'),
+			array('11.0', 'many'),
 			array(12, 'many'),
 			array(13, 'many'),
 			array(14, 'many'),

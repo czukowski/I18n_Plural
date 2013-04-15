@@ -25,8 +25,17 @@ class HebrewTest extends Testcase
 	{
 		return array(
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(2, 'two'),
+			array('2', 'two'),
+			array(2.0, 'two'),
+			array('2.0', 'two'),
 			array(10, 'many'),
+			array('10', 'many'),
+			array(10.0, 'many'),
+			array('10.0', 'many'),
 			array(20, 'many'),
 			array(100, 'many'),
 			array(0, 'other'),

@@ -24,11 +24,11 @@
  */
 namespace I18n\Plural;
 
-class Macedonian implements PluralInterface
+class Macedonian extends IntegerRule
 {
 	public function plural_category($count)
 	{
-		if (is_int($count) AND $count % 10 == 1 AND $count != 11)
+		if ($this->is_int($count) AND $count % 10 == 1 AND $count != 11)
 		{
 			return 'one';
 		}

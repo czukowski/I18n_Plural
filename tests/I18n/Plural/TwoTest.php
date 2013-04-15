@@ -24,7 +24,13 @@ class TwoTest extends Testcase
 	{
 		return array(
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(2, 'two'),
+			array('2', 'two'),
+			array(2.0, 'two'),
+			array('2.0', 'two'),
 			array(0, 'other'),
 			array(3, 'other'),
 			array(11, 'other'),

@@ -27,10 +27,11 @@
  */
 namespace I18n\Plural;
 
-class Irish implements PluralInterface
+class Irish extends IntegerRule
 {
 	public function plural_category($count)
 	{
+		$is_int = $this->is_int($count);
 		if ($count == 1)
 		{
 			return 'one';
@@ -39,11 +40,11 @@ class Irish implements PluralInterface
 		{
 			return 'two';
 		}
-		elseif (is_int($count) AND $count >= 3 AND $count <= 6)
+		elseif ($is_int AND $count >= 3 AND $count <= 6)
 		{
 			return 'few';
 		}
-		elseif (is_int($count) AND $count >= 7 AND $count <= 10)
+		elseif ($is_int AND $count >= 7 AND $count <= 10)
 		{
 			return 'many';
 		}

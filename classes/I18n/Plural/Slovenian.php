@@ -26,19 +26,20 @@
  */
 namespace I18n\Plural;
 
-class Slovenian implements PluralInterface
+class Slovenian extends IntegerRule
 {
 	public function plural_category($count)
 	{
-		if (is_int($count) AND $count % 100 == 1)
+		$is_int = $this->is_int($count);
+		if ($is_int AND $count % 100 == 1)
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND $count % 100 == 2)
+		elseif ($is_int AND $count % 100 == 2)
 		{
 			return 'two';
 		}
-		elseif (is_int($count) AND ($i = $count % 100) >= 3 AND $i <= 4)
+		elseif ($is_int AND ($i = $count % 100) >= 3 AND $i <= 4)
 		{
 			return 'few';
 		}

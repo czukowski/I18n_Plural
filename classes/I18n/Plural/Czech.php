@@ -26,7 +26,7 @@
  */
 namespace I18n\Plural;
 
-class Czech implements PluralInterface
+class Czech extends IntegerRule
 {
 	public function plural_category($count)
 	{
@@ -34,7 +34,7 @@ class Czech implements PluralInterface
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND $count >= 2 AND $count <= 4)
+		elseif ($this->is_int($count) AND $count >= 2 AND $count <= 4)
 		{
 			return 'few';
 		}

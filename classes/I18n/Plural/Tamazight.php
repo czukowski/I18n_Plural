@@ -24,11 +24,11 @@
  */
 namespace I18n\Plural;
 
-class Tamazight implements PluralInterface
+class Tamazight extends IntegerRule
 {
 	public function plural_category($count)
 	{
-		if (is_int($count) AND ($count == 0 OR $count == 1 OR ($count >= 11 AND $count <= 99)))
+		if ($this->is_int($count) AND ($count == 0 OR $count == 1 OR ($count >= 11 AND $count <= 99)))
 		{
 			return 'one';
 		}

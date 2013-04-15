@@ -28,10 +28,11 @@
  */
 namespace I18n\Plural;
 
-class Arabic implements PluralInterface
+class Arabic extends IntegerRule
 {
 	public function plural_category($count)
 	{
+		$is_int = $this->is_int($count);
 		if ($count == 0)
 		{
 			return 'zero';
@@ -44,11 +45,11 @@ class Arabic implements PluralInterface
 		{
 			return 'two';
 		}
-		elseif (is_int($count) AND ($i = $count % 100) >= 3 AND $i <= 10)
+		elseif ($is_int AND ($i = $count % 100) >= 3 AND $i <= 10)
 		{
 			return 'few';
 		}
-		elseif (is_int($count) AND ($i = $count % 100) >= 11 AND $i <= 99)
+		elseif ($is_int AND ($i = $count % 100) >= 11 AND $i <= 99)
 		{
 			return 'many';
 		}

@@ -26,7 +26,7 @@
  */
 namespace I18n\Plural;
 
-class Romanian implements PluralInterface
+class Romanian extends IntegerRule
 {
 	public function plural_category($count)
 	{
@@ -34,7 +34,7 @@ class Romanian implements PluralInterface
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND ($count == 0 OR (($i = $count % 100) >= 1 AND $i <= 19)))
+		elseif ($this->is_int($count) AND ($count == 0 OR (($i = $count % 100) >= 1 AND $i <= 19)))
 		{
 			return 'few';
 		}

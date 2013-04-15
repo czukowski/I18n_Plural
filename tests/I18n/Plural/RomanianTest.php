@@ -24,8 +24,14 @@ class RomanianTest extends Testcase
 	{
 		return array(
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(0, 'few'),
 			array(2, 'few'),
+			array('2', 'few'),
+			array(2.0, 'few'),
+			array('2.0', 'few'),
 			array(3, 'few'),
 			array(5, 'few'),
 			array(9, 'few'),

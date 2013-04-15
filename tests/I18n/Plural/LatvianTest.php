@@ -24,7 +24,13 @@ class LatvianTest extends Testcase
 	{
 		return array(
 			array(0, 'zero'),
+			array('0', 'zero'),
+			array(0.0, 'zero'),
+			array('0.0', 'zero'),
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(21, 'one'),
 			array(31, 'one'),
 			array(41, 'one'),

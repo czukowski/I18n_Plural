@@ -25,7 +25,7 @@
  */
 namespace I18n\Plural;
 
-class Polish implements PluralInterface
+class Polish extends IntegerRule
 {
 	public function plural_category($count)
 	{
@@ -33,7 +33,7 @@ class Polish implements PluralInterface
 		{
 			return 'one';
 		}
-		elseif (is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 4 AND ! (($i = $count % 100) >= 12 AND $i <= 14) AND ! ($i >= 22 AND $i <= 24))
+		elseif ($this->is_int($count) AND ($i = $count % 10) >= 2 AND $i <= 4 AND ! (($i = $count % 100) >= 12 AND $i <= 14) AND ! ($i >= 22 AND $i <= 24))
 		{
 			return 'few';
 		}

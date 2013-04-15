@@ -27,7 +27,13 @@ class ArabicTest extends Testcase
 	{
 		return array(
 			array(0, 'zero'),
+			array('0', 'zero'),
+			array(0.0, 'zero'),
+			array('0.0', 'zero'),
 			array(1, 'one'),
+			array('1', 'one'),
+			array(1.0, 'one'),
+			array('1.0', 'one'),
 			array(2, 'two'),
 			array(3, 'few'),
 			array(4, 'few'),
@@ -35,6 +41,9 @@ class ArabicTest extends Testcase
 			array(8, 'few'),
 			array(10, 'few'),
 			array(103, 'few'),
+			array('103', 'few'),
+			array(103.0, 'few'),
+			array('103.0', 'few'),
 			array(104, 'few'),
 			array(106, 'few'),
 			array(108, 'few'),
@@ -45,6 +54,8 @@ class ArabicTest extends Testcase
 			array(208, 'few'),
 			array(210, 'few'),
 			array(11, 'many'),
+			array('11', 'many'),
+			array(11.0, 'many'),
 			array(15, 'many'),
 			array(25, 'many'),
 			array(36, 'many'),
@@ -92,6 +103,7 @@ class ArabicTest extends Testcase
 			array(3.31, 'other'),
 			array(11.31, 'other'),
 			array(100.31, 'other'),
+			array(103.1, 'other'),
 		);
 	}
 }

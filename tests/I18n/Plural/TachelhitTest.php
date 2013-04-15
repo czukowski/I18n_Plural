@@ -24,12 +24,18 @@ class TachelhitTest extends Testcase
 	{
 		return array(
 			array(0, 'one'),
+			array('0', 'one'),
+			array(0.0, 'one'),
+			array('0.0', 'one'),
 			array(1, 'one'),
 			array(2, 'few'),
 			array(3, 'few'),
 			array(5, 'few'),
 			array(8, 'few'),
 			array(10, 'few'),
+			array('10', 'few'),
+			array(10.0, 'few'),
+			array('10.0', 'few'),
 			array(11, 'other'),
 			array(19, 'other'),
 			array(69, 'other'),

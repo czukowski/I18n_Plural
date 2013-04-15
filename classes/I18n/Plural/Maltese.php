@@ -26,19 +26,20 @@
  */
 namespace I18n\Plural;
 
-class Maltese implements PluralInterface
+class Maltese extends IntegerRule
 {
 	public function plural_category($count)
 	{
+		$is_int = $this->is_int($count);
 		if ($count == 1)
 		{
 			return 'one';
 		}
-		elseif ($count == 0 OR is_int($count) AND ($i = $count % 100) >= 2 AND $i <= 10)
+		elseif ($count == 0 OR $is_int AND ($i = $count % 100) >= 2 AND $i <= 10)
 		{
 			return 'few';
 		}
-		elseif (is_int($count) AND ($i = $count % 100) >= 11 AND $i <= 19)
+		elseif ($is_int AND ($i = $count % 100) >= 11 AND $i <= 19)
 		{
 			return 'many';
 		}
