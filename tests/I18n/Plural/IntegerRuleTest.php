@@ -40,9 +40,9 @@ class IntegerRuleTest extends \I18n\Testcase
 		);
 	}
 
-	public function setup()
+	public function setUp()
 	{
-		parent::setup();
+		parent::setUp();
 		$this->object = $this->getMock($this->class_name(), array('plural_category'));
 		$this->is_int = new \ReflectionMethod($this->object, 'is_int');
 		$this->is_int->setAccessible(TRUE);
