@@ -7,7 +7,7 @@
  * Must be run from the command line!
  * 
  * Takes one argument - the source classes/i18n/core.php, which must contain a method with a signature
- * `protected function plural_rules_factory($prefix)`.
+ * `public function create_rules($prefix)`.
  * 
  * By default it will output the code back to stdout, you should redirect it to some file, which will
  * then replace the source file itself (see usage - run the file without arguments). You wouldn't want
@@ -26,7 +26,7 @@ $args = $_SERVER['argv'];
 call_user_func(function() use ($args) {
 
 	$tokens = array(
-		'function' => 'protected function plural_rules_factory($prefix)',
+		'function' => 'public function create_rules($prefix)',
 		'if_one' => "\t\t:elseif (\$prefix == ':locale')",
 		'if_many' => "\t\t:elseif (in_array(\$prefix, array(:locales)))",
 		'else' => "\t\tthrow new \InvalidArgumentException('Unknown language prefix: '.\$prefix.'.');",
@@ -36,7 +36,7 @@ call_user_func(function() use ($args) {
 			'weighted' => array('en', 'fr', 'ru', 'cs', 'pl'),
 			'weights' => array('en' => 100),
 		),
-		'usage' => "\n\nUsage:\nphp generate_factory.php <path_to_core.php> <path_to_plural_dir>\nphp generate_factory.php core.php plural\nphp generate_factory.php core.php plural > core.php",
+		'usage' => "\n\nUsage:\nphp generate_factory.php <path_to_factory.php> <path_to_plural_dir>\nphp generate_factory.php Plural/Factory.php Plural\nphp generate_factory.php Plural/Factory.php Plural > Factory.php",
 	);
 
 	if (strpos($args[0], 'phpunit'))
