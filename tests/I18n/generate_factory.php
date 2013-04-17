@@ -83,6 +83,15 @@ call_user_func(function() use ($args) {
 		}
 	}
 
+	if ( ! $start_line)
+	{
+		die('Factory method not found in the source file!');
+	}
+	elseif ( ! $end_line)
+	{
+		die('Factory method end not found in the source file!');
+	}
+
 	// Sort locales and plural rules sets to potentially reduce number of compare operations for a factory
 	// before a locale is matched to the corresponding rules set.
 	$helper = new \I18n\Tests\Generator($tokens['options']);
