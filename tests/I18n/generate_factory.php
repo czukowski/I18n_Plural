@@ -2,21 +2,26 @@
 /**
  * This is a utility script, you don't need to run it under usual circumstances.
  * 
- * This script will update the plural rules factory in the I18n_Core class, based on the test files.
+ * This script will update the plural rules factory in the I18n\Plural\Factory class, based on the
+ * test files.
  * 
  * Must be run from the command line!
  * 
- * Takes one argument - the source classes/i18n/core.php, which must contain a method with a signature
- * `public function create_rules($prefix)`.
+ * Takes two arguments:
+ *  - path to `classes/I18n/Plural/Factory.php`, which must contain a method with a signature
+ *    `public function create_rules($prefix)`; this will serve as a file template,
+ *  - path to plural rules unit tests: `tests/I18n/Plural`; the doc comments in these files are used
+ *    to build the factory.
  * 
- * By default it will output the code back to stdout, you should redirect it to some file, which will
- * then replace the source file itself (see usage - run the file without arguments). You wouldn't want
- * to output to the source file directly, because should any error occurr, it'll be replaced by the
- * error message.
+ * By default it will output the code back to stdout, you may redirect it to a file (see usage for
+ * an example - run the file without arguments), which you'd then copy over the source file itself
+ * or put it separately for your autoload to use it instead of the provided default factory . You
+ * wouldn't want to output to the source file directly, because should any error occurr, it'll be
+ * replaced by the error message.
  * 
  * @package    I18n
  * @author     Korney Czukowski
- * @copyright  (c) 2012 Korney Czukowski
+ * @copyright  (c) 2013 Korney Czukowski
  * @license    MIT License
  */
 require_once __DIR__.'/kohana.php';
