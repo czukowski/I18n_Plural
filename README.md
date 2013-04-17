@@ -121,7 +121,7 @@ language. The possible contexts are `zero`, `one`, `two`, `few`, `many` and `oth
 only have 2-3 of these, and any of them will always have `other` context.
 
 The rules are defined in [these classes](https://github.com/czukowski/I18n_Plural/tree/3.3%2Fmaster/classes/I18n/Plural).
-If you don't see your language immediately, try looking into one.php, two.php and other generic names, they
+If you don't see your language immediately, try looking into One.php, Two.php and other generic names, they
 aggregate a large number of languages, that share same rules. All the files include the rules in human
 readable format and a list of languages they apply to.
 
@@ -296,7 +296,8 @@ There are two ways of defining validation messages directly in i18n files, avoid
 i18n/en.php
 
 	return array(
-		'user' => array(    // "File"-specific
+		// "File"-specific
+		'user' => array(
 			'password' => array(
 				'min_length' => array(
 					'one' => 'New passowrd must be at least one character long',
@@ -304,7 +305,8 @@ i18n/en.php
 				),
 			),
 		),
-		'valid' => array(   // Default
+		// Default
+		'valid' => array(
 			'regex' => ':field does not match the required format',
 		)
 	);
@@ -350,16 +352,17 @@ API
  * @return  string
 
 This is basically a gateway to the i18n system, as any static access from the class has been removed.
-For the lack of a better container, it keeps a static instance of an `I18n_Core` class. You're welcome
-to keep its instance in any other way you find comfortable.
+For the lack of a better container, it keeps a static instance of an `I18n\Core` class.
 
 	___(':count user is online', 1000, array(':count' => 1000));
 	// 1000 users are online
 
-Normally, it's not necessary to use any other function to translate your stuff, but if you plan to extend
-the functionality, the API description that follows may be useful.
+**Note:** you may define your own `___()` function implementation before the `init.php` is called.
 
-**Note:** you may define your own `___()` function before the `init.php` is called.
+Normally, it's not necessary to use any other function to translate your stuff, but if you're after more
+improving of the testability of your code, you're welcome to dump the `___()` function usage and use the
+`I18n\Core` class directly, keeping its instance in any way you find comfortable. In this case the
+following API description may be useful.
 
 ### class I18n\Core
 
@@ -367,9 +370,9 @@ the functionality, the API description that follows may be useful.
 
   * @param  I18n\Reader\ReaderInterface  $reader
 
-This method takes a class instance that implements `I18n_Reader_Interface`. The default reader is
-`I18n_Reader_Kohana`, which reads translations from the Kohana i18n files, but you can implement your own
-readers to provide translations from any source of your choise.
+This method takes a class instance that implements `I18n\Reader\ReaderInterface`. The default reader is
+`I18n\Reader\Kohana`, which reads translations from the Kohana i18n files, but you can implement your own
+readers to provide translations from any source of your choice.
 
 #### public function translate($string, $context, $values, $lang = NULL)
 
