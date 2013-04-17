@@ -445,3 +445,11 @@ Formats date and time.
  * @return  string
 
 Returns the difference between the time bounds in a "fuzzy" way. Overrides `Kohana_Date::fuzzy_span()` method.
+
+Testing
+=======
+
+Although a golden rule says you aren't supposed to test the 3rd party code (that's its authors' responsibility),
+you may run it using this command from module's root directory:
+
+	phpunit --bootstrap tests/I18n/bootstrap.php tests/I18n/
