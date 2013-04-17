@@ -53,12 +53,12 @@ call_user_func(function() use ($args) {
 	{
 		die('Too few arguments'.$tokens['usage']);
 	}
-	$source_file = realpath(__DIR__.'/'.$args[1]);
+	$source_file = realpath($args[1]);
 	if ( ! $source_file)
 	{
 		die('File "'.$args[1].'" not found'.$tokens['usage']);
 	}
-	$rules_dir = realpath(__DIR__.'/'.$args[2]);
+	$rules_dir = realpath($args[2]);
 	if ( ! $rules_dir)
 	{
 		die('"'.$args[1].'" is not a directory'.$tokens['usage']);
