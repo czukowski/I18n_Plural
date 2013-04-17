@@ -20,6 +20,10 @@ class Core
 	 * @var  array  Plural rules classes instances
 	 */
 	private $_rules = array();
+	/**
+	 * @var  Plural\Factory
+	 */
+	private $_plural_rules_factory;
 
 	/**
 	 * Attach an i18n reader
@@ -142,130 +146,21 @@ class Core
 		{
 			// Get language code prefix
 			$parts = explode('-', $lang, 2);
-			$this->_rules[$lang] = $this->plural_rules_factory($parts[0]);
+			$this->_rules[$lang] = $this->plural_rules_factory()
+				->create_rules($parts[0]);
 		}
 		return $this->_rules[$lang];
 	}
 
 	/**
-	 * Chooses inflection class to use according to CLDR plural rules
-	 * 
-	 * @param   string  $prefix
-	 * @return  Plural\PluralInterface
+	 * @return  Plural\Factory
 	 */
-	protected function plural_rules_factory($prefix)
+	protected function plural_rules_factory()
 	{
-		if ($prefix == 'pl')
+		if ($this->_plural_rules_factory === NULL)
 		{
-			return new Plural\Polish;
+			$this->_plural_rules_factory = new Plural\Factory;
 		}
-		elseif (in_array($prefix, array('cs', 'sk')))
-		{
-			return new Plural\Czech;
-		}
-		elseif (in_array($prefix, array('fr', 'ff', 'kab')))
-		{
-			return new Plural\French;
-		}
-		elseif (in_array($prefix, array('ru', 'sr', 'uk', 'sh', 'be', 'hr', 'bs')))
-		{
-			return new Plural\Balkan;
-		}
-		elseif (in_array($prefix, array(
-			'en', 'ny', 'nr', 'no', 'om', 'os', 'ps', 'pa', 'nn', 'or', 'nl', 'lg', 'lb', 'ky', 'ml', 'mr',
-			'ne', 'nd', 'nb', 'pt', 'rm', 'ts', 'tn', 'tk', 'ur', 'vo', 'zu', 'xh', 've', 'te', 'ta', 'sq',
-			'so', 'sn', 'ss', 'st', 'sw', 'sv', 'ku', 'mn', 'et', 'eo', 'el', 'eu', 'fi', 'fy', 'fo', 'ee',
-			'dv', 'bg', 'af', 'bn', 'ca', 'de', 'da', 'gl', 'es', 'it', 'is', 'ks', 'ha', 'kk', 'kl', 'gu',
-			'brx', 'mas', 'teo', 'chr', 'cgg', 'tig', 'wae', 'xog', 'ast', 'vun', 'bem', 'syr', 'bez', 'asa',
-			'rof', 'ksb', 'rwk', 'haw', 'pap', 'gsw', 'fur', 'saq', 'seh', 'nyn', 'kcg', 'ssy', 'kaj', 'jmc',
-			'nah', 'ckb')))
-		{
-			return new Plural\One;
-		}
-		elseif ($prefix == 'mt')
-		{
-			return new Plural\Maltese;
-		}
-		elseif ($prefix == 'gv')
-		{
-			return new Plural\Manx;
-		}
-		elseif ($prefix == 'sl')
-		{
-			return new Plural\Slovenian;
-		}
-		elseif ($prefix == 'cy')
-		{
-			return new Plural\Welsh;
-		}
-		elseif ($prefix == 'ar')
-		{
-			return new Plural\Arabic;
-		}
-		elseif ($prefix == 'shi')
-		{
-			return new Plural\Tachelhit;
-		}
-		elseif ($prefix == 'tzm')
-		{
-			return new Plural\Tamazight;
-		}
-		elseif ($prefix == 'mk')
-		{
-			return new Plural\Macedonian;
-		}
-		elseif ($prefix == 'lt')
-		{
-			return new Plural\Lithuanian;
-		}
-		elseif ($prefix == 'he')
-		{
-			return new Plural\Hebrew;
-		}
-		elseif ($prefix == 'gd')
-		{
-			return new Plural\Gaelic;
-		}
-		elseif ($prefix == 'ga')
-		{
-			return new Plural\Irish;
-		}
-		elseif ($prefix == 'lag')
-		{
-			return new Plural\Langi;
-		}
-		elseif ($prefix == 'lv')
-		{
-			return new Plural\Latvian;
-		}
-		elseif ($prefix == 'br')
-		{
-			return new Plural\Breton;
-		}
-		elseif ($prefix == 'ksh')
-		{
-			return new Plural\Colognian;
-		}
-		elseif (in_array($prefix, array('mo', 'ro')))
-		{
-			return new Plural\Romanian;
-		}
-		elseif (in_array($prefix, array(
-			'se', 'kw', 'iu', 'smn', 'sms', 'smj', 'sma', 'naq', 'smi')))
-		{
-			return new Plural\Two;
-		}
-		elseif (in_array($prefix, array(
-			'hi', 'ln', 'mg', 'ak', 'tl', 'am', 'bh', 'wa', 'ti', 'guw', 'fil', 'nso')))
-		{
-			return new Plural\Zero;
-		}
-		elseif (in_array($prefix, array(
-			'my', 'sg', 'ms', 'lo', 'kn', 'ko', 'th', 'to', 'yo', 'zh', 'wo', 'vi', 'tr', 'az', 'km', 'id',
-			'ig', 'fa', 'dz', 'bm', 'bo', 'ii', 'hu', 'ka', 'jv', 'ja', 'kde', 'ses', 'sah', 'kea')))
-		{
-			return new Plural\None;
-		}
-		throw new \InvalidArgumentException('Unknown language prefix: '.$prefix.'.');
+		return $this->_plural_rules_factory;
 	}
 }
