@@ -132,7 +132,7 @@ return array(
 			'other'		=> 'Pole :field musí být alespoň :param2 znaků dlouhé',
 		),
 		'not_empty'		=> 'Pole :field nesmí být prázdné',
-		'numeric'       => ':field musí mít číselnou hodnotu',
+		'numeric'		=> ':field musí mít číselnou hodnotu',
 		'phone'			=> 'Pole :field musí být platné telefonní číslo',
 		'range'			=> 'Hodnota pole :field musí ležet v intervalu od :param2 do :param3',
 		'regex'			=> 'Pole :field musí splňovat požadovaný formát',
