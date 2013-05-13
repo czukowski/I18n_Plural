@@ -10,7 +10,7 @@
 namespace I18n\Reader;
 use I18n;
 
-class KohanaTest extends I18n\Testcase {
+class KohanaTest extends I18n\KohanaTestcase {
 
 	public function setUp() {
 		parent::setUp();
