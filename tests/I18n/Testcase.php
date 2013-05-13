@@ -15,7 +15,7 @@ abstract class Testcase extends \PHPUnit_Framework_TestCase
 	public function setup_object()
 	{
 		$class = new \ReflectionClass($this->class_name());
-		$this->object = $class->newInstanceArgs($this->_object_constructor_arguments());		
+		$this->object = $class->newInstanceArgs($this->_object_constructor_arguments());
 	}
 
 	public function class_name()
