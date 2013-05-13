@@ -8,20 +8,9 @@
  */
 namespace I18n;
 
-abstract class Testcase extends \Kohana_Unittest_Testcase
+abstract class Testcase extends \PHPUnit_Framework_TestCase
 {
 	protected $object;
-	protected static $initial_lang;
-
-	public static function setUpBeforeClass()
-	{
-		self::$initial_lang = \I18n::lang();
-	}
-
-	public static function tearDownAfterClass()
-	{
-		\I18n::lang(self::$initial_lang);
-	}
 
 	public function setup_object()
 	{

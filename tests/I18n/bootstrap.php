@@ -1,8 +1,13 @@
 <?php
-// Load application bootstrap
+// Load Kohana bootstrap
 require __DIR__.'/kohana.php';
 
-// Load some required classes
+// Initialize our own autoloader
+require_once DOCROOT.'loader'.EXT;
+spl_autoload_register(array(
+	new I18n\Tests\Autoloader(array(DOCROOT.'../')),
+	'load',
+));
+
+// Initialize helper classes
 require_once DOCROOT.'helpers'.EXT;
-require_once DOCROOT.'Testcase'.EXT;
-require_once DOCROOT.'Plural/Testcase'.EXT;

@@ -11,7 +11,7 @@
  */
 namespace I18n;
 
-class KohanaTest extends Testcase
+class KohanaTest extends KohanaTestcase
 {
 	/**
 	 * @dataProvider  provide_underscores

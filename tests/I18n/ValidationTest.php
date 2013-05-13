@@ -10,7 +10,7 @@
  */
 namespace I18n;
 
-class ValidationTest extends Testcase
+class ValidationTest extends KohanaTestcase
 {
 	/**
 	 * Tests Validation::errors()

@@ -12,7 +12,7 @@ namespace I18n\Date;
 use I18n;
 use I18n\Date;
 
-class FormatTest extends I18n\Testcase
+class FormatTest extends I18n\KohanaTestcase
 {
 	/**
 	 * Test common date formats are same across all languages

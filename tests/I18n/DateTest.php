@@ -9,7 +9,7 @@
  */
 namespace I18n;
 
-class DateTest extends Testcase
+class DateTest extends KohanaTestcase
 {
 	private $reference_time;
 

@@ -28,5 +28,4 @@ Kohana::init(array(
 Kohana::$config->attach(new Kohana_Config_File);
 Kohana::modules(array(
 	'plurals' => MODPATH.'plurals',
-	'unittest' => MODPATH.'unittest',
 ));
