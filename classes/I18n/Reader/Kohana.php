@@ -103,6 +103,6 @@ class Kohana implements ReaderInterface {
 		while ($parts);
 
 		// Cache the translation table locally
-		return $this->cache[$lang] = $table;	
+		return $this->cache[$lang] = $table;
 	}
 }
