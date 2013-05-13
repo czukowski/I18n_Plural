@@ -1,7 +1,7 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 return array(
-    'date_formats' => array(
+	'date_formats' => array(
 		'db' => '%Y-%m-%d %H:%M:%S',
 		'compact' => '%Y%m%dT%H%M%S',
 		'header' => '%g',
@@ -14,6 +14,6 @@ return array(
 		'long' => '%B %d, %Y %H:%M',
 		// 4 October 2011 07:51
 		// TODO: this is local date format, remove or merged under auto-local formatting
-        'article' => '%e %C %Y %H:%M',
-    )
+		'article' => '%e %C %Y %H:%M',
+	),
 );
