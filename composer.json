@@ -19,7 +19,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"I18n\\": "classes/I18n/"
+			"I18n\\": "classes/"
 		}
 	}
 }
