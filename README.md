@@ -1,10 +1,33 @@
 Introduction
 ============
 
-This package will help you to do grammatically accurate translations in your application. It doesn't do much
-on its own though as you'll need to implement the I18n files reader(s).
+This package will help you to do grammatically accurate translations in your Nette application.
 
-Branches for [Kohana Framework][http://kohanaframework.org/] with some extra features are available.
+The i18n files structure for the default reader has been ported from the [Kohana Framework](http://kohanaframework.org).
+For the simplicity and performance sake, they're just PHP files that return arrays:
+
+	<?php
+	return array(
+		'string' => 'řetězec',
+		'section' => array(
+			'string' => 'řetězec v sekci',
+		),
+	);
+
+Put your translation files into your `app/i18n` folder, like this:
+
+ * `fr.php`
+ * `fr/be.php`
+ * `fr/ch.php`
+
+Depending on the target language you use, the most specific locale will take precedence when the same
+translation key exists in the multiple files. For example, if you use just 'fr' as a target lang for the
+translations, it'll just use the `fr.php`. For 'fr-be' it'll be both `fr.php` and `fr/be.php` files,
+where the latter will override the translations from the `fr.php`.
+
+TODO: How to make it work in your Nette application.
+
+Read on to learn what's the practical usage of sections, how to use plurals and more.
 
 Translation contexts
 ====================
@@ -173,8 +196,9 @@ API
 
   * @param  I18n\Reader\ReaderInterface  $reader
 
-This method takes a class instance that implements `I18n\Reader\ReaderInterface`. You'll implement your own
-readers to provide translations from any source of your choice.
+This method takes a class instance that implements `I18n\Reader\ReaderInterface`. `NetteReader` instance may
+be used for Nette applications, that'll read the translations from the *.php files in your Nette `app/i18n`
+dir; although you may implement your own readers to provide translations from any source of your choice.
 
 #### public function translate($string, $context, $values, $lang = NULL)
 
