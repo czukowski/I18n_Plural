@@ -1,10 +1,18 @@
 Introduction
 ============
 
-This package will help you to do grammatically accurate translations in your application. It doesn't do much
-on its own though as you'll need to implement the I18n files reader(s).
+This package will help you to do grammatically accurate translations in your application.
 
-Branches for [Kohana Framework][http://kohanaframework.org/] with some extra features are available.
+Branches for the following frameworks are available:
+
+ * [3.3/master](https://github.com/czukowski/I18n_Plural/tree/3.3/master)
+   for [Kohana Framework](http://kohanaframework.org/) with some extra features are available (there are also
+   branches for older Kohana versions, although no more supported).
+ * [nette/master](https://github.com/czukowski/I18n_Plural/tree/nette/master)
+   for [Nette Framework](http://nette.org/en/)
+
+For use with the other frameworks or on its own, there's some work to do as you'll need to implement the I18n
+files reader(s). More on them below, following some ideas on what this might be good for.
 
 Translation contexts
 ====================
