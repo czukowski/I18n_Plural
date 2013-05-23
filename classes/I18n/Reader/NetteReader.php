@@ -80,7 +80,7 @@ class NetteReader implements ReaderInterface
 			// Create a path for this set of parts
 			$path = implode(DIRECTORY_SEPARATOR, $parts);
 			$files = array(
-				rtrim($this->context->parameters['appPath'], '/').'/i18n/'.$path.'.php',
+				rtrim($this->context->parameters['appDir'], '/').'/i18n/'.$path.'.php',
 			);
 			if ($files)
 			{

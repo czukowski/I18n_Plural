@@ -87,7 +87,7 @@ class NetteReaderTest extends I18n\Testcase
 	{
 		$context = new \stdClass;
 		$context->parameters = array(
-			'appPath' => $this->app_path,
+			'appDir' => $this->app_path,
 			'defaultLocale' => $default_lang,
 		);
 		$this->object = $this->getMock($this->class_name(), array('load_file'), array($context));
