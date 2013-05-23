@@ -15,12 +15,19 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 	 * @var  Core
 	 */
 	private $i18n;
+	/**
+	 * @var  \Nette\DI\Container
+	 */
+	private $context;
 
 	/**
 	 * Instanciates a new I18n\Core object.
+	 * 
+	 * @param  \Nette\DI\Container  $context
 	 */
-	public function __construct()
+	public function __construct(\Nette\DI\Container $context)
 	{
+		$this->context = $context;
 		$this->i18n = new Core;
 	}
 
@@ -35,7 +42,8 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 	}
 
 	/**
-	 * Nette localization interface adapter. Does not support parameters replacement.
+	 * Nette localization interface adapter.
+	 * Does not support parameters replacement and uses default language.
 	 * 
 	 * @param   string  $string
 	 * @param   mixed   $count
@@ -43,7 +51,9 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 	 */
 	public function translate($string, $count = NULL)
 	{
-		return $this->i18n->translate($string, $count, array());
+		// Use the default language from nette config
+		$lang = $this->context->parameters['defaultLocale'];
+		return $this->i18n->translate($string, $count, array(), $lang);
 	}
 
 	/**
