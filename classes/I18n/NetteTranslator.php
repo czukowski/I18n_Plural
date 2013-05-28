@@ -43,7 +43,6 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 
 	/**
 	 * Nette localization interface adapter.
-	 * Does not support parameters replacement and uses default language.
 	 * 
 	 * @param   string  $string
 	 * @param   mixed   $count
@@ -51,8 +50,23 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 	 */
 	public function translate($string, $count = NULL)
 	{
-		// Use the default language from nette config
-		$lang = $this->context->parameters['defaultLocale'];
+		// The func_num_args/func_get_arg jiggling is to overcome the ITranslator's limitation
+		if (func_num_args() > 2)
+		{
+			$parameters = func_get_arg(2);
+		}
+		if ( ! isset($parameters))
+		{
+			$parameters = array();
+		}
+		if (func_num_args() > 3)
+		{
+			$lang = func_get_arg(3);
+		}
+		if ( ! isset($lang)) {
+			// Use the default language from nette config
+			$lang = $this->context->parameters['defaultLocale'];
+		}
 		return $this->i18n->translate($string, $count, array(), $lang);
 	}
 
