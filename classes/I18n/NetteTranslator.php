@@ -67,7 +67,7 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 			// Use the default language from nette config
 			$lang = $this->context->parameters['defaultLocale'];
 		}
-		return $this->i18n->translate($string, $count, array(), $lang);
+		return $this->i18n->translate($string, $count, $parameters, $lang);
 	}
 
 	/**
