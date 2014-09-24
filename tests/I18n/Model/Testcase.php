@@ -3,7 +3,7 @@
  * Model Testcase.
  * 
  * @package    I18n
- * @category   Plural Rules
+ * @category   Unit tests
  * @author     Korney Czukowski
  * @copyright  (c) 2014 Korney Czukowski
  * @license    MIT License
