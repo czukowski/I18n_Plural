@@ -15,7 +15,6 @@ use I18n;
 
 class ModelBaseTest extends Testcase
 {
-
 	/**
 	 * @dataProvider  provide_context
 	 */
@@ -191,6 +190,35 @@ class ModelBaseTest extends Testcase
 			array(array('key' => 'value1'), array(array('key' => 'value2')), array('key' => 'value2')),
 			array(array('key1' => 'value1'), array(array('key2' => 'value2')), array('key2' => 'value2')),
 			array(array(), array(new \ArrayObject(array('key' => 'value'))), array('key' => 'value')),
+		);
+	}
+
+	/**
+	 * @dataProvider  provide_parameter_default
+	 */
+	public function test_parameter_default($parameters, $arguments, $expected)
+	{
+		$this->object->parameters($parameters);
+		$parameter_default = $this->_object_method('_parameter_default');
+		$parameter_default->setAccessible(TRUE);
+		$actual = $parameter_default->invokeArgs($this->object, $arguments);
+		$this->assertSame($expected, $actual);
+	}
+
+	public function provide_parameter_default()
+	{
+		$parameters = array(
+			'key1' => 'value1',
+			'nil' => NULL,
+		);
+		// [previously set parameters, requested key, default value, expected]
+		return array(
+			array($parameters, array('key1'), 'value1'),
+			array($parameters, array('key2'), NULL),
+			array($parameters, array('nil'), NULL),
+			array($parameters, array('key1', 'value2'), 'value1'),
+			array($parameters, array('key2', 'value2'), 'value2'),
+			array($parameters, array('nil', 'value2'), NULL),
 		);
 	}
 

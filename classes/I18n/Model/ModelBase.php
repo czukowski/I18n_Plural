@@ -129,6 +129,18 @@ abstract class ModelBase implements ModelInterface
 	}
 
 	/**
+	 * Parameter getter with the default value fallback.
+	 */
+	protected function _parameter_default($key, $default = NULL)
+	{
+		if ( ! array_key_exists($key, $this->_parameters))
+		{
+			return $default;
+		}
+		return $this->_parameters[$key];
+	}
+
+	/**
 	 * Try and call the main 'to string' function.
 	 * `__toString` method must not throw exceptions, just return empty string in case of error.
 	 * 
