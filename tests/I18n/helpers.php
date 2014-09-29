@@ -37,11 +37,11 @@ class Reader implements I18n\Reader\ReaderInterface {
 			':count :items' => ':count :items',
 			'in_directories' => array(
 				'one' => 'in one directory',
-				'many' => 'in :count directories',
+				'other' => 'in :count directories',
 			),
 			'files_found' => array(
 				'one' => 'Found :count file',
-				'many' => 'Found :count files',
+				'other' => 'Found :count files',
 			),
 		),
 		'es' => array(
@@ -71,8 +71,19 @@ class Reader implements I18n\Reader\ReaderInterface {
 			),
 			'files_found' => array(
 				'one' => 'Byl nalezen :count soubor',
-				'few' => 'Byly nalezeno :count soubory',
-				'many' => 'Bylo nalezeno :count souborů',
+				'few' => 'Byly nalezeny :count soubory',
+				'other' => 'Bylo nalezeno :count souborů',
+			),
+		),
+		'ru' => array(
+			'in_directories' => array(
+				'one' => 'в :count папке',
+				'other' => 'в :count папках',
+			),
+			'files_found' => array(
+				'one' => 'Найден :count файл',
+				'few' => 'Найдены :count файла',
+				'other' => 'Найдено :count файлов',
 			),
 		),
 	);
