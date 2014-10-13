@@ -164,6 +164,18 @@ class ParameterModelTest extends SampleTestcase
 				array('mr', 'Mr'),
 				'Mr person',
 			),
+			// Initializing model using model states only.
+			array(
+				array(),
+				array(
+					'string' => ':count things',
+					'lang' => 'en',
+					'context' => 10,
+					'parameters' => array(':count' => 10),
+				),
+				array('any', 'arguments'),
+				'10 things',
+			),
 		);
 	}
 }

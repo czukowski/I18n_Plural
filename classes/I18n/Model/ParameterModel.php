@@ -127,7 +127,7 @@ class ParameterModel extends ModelBase
 		$translate = array(
 			'context' => $this->context(),
 			'lang' => $this->lang(),
-			'parameters' => array(),
+			'parameters' => $this->parameters(),
 			'string' => $this->string(),
 		);
 
