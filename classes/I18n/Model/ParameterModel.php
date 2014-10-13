@@ -130,16 +130,17 @@ class ParameterModel extends ModelBase
 			'parameters' => $this->parameters(),
 			'string' => $this->string(),
 		);
+		$contexts = array();
 
 		// Populate `$translate` variable with function arguments and/or model state.
 		foreach ($this->_translate as $i => $element)
 		{
-			$this->_setup_element($translate, $element, $i, $arguments);
+			$this->_setup_element($translate, $element, $i, $arguments, $contexts);
 		}
 		// Now that the basic date have been set, parameters that need to have context values.
-		foreach ($this->_translate as $element)
+		foreach ($contexts as $parameter)
 		{
-			$this->_setup_context_parameter($translate, $element);
+			$translate['parameters'][$parameter] = $translate[self::CONTEXT];
 		}
 
 		// Translate using the populated data.
@@ -152,11 +153,13 @@ class ParameterModel extends ModelBase
 	 * @param  array    $element    N-th argument definition from `$_translate` property.
 	 * @param  integer  $position   argument position (N)
 	 * @param  array    $arguments  `translate()` function arguments.
+	 * @param  array    $contexts   output array to collect positions of context parameters.
 	 */
-	private function _setup_element(&$translate, $element, $position, $arguments)
+	private function _setup_element(&$translate, $element, $position, $arguments, &$contexts)
 	{
-		$arguments_count = count($arguments);
 		$key = array_shift($element);
+		$arguments_count = count($arguments);
+		$element_count = count($element);
 		if ($key !== self::PARAMETER)
 		{
 			// The key is 'context', 'lang' or 'string'. They've already been pre-initialized
@@ -166,7 +169,7 @@ class ParameterModel extends ModelBase
 				? $arguments[$position]
 				: ($translate[$key] === NULL ? array_shift($element) : $translate[$key]);
 		}
-		elseif ($key === self::PARAMETER && count($element) === 2)
+		elseif ($key === self::PARAMETER && $element_count === 2)
 		{
 			// If `translate()` function argument at the current position has been passed, then
 			// use it as parameter value, else use set parameter, fallback to preset default.
@@ -175,22 +178,11 @@ class ParameterModel extends ModelBase
 				? $arguments[$position]
 				: $this->_parameter_default($parameter, $default);
 		}
-	}
-
-	/**
-	 * @param  array  $translate  translation parts array that will be used in translation.
-	 * @param  array  $element    N-th argument definition from `$_translate` property.
-	 */
-	private function _setup_context_parameter(&$translate, $element)
-	{
-		$element_count = count($element);
-		$key = array_shift($element);
-		if ($key === self::PARAMETER && $element_count === 2)
+		if ($key === self::PARAMETER && $element_count === 1)
 		{
 			// Special case of 'parameter' definition without default value means that the
 			// context is substituted.
-			$parameter = reset($element);
-			$translate['parameters'][$parameter] = $translate[self::CONTEXT];
+			$contexts[] = reset($element);
 		}
 	}
 }

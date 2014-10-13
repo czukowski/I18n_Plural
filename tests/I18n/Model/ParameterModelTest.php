@@ -164,6 +164,20 @@ class ParameterModelTest extends SampleTestcase
 				array('mr', 'Mr'),
 				'Mr person',
 			),
+			array(
+				array(
+					array('context', 'something'),
+					array('parameter', ':item'),
+					array('parameter', ':item'),
+					array('parameter', ':item'),
+					array('parameter', ':item'),
+					array('parameter', ':item'),
+					array('lang', 'en'),
+				),
+				array('string' => ':item-:item-:item-:item-:item'),
+				array('Do'),
+				'Do-Do-Do-Do-Do',
+			),
 			// Initializing model using model states only.
 			array(
 				array(),
