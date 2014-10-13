@@ -13,6 +13,67 @@ namespace I18n\Model;
 class ParameterModelTest extends SampleTestcase
 {
 	/**
+	 * @dataProvider  provide_initialize
+	 */
+	public function test_initialize($argument, $expected = NULL)
+	{
+		$this->_set_expected_exception($expected);
+		$actual = $this->object->initialize($argument);
+		$this->assertSame($this->object, $actual);
+		$translate = new \ReflectionProperty($this->object, '_translate');
+		$translate->setAccessible(TRUE);
+		$this->assertEquals($argument, $translate->getValue($this->object));
+	}
+
+	public function provide_initialize()
+	{
+		// [initialize argument, expected exception]
+		return array(
+			// Ok arguments.
+			array(
+				array(),
+			),
+			array(
+				array(
+					array('context', 2),
+					array('lang', 'en'),
+					array('string', ':count :things'),
+					array('parameter', ':count'),
+					array('parameter', ':things', 'models'),
+				),
+			),
+			// Invalid definition type.
+			array(
+				array(
+					array('parameters', ':count', 1),
+				),
+				new \InvalidArgumentException
+			),
+			// Too much definition arguments.
+			array(
+				array(
+					array('context', 2, TRUE),
+				),
+				new \InvalidArgumentException
+			),
+			array(
+				array(
+					array('parameter', ':person', 'Unknown', 'extra parameter'),
+				),
+				new \InvalidArgumentException
+			),
+			// Too few definition arguments.
+			array(
+				array(
+					array('parameter', ':count', 1),
+					array('string'),
+				),
+				new \InvalidArgumentException,
+			),
+		);
+	}
+
+	/**
 	 * Tests `string()` setter and getter.
 	 */
 	public function test_string()
@@ -49,6 +110,7 @@ class ParameterModelTest extends SampleTestcase
 	{
 		// [translate presets, invoke methods, arguments, expected]
 		return array(
+			// Initializing model using `_translate` property, testing various fallbacks.
 			array(
 				array(
 					array('context', 2),

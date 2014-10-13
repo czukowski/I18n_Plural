@@ -18,4 +18,15 @@ class Testcase extends I18n\Testcase
 		parent::setUp();
 		$this->setup_object();
 	}
+
+	/**
+	 * @param  mixed  $expected
+	 */
+	protected function _set_expected_exception($expected)
+	{
+		if ($expected instanceof \Exception)
+		{
+			$this->setExpectedException(get_class($expected));
+		}
+	}
 }

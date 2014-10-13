@@ -57,6 +57,46 @@ class ParameterModel extends ModelBase
 	protected $_translate = array();
 
 	/**
+	 * Initialize translation data.
+	 * 
+	 * @param   array  $translate
+	 * @return  $this
+	 */
+	public function initialize($translate)
+	{
+		foreach ($translate as $order => $element)
+		{
+			$this->_validate_element($element, $order);
+		}
+		$this->_translate = $translate;
+		return $this;
+	}
+
+	/**
+	 * @param   array    $element   N-th argument definition from `$_translate` property.
+	 * @param   integer  $position  argument position (N)
+	 * @throws  \InvalidArgumentException
+	 */
+	private function _validate_element($element, $position)
+	{
+		$key = reset($element);
+		$allowed_keys = array(self::CONTEXT, self::LANG, self::PARAMETER, self::STRING);
+		if ( ! in_array($key, $allowed_keys))
+		{
+			throw new \InvalidArgumentException('Translation definition "'.$key.'" expected to be one of "'.implode('", "', $allowed_keys).'", "'.$key.'" found.');
+		}
+		$elements_count = count($element);
+		if ($key !== self::PARAMETER && $elements_count !== 2)
+		{
+			throw new \InvalidArgumentException('Translation definition "'.$key.'" expected to have 2 elements, '.$elements_count.' found.');
+		}
+		elseif ($key === self::PARAMETER && ($elements_count < 2 || $elements_count > 3))
+		{
+			throw new \InvalidArgumentException('Translation definition "'.$key.'" at position '.($position + 1).' expected to have 2 or 3 elements, '.$elements_count.' found.');
+		}
+	}
+
+	/**
 	 * Translation string getter and setter. This makes sense here for 'parametrized'
 	 * translation logic.
 	 * 
@@ -94,7 +134,6 @@ class ParameterModel extends ModelBase
 		// Populate `$translate` variable with function arguments and/or model state.
 		foreach ($this->_translate as $i => $element)
 		{
-			$this->_validate_element($element, $i);
 			$this->_setup_element($translate, $element, $i, $arguments);
 		}
 		// Now that the basic date have been set, parameters that need to have context values.
@@ -152,26 +191,6 @@ class ParameterModel extends ModelBase
 			// context is substituted.
 			$parameter = reset($element);
 			$translate['parameters'][$parameter] = $translate[self::CONTEXT];
-		}
-	}
-
-	/**
-	 * @param   array    $element    N-th argument definition from `$_translate` property.
-	 * @param   integer  $position   argument position (N)
-	 * @throws  \InvalidArgumentException
-	 */
-	private function _validate_element($element, $position)
-	{
-		$key = reset($element);
-		$allowed_keys = array(self::CONTEXT, self::LANG, self::PARAMETER, self::STRING);
-		if ( ! in_array($key, $allowed_keys))
-		{
-			throw new \InvalidArgumentException('Translation definition "'.$key.'" expected to be one of "'.implode('", "', $allowed_keys).'", "'.$key.'" found.');
-		}
-		$elements_count = count($element);
-		if ($elements_count < 2 || $elements_count > 3)
-		{
-			throw new \InvalidArgumentException('Translation definition "'.$key.'" expected to have 2 or 3 elements, '.$elements_count.' found.');
 		}
 	}
 }

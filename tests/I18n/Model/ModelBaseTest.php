@@ -232,17 +232,6 @@ class ModelBaseTest extends Testcase
 	}
 
 	/**
-	 * @param  mixed  $expected
-	 */
-	private function _set_expected_exception($expected)
-	{
-		if ($expected instanceof \Exception)
-		{
-			$this->setExpectedException(get_class($expected));
-		}
-	}
-
-	/**
 	 * Tests `__toString()` magic method return values based on the mocked results from
 	 * `translate()` method call.
 	 * 
