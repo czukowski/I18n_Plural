@@ -91,9 +91,7 @@ class ParameterModelTest extends SampleTestcase
 	public function test_translate($presets, $methods, $arguments, $expected)
 	{
 		// Setup translate definitions.
-		$translate_property = new \ReflectionProperty($this->object, '_translate');
-		$translate_property->setAccessible(TRUE);
-		$translate_property->setValue($this->object, $presets);
+		$this->object->initialize($presets);
 		// Setup object state (context, lang, parameters, string).
 		foreach ($methods as $name => $argument)
 		{

@@ -48,6 +48,10 @@ class ParameterModel extends ModelBase
 	const PARAMETER = 'parameter';
 	const STRING = 'string';
 	/**
+	 * @var  array  Parameter keys that are replaced by context.
+	 */
+	private $_context_params;
+	/**
 	 * @var  string  Pre-defined translation string.
 	 */
 	private $_string;
@@ -64,10 +68,19 @@ class ParameterModel extends ModelBase
 	 */
 	public function initialize($translate)
 	{
+		$contexts = array();
 		foreach ($translate as $order => $element)
 		{
 			$this->_validate_element($element, $order);
+			$key = reset($element);
+			if ($key === self::PARAMETER && count($element) === 2 && ($parameter = next($element)) && ! in_array($parameter, $contexts))
+			{
+				// Special case of 'parameter' definition without default value means that the
+				// context is substituted.
+				$contexts[] = $parameter;
+			}
 		}
+		$this->_context_params = $contexts;
 		$this->_translate = $translate;
 		return $this;
 	}
@@ -130,7 +143,6 @@ class ParameterModel extends ModelBase
 			'parameters' => $this->parameters(),
 			'string' => $this->string(),
 		);
-		$contexts = array();
 
 		// Populate `$translate` variable with function arguments and/or model state.
 		foreach ($this->_translate as $i => $element)
@@ -138,7 +150,7 @@ class ParameterModel extends ModelBase
 			$this->_setup_element($translate, $element, $i, $arguments, $contexts);
 		}
 		// Now that the basic date have been set, parameters that need to have context values.
-		foreach ($contexts as $parameter)
+		foreach ($this->_context_params as $parameter)
 		{
 			$translate['parameters'][$parameter] = $translate[self::CONTEXT];
 		}
@@ -177,12 +189,6 @@ class ParameterModel extends ModelBase
 			$translate['parameters'][$parameter] = $position < $arguments_count
 				? $arguments[$position]
 				: $this->_parameter_default($parameter, $default);
-		}
-		if ($key === self::PARAMETER && $element_count === 1)
-		{
-			// Special case of 'parameter' definition without default value means that the
-			// context is substituted.
-			$contexts[] = reset($element);
 		}
 	}
 }
