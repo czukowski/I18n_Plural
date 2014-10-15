@@ -149,7 +149,7 @@ class ParameterModel extends ModelBase
 		{
 			$this->_setup_element($translate, $element, $i, $arguments, $contexts);
 		}
-		// Now that the basic date have been set, parameters that need to have context values.
+		// Now that the basic data have been set, parameters that need to have context values.
 		foreach ($this->_context_params as $parameter)
 		{
 			$translate['parameters'][$parameter] = $translate[self::CONTEXT];
