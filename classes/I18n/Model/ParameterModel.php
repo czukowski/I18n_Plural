@@ -1,8 +1,10 @@
 <?php
 /**
  * Parametrized Model class.
- * Has default `translate()` function implementation for the simple cases,
- * that can be configured in an object property named `$_translate`.
+ * 
+ * Implements default `translate()` function for the simpler translation needs,
+ * that can be configured in subclasses' property named `$_translate` or using
+ * `initialize()` method.
  * 
  * The `$_translate` property is array of arrays, each defining arguments
  * that may be passed to the `translate()` function directly, then falling
@@ -61,7 +63,7 @@ class ParameterModel extends ModelBase
 	protected $_translate = array();
 
 	/**
-	 * Initialize translation data.
+	 * Initialize translation data by validating and then setting `$_translate` property.
 	 * 
 	 * @param   array  $translate
 	 * @return  $this
@@ -86,6 +88,8 @@ class ParameterModel extends ModelBase
 	}
 
 	/**
+	 * Validates that translate element conforms to the specification.
+	 * 
 	 * @param   array    $element   N-th argument definition from `$_translate` property.
 	 * @param   integer  $position  argument position (N)
 	 * @throws  \InvalidArgumentException
@@ -111,7 +115,7 @@ class ParameterModel extends ModelBase
 
 	/**
 	 * Translation string getter and setter. This makes sense here for 'parametrized'
-	 * translation logic.
+	 * translation logic for changing translation string on-the-fly.
 	 * 
 	 * @param   string  $string
 	 * @return  $this|string
@@ -147,7 +151,7 @@ class ParameterModel extends ModelBase
 		// Populate `$translate` variable with function arguments and/or model state.
 		foreach ($this->_translate as $i => $element)
 		{
-			$this->_setup_element($translate, $element, $i, $arguments, $contexts);
+			$this->_setup_element($translate, $element, $i, $arguments);
 		}
 		// Now that the basic data have been set, parameters that need to have context values.
 		foreach ($this->_context_params as $parameter)
@@ -161,13 +165,15 @@ class ParameterModel extends ModelBase
 	}
 
 	/**
+	 * Determine translation property values from `translate()` function arguments and using
+	 * fallback logic described in the class header.
+	 * 
 	 * @param  array    $translate  translation parts array that will be used in translation.
 	 * @param  array    $element    N-th argument definition from `$_translate` property.
 	 * @param  integer  $position   argument position (N)
 	 * @param  array    $arguments  `translate()` function arguments.
-	 * @param  array    $contexts   output array to collect positions of context parameters.
 	 */
-	private function _setup_element(&$translate, $element, $position, $arguments, &$contexts)
+	private function _setup_element(&$translate, $element, $position, $arguments)
 	{
 		$key = array_shift($element);
 		$arguments_count = count($arguments);
