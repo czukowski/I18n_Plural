@@ -195,8 +195,11 @@ You may implement models by taking off from various levels:
   3. By extending or even using directly the `I18n\Model\ParameterModel` where you only define the
      `translate()` function arguments types and default values and then use it just as in the example above.
      All arguments are optional, those not passed to the function will default to model states and failing
-     that to the arguments' default values. For more detailed description, look into the class itself for
-     the comments.
+     that to the arguments' default values. Using this method may make it easier for common translation cases,
+     but will lack in flexibility for more complex phrases. For more detailed description, look into the class
+     itself for the code comments.
+
+Also note that there are few sample models under the tests folder.
 
 Core API
 ========
