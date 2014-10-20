@@ -172,8 +172,37 @@ In your code:
 Note how the 2nd and 3rd translations differ between the languages. For English, it's the same form ('years
 old'), while in Russian the translations are totally different.
 
-API
-===
+Translation models
+==================
+
+The concept of the translation models is simple: you have a phrase that you need to translate using different
+parameters, contexts and languages. This is fairly easy to achieve using the core translation function, but
+models allow you to move this logic to a separate class or object.
+
+Example, of course, with the correct inflections:
+
+	echo $filesInDirsCount->translate(123, 56, 'en');
+	// Found 123 files in 56 directories
+	echo $filesInDirsCount->translate(123, 56, 'ru');
+	// Найдено 123 файла в 56 папках
+
+You may implement models by taking off from various levels:
+
+  1. By just implementing `I18n\Model\ModelInterface` which only requires your class to be castable to string
+     using `__toString()` function. This means you're in the full control of how your model will be working.
+  2. By extending `I18n\Model\ModelBase` that has various getter/setter methods to maintain model states,
+     you'll need to implement the `translate()` function where you'll place the translation logic.
+  3. By extending or even using directly the `I18n\Model\ParameterModel` where you only define the
+     `translate()` function arguments types and default values and then use it just as in the example above.
+     All arguments are optional, those not passed to the function will default to model states and failing
+     that to the arguments' default values. Using this method may make it easier for common translation cases,
+     but will lack in flexibility for more complex phrases. For more detailed description, look into the class
+     itself for the code comments.
+
+Also note that there are few sample models under the tests folder.
+
+Core API
+========
 
 ### class I18n\Core
 

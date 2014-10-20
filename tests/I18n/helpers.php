@@ -30,6 +30,19 @@ class Reader implements I18n\Reader\ReaderInterface {
 				'three' => ':count countables',
 				'other' => ':count countables',
 			),
+			':count things' => array(
+				'one' => ':count thing',
+				'other' => ':count things',
+			),
+			':count :items' => ':count :items',
+			'in_directories' => array(
+				'one' => 'in one directory',
+				'other' => 'in :count directories',
+			),
+			'files_found' => array(
+				'one' => 'Found :count file',
+				'other' => 'Found :count files',
+			),
 		),
 		'es' => array(
 			'Spanish' => 'Español',
@@ -40,7 +53,38 @@ class Reader implements I18n\Reader\ReaderInterface {
 				'ms' => ':title žena',
 				'other' => ':title člověk',
 			),
+			':count countable' => array(
+				'one' => ':count počítatelná',
+				'few' => ':count počítatelné',
+				'other' => ':count počítatelných',
+			),
+			':count things' => array(
+				'one' => ':count věc',
+				'few' => ':count věci',
+				'other' => ':count věcí',
+			),
 			'something :what' => 'něco :what',
+			'in_directories' => array(
+				'one' => 'v jedné složce',
+				'few' => 've :count složkách',
+				'other' => 'v :count složkách',
+			),
+			'files_found' => array(
+				'one' => 'Byl nalezen :count soubor',
+				'few' => 'Byly nalezeny :count soubory',
+				'other' => 'Bylo nalezeno :count souborů',
+			),
+		),
+		'ru' => array(
+			'in_directories' => array(
+				'one' => 'в :count папке',
+				'other' => 'в :count папках',
+			),
+			'files_found' => array(
+				'one' => 'Найден :count файл',
+				'few' => 'Найдены :count файла',
+				'other' => 'Найдено :count файлов',
+			),
 		),
 	);
 
