@@ -74,7 +74,7 @@ class NetteReaderTest extends I18n\Testcase
 
 	public function callback_load_file($path)
 	{
-		$file = preg_replace('#^'.preg_quote($this->app_path.'i18n/', '#').'#', '', str_replace(DIRECTORY_SEPARATOR, '/', $path));
+		$file = preg_replace('#^'.preg_quote($this->app_path, '#').'#', '', str_replace(DIRECTORY_SEPARATOR, '/', $path));
 		if (isset($this->i18n[$file]))
 		{
 			$this->callback_counters[$file]++;
@@ -85,12 +85,11 @@ class NetteReaderTest extends I18n\Testcase
 
 	private function setup_get($default_lang)
 	{
-		$context = new \stdClass;
-		$context->parameters = array(
-			'appDir' => $this->app_path,
-			'defaultLocale' => $default_lang,
+		$arguments = array(
+			$this->app_path,
+			$default_lang,
 		);
-		$this->object = $this->getMock($this->class_name(), array('load_file'), array($context));
+		$this->object = $this->getMock($this->class_name(), array('load_file'), $arguments);
 		$this->object->expects($this->any())
 			->method('load_file')
 			->will($this->returnCallback(array($this, 'callback_load_file')));

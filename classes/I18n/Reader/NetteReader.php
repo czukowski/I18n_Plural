@@ -15,14 +15,17 @@ namespace I18n\Reader;
 class NetteReader implements ReaderInterface
 {
 	private $cache = array();
-	private $context;
+	private $default_lang;
+	private $i18n_dir;
 
 	/**
-	 * @param  Nette\DI\Container  $context
+	 * @param  string  $i18n_dir      root directory to look for i18n files
+	 * @param  string  $default_lang  default language to use when none specified
 	 */
-	public function __construct($context)
+	public function __construct($i18n_dir, $default_lang = 'x')
 	{
-		$this->context = $context;
+		$this->i18n_dir = $i18n_dir;
+		$this->default_lang = $default_lang;
 	}
 
 	/**
@@ -38,7 +41,7 @@ class NetteReader implements ReaderInterface
 		if ( ! $lang)
 		{
 			// Use the default language from nette config
-			$lang = $this->context->parameters['defaultLocale'];
+			$lang = $this->default_lang;
 		}
 
 		// Load the translation table for this language
@@ -80,7 +83,7 @@ class NetteReader implements ReaderInterface
 			// Create a path for this set of parts
 			$path = implode(DIRECTORY_SEPARATOR, $parts);
 			$files = array(
-				rtrim($this->context->parameters['appDir'], '/').'/i18n/'.$path.'.php',
+				rtrim($this->i18n_dir, '/').'/'.$path.'.php',
 			);
 			if ($files)
 			{
