@@ -17,6 +17,7 @@ class NetteReader implements ReaderInterface
 	private $cache = array();
 	private $default_lang;
 	private $i18n_dir;
+	protected $extension = 'php';
 
 	/**
 	 * @param  string  $i18n_dir      root directory to look for i18n files
@@ -83,7 +84,7 @@ class NetteReader implements ReaderInterface
 			// Create a path for this set of parts
 			$path = implode(DIRECTORY_SEPARATOR, $parts);
 			$files = array(
-				rtrim($this->i18n_dir, '/').'/'.$path.'.php',
+				rtrim($this->i18n_dir, '/').'/'.$path.'.'.$this->extension,
 			);
 			if ($files)
 			{

@@ -15,7 +15,8 @@
 		"issues": "https://github.com/czukowski/I18n_Plural/issues"
 	},
 	"require": {
-		"php": ">=5.3.0"
+		"php": ">=5.3.0",
+		"nette/neon": "~2.2"
 	},
 	"autoload": {
 		"psr-0": {
