@@ -1,31 +1,72 @@
 Introduction
 ============
 
-This package will help you to do grammatically accurate translations in your Nette application.
+This package will help you to do grammatically accurate translations in your Nette application (framework
+version 2.2+).
 
-The i18n files structure for the default reader has been ported from the [Kohana Framework](http://kohanaframework.org).
-For the simplicity and performance sake, they're just PHP files that return arrays:
+Installation is currently possible using Composer, but in addition to the usual `"require"` you'll have
+to add the repository like this:
 
-	<?php
-	return array(
-		'string' => 'řetězec',
-		'section' => array(
-			'string' => 'řetězec v sekci',
-		),
-	);
+	"repositories": [
+		{
+			"type": "git",
+			"url": "git://github.com/czukowski/I18n_Plural.git"
+		}
+	],
+	"require": {
+		"czukowski/i18n": "dev-nette/master",
+	}
 
-Put your translation files into your `app/i18n` folder, like this:
+Manual installation is always an option as well.
 
- * `fr.php`
- * `fr/be.php`
- * `fr/ch.php`
+Translation files are actually Neon files and may be located virtually anywhere in your application.
+The suggested directory is `app/i18n`, that'll be used for examples.
 
-Depending on the target language you use, the most specific locale will take precedence when the same
-translation key exists in the multiple files. For example, if you use just 'fr' as a target lang for the
-translations, it'll just use the `fr.php`. For 'fr-be' it'll be both `fr.php` and `fr/be.php` files,
-where the latter will override the translations from the `fr.php`.
+In your application code you'll need to make sure the i18n directory is known to the Configurator,
+perhaps in `index.php` or bootstrap:
 
-TODO: How to make it work in your Nette application.
+	$parameters['i18nDir'] = $parameters['appDir'].'/i18n'
+
+Services configuration example (`'en-us'` would be your default language):
+
+	services:
+		# This is the Translation service.
+		i18n:
+			class: I18n\NetteTranslator('en-us')
+			setup:
+				- attach(@i18n.reader)
+		# This is the Reader service that is the source of translation strings.
+		# It is possible to attach multiple readers to the translator.
+		i18n.reader: I18n\Reader\NeonReader(%i18nDir%)
+
+Place your translations into the i18n directory, like so:
+
+ * `fr.neon` - General French translations,
+ * `fr/be.neon` - Belgium French translations that are different from general French,
+ * `fr/ch.neon` - Swiss French translations that are different from general French.
+
+If you request the translation for 'fr-CH' locale, it'll look in the `fr/ch.neon` first, and failing
+that in the general `fr.neon`. If the translation wasn't found even there, the untranslated input string
+is returned.
+
+The translation data structure is very similar to what you're used to in Neon configuration:
+
+	string: řetězec
+	section:
+		string: 'řetězec v podsekci'
+
+Some of the Nette controls are ready for translations, you just need to set the translator instance
+to them, for example (this is assuming you've named your `NetteTranslator` service 'i18n'):
+
+	// Set translator to control (Nette\Forms\Controls\BaseControl):
+	$control->setTranslator($this->context->getService('i18n'));
+	// Set translator to form (Nette\Forms\Form):
+	$form->setTranslator($this->context->getService('i18n'));
+	// Set translator to template (Nette\Templating\Template):
+	$template->setTranslator($this->context->getService('i18n'));
+
+After setting the translator to the templates, you'll be able to use the translation macro:
+`{_'translate this'}`. We'll get into the details on its usage later on.
 
 Read on to learn what's the practical usage of sections, how to use plurals and more.
 
@@ -35,7 +76,8 @@ Translation contexts
 Many languages use different words or inflections depending on a lot of circumstances, while it isn't much
 problem in English, we can find an example there, too: suppose you want to display a string, that looks like
 this: "His/her name is _name_" and you know the name of a person and his or her gender. Suppose you have
-a function named `__()`, that does your translations and accepts optional arguments for parameters replacement.
+a function named `__()`, that does your translations and accepts optional arguments for parameters
+replacement (this will actually be your NetteTranslator's `translate()` function or the translation macro).
 Then the most trivial would be to do this:
 
 	echo __($gender == 'f' ? 'His' : 'Her').__('name is :name', array(':name' => $name));
@@ -52,12 +94,9 @@ comes in handy. Consider just this:
 
 For that to work, we have defined the translation key `Their name is :name` with 2 contexts - `f` and `m`:
 
-	array(
-		'Their name is :name' => array(
-			'f' => 'Her name is :name',
-			'm' => 'His name is :name',
-		),
-	);
+	'Their name is :name':
+		f: 'Her name is :name'
+		m: 'His name is :name'
 
 Example
 -------
@@ -82,13 +121,10 @@ of a context in another way, a context can be just an object we want it to be re
 
 Let's take Russian for an example, although many others will have similar translation structure as well.
 
-	array(
-		'Enabled' => array(
-			'user' => 'Включен',
-			'role' => 'Включена',
-			'other' => 'Включено',
-		),
-	);
+	Enabled:
+		user: Включен
+		role: Включена
+		other: Включено
 
 Somewhere else:
 
@@ -121,22 +157,16 @@ Example
 
 English:
 
-	array(
-		'You have :count messages' => array(
-			'one' => 'You have one message',        // 1 message
-			'other' => 'You have :count messages',  // more messages
-		),
-	);
+	'You have :count messages':
+		one: 'You have one message'        # 1 message
+		other: 'You have :count messages'  # more messages
 
 Czech:
 
-	array(
-		'You have :count messages' => array(
-			'one' => 'Máte jednu zprávu',      // 1 message
-			'few' => 'Máte :count zprávy',     // 2 - 4 messages
-			'other' => 'Máte :count zpráv',    // more messages
-		),
-	);
+	'You have :count messages':
+		one: 'Máte jednu zprávu'      # 1 message
+		few: 'Máte :count zprávy'     # 2 - 4 messages
+		other: 'Máte :count zpráv'    # more messages
 
 *Note:* before doing something like I did above (I've replaced :count with actual 'one' value for the
 context `one`), check with the language rules, whether that context really applies only when the number
@@ -148,23 +178,17 @@ Example
 
 English:
 
-	array(
-		'Hi My Age Is'=> array(
-			'one' => 'Hello world, I\'m :age year old',
-			'other' => 'Hello world, I\'m :age years old',
-		),
-	);
+	'Hi My Age Is':
+		one: 'Hello world, I\'m :age year old'
+		other: 'Hello world, I\'m :age years old'
 
 Russian:
 
-	array(
-		'Hi My Age Is' => array(
-			'one' => 'Привет мир, мне уже :age год',
-			'few' => 'Привет мир, мне уже :age года',
-			'many' => 'Привет мир, мне уже :age лет',
-			'other' => 'Привет мир, мне уже :age лет',
-		),
-	);
+	'Hi My Age Is':
+		one: 'Привет мир, мне уже :age год'
+		few: 'Привет мир, мне уже :age года'
+		many: 'Привет мир, мне уже :age лет'
+		other: 'Привет мир, мне уже :age лет'
 
 In your code:
 
@@ -177,11 +201,11 @@ In your code:
 	
 	// Now suppose we've switched to another language
 	
-	echo __('hello.myage', 1, array(':age' => 1));
+	echo __('Hi My Age Is', 1, array(':age' => 1));
 	// Привет мир, мне уже 1 год
-	echo __('hello.myage', 2, array(':age' => 2));
+	echo __('Hi My Age Is', 2, array(':age' => 2));
 	// Привет мир, мне уже 2 года
-	echo __('hello.myage', 10, array(':age' => 10));
+	echo __('Hi My Age Is', 10, array(':age' => 10));
 	// Привет мир, мне уже 10 лет
 
 Note how the 2nd and 3rd translations differ between the languages. For English, it's the same form ('years
@@ -215,6 +239,13 @@ You may implement models by taking off from various levels:
      itself for the code comments.
 
 Also note that there are few sample models under the tests folder.
+
+Translating in templates
+========================
+
+Examples (TODO):
+
+	{_'You have :count messages', $count, [':count' => $count]}
 
 API
 ===
