@@ -16,18 +16,25 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 	 */
 	private $i18n;
 	/**
-	 * @var  \Nette\DI\Container
+	 * @var  string
 	 */
-	private $context;
+	private $default_lang;
 
 	/**
 	 * Instanciates a new I18n\Core object.
 	 * 
-	 * @param  \Nette\DI\Container  $context
+	 * @param  string  $default_lang
 	 */
-	public function __construct(\Nette\DI\Container $context)
+	public function __construct($default_lang = 'x')
 	{
-		$this->context = $context;
+		if (is_object($default_lang))
+		{
+			// For backward compatibility get the default lang value from context object.
+			$default_lang = isset($default_lang->parameters['defaultLocale'])
+				? $default_lang->parameters['defaultLocale']
+				: 'x';
+		}
+		$this->default_lang = $default_lang;
 		$this->i18n = new Core;
 	}
 
@@ -63,9 +70,9 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 		{
 			$lang = func_get_arg(3);
 		}
-		if ( ! isset($lang)) {
-			// Use the default language from nette config
-			$lang = $this->context->parameters['defaultLocale'];
+		if ( ! isset($lang))
+		{
+			$lang = $this->default_lang;
 		}
 		return $this->i18n->translate($string, $count, $parameters, $lang);
 	}
