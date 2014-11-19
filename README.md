@@ -257,15 +257,51 @@ Here are some examples, those are pretty self-explanatory:
 API
 ===
 
+### class I18n\NetteTranslator
+
+You are not required to use core object directly. This class is a Nette-compatible wrapper and it's the
+suggested usage in Nette applications. See above for an example on how to setup a trasnlation service.
+
+#### public function __construct($default_lang = 'x')
+
+  * @param  string  $default_lang
+
+Translator constructor takes default language to use when none is specified explicitly. Initializes a Core
+object instance internally.
+
+#### public function attach(I18n\Reader\ReaderInterface $reader)
+
+  * @param  I18n\Reader\ReaderInterface  $reader
+
+Attaches a Reader object to the Core object (see below). `I18n\NeonReader` is a suggested default reader
+for Nette application, although there's `I18n\NetteReader` that gets translations from raw PHP files and
+you may of course also implement your own readers to provide translations from any source of your choice.
+
+#### public function translate($string, $count, $parameters, $lang)
+
+  * @param   string  $string      String to translate
+  * @param   mixed   $count       String form or numeric count (optional)
+  * @param   array   $parameters  Param values to replace (optional)
+  * @param   string  $lang        Target language (optional)
+  * @return  string
+
+The `$parameters` values (array) may be passed as 2nd argument, in that case `$count` is considered `NULL`
+and `$lang` is the 3rd argument.
+
+#### public function getService()
+
+  * @return  I18n\Core
+
+Returns the internal Core object reference if needed for some reason.
+
 ### class I18n\Core
 
 #### public function attach(I18n\Reader\ReaderInterface $reader)
 
   * @param  I18n\Reader\ReaderInterface  $reader
 
-This method takes a class instance that implements `I18n\Reader\ReaderInterface`. `NetteReader` instance may
-be used for Nette applications, that'll read the translations from the *.php files in your Nette `app/i18n`
-dir; although you may implement your own readers to provide translations from any source of your choice.
+This method takes a class instance that implements `I18n\Reader\ReaderInterface`. You'll implement your own
+readers to provide translations from any source of your choice.
 
 #### public function translate($string, $context, $values, $lang = NULL)
 
