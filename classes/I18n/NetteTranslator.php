@@ -30,6 +30,7 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 		if (is_object($default_lang))
 		{
 			// For backward compatibility get the default lang value from context object.
+			// Do not use this way if you can avoid it.
 			$default_lang = isset($default_lang->parameters['defaultLocale'])
 				? $default_lang->parameters['defaultLocale']
 				: 'x';
