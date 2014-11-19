@@ -243,9 +243,16 @@ Also note that there are few sample models under the tests folder.
 Translating in templates
 ========================
 
-Examples (TODO):
+Here are some examples, those are pretty self-explanatory:
 
-	{_'You have :count messages', $count, [':count' => $count]}
+	// Basic translation.
+	{_'Welcome!'}
+	// Translation with context.
+	{_'New customer has been saved.', $customer->gender}
+	// Translation with parameters and context skipped.
+	{_'Hi, my name is :name', [':name' => $name]}
+	// All arguments present, including target language.
+	{_'You have :count messages', $count, [':count' => $count], 'cs'}
 
 API
 ===
