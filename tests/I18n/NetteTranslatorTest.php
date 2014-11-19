@@ -101,6 +101,7 @@ class NetteTranslatorTest extends Testcase
 	{
 		// [arguments, default lang, expected]
 		return array(
+			// 'Normal' usage.
 			array(array('Spanish'), 'x', 'Spanish'),
 			array(array('Spanish'), 'es', 'Español'),
 			array(array(':title person', 'mr'), 'cs', ':title muž'),
@@ -113,6 +114,10 @@ class NetteTranslatorTest extends Testcase
 			array(array(':count things', 10, array(':count' => 'ten')), 'en', 'ten things'),
 			array(array(':count things', 10, array(':count' => 'deset'), 'cs'), 'en', 'deset věcí'),
 			array(array(':title person', 'ms', array(':title' => 'some')), 'zh', 'some person'),
+			// Context parameter may be missing and arguments shifted.
+			array(array(':title person', NULL, array(':title' => 'some')), 'zh', 'some person'),
+			array(array(':title person', array(':title' => 'some')), 'zh', 'some person'),
+			array(array(':title person', array(':title' => 'nějaký'), 'cs'), 'zh', 'nějaký člověk'),
 		);
 	}
 

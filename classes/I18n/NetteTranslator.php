@@ -70,6 +70,13 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 		{
 			$lang = func_get_arg(3);
 		}
+		if ($count && is_array($count))
+		{
+			// If there's no context and parameters are in its place, shift the 3rd and 4th arguments.
+			$lang = $parameters ? : NULL;
+			$parameters = $count;
+			$count = NULL;
+		}
 		if ( ! isset($lang))
 		{
 			$lang = $this->default_lang;
