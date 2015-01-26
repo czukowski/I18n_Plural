@@ -131,7 +131,7 @@ class CoreTest extends Testcase
 		$split_lang->setAccessible(TRUE);
 		$actual = $split_lang->invoke($this->object, $lang);
 		$this->assertSame($expected, $actual);
-		$langs_splits = new \ReflectionProperty($this->object, '_langs_splits');
+		$langs_splits = new \ReflectionProperty($this->object, '_fallback_paths');
 		$langs_splits->setAccessible(TRUE);
 		$cached_actual = $langs_splits->getValue($this->object);
 		$this->assertTrue(array_key_exists($lang, $cached_actual));

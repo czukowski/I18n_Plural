@@ -31,7 +31,7 @@ class Core
 	/**
 	 * @var  boolean  Local cache for language fallback paths.
 	 */
-	private $_langs_splits = array();
+	private $_fallback_paths = array();
 
 	/**
 	 * Attach an i18n reader
@@ -151,7 +151,7 @@ class Core
 	 */
 	protected function split_lang($lang)
 	{
-		if ( ! isset($this->_langs_splits[$lang]))
+		if ( ! isset($this->_fallback_paths[$lang]))
 		{
 			$splits = array();
 			$lang_parts = explode('-', $lang);
@@ -160,9 +160,9 @@ class Core
 				$splits[] = implode('-', $lang_parts);
 				array_pop($lang_parts);
 			}
-			$this->_langs_splits[$lang] = $splits;
+			$this->_fallback_paths[$lang] = $splits;
 		}
-		return $this->_langs_splits[$lang];
+		return $this->_fallback_paths[$lang];
 	}
 
 	/**
