@@ -1,10 +1,10 @@
 <?php
 /**
- * I18n Reader Interface
+ * I18n Fallback Reader Interface
  * 
- * The difference from `FallbackReaderInterface` is that this interface can receive the target language
- * as string only and then it's up to the reader to find the translation any do any fallbacks, if necessary.
- * If translation is not found it must return NULL, same as `FallbackReaderInterface`.
+ * The difference from `ReaderInterface` is that this interface requires the reader to accept multiple
+ * target languages and try the each language in the array until the translation is found. If translation
+ * is not found in any language it must return NULL, same as `ReaderInterface`.
  * 
  * If NULL is passed to the `get` method, it is up to implementation, whether to use some default language
  * or not doing the translation at all.
@@ -20,14 +20,14 @@
  */
 namespace I18n\Reader;
 
-interface ReaderInterface
+interface FallbackReaderInterface
 {
 	/**
 	 * Returns the translation(s) of a string or NULL if there's no translation for the string.
 	 * No parameters are replaced.
 	 * 
-	 * @param   string   text to translate
-	 * @param   string   target language
+	 * @param   string         text to translate
+	 * @param   string|array   target language or languages
 	 * @return  string|array|NULL
 	 */
 	public function get($string, $lang = NULL);
