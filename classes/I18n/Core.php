@@ -4,7 +4,7 @@
  * 
  * @package    I18n
  * @author     Korney Czukowski
- * @copyright  (c) 2012 Korney Czukowski
+ * @copyright  (c) 2015 Korney Czukowski
  * @license    MIT License
  */
 namespace I18n;
@@ -24,6 +24,10 @@ class Core
 	 * @var  Plural\Factory
 	 */
 	private $_plural_rules_factory;
+	/**
+	 * @var  boolean  Use fallback by default.
+	 */
+	private $_use_fallback = TRUE;
 
 	/**
 	 * Attach an i18n reader
@@ -124,14 +128,27 @@ class Core
 	 */
 	protected function get($string, $lang)
 	{
-		foreach ($this->_readers as $reader)
-		{
-			if (($translation = $reader->get($string, $lang)))
+			foreach ($this->_readers as $reader)
 			{
-				return $translation;
+			if (($translation = $reader->get($string, $lang)))
+				{
+					return $translation;
+				}
 			}
-		}
 		return $string;
+	}
+
+	/**
+	 * Switch `get` method behavior to either request the translation from the readers with
+	 * or without fallback to less specific languages.
+	 * 
+	 * @param   boolean  $boolean
+	 * @return  $this
+	 */
+	public function use_fallback($boolean)
+	{
+		$this->_use_fallback = $boolean;
+		return $this;
 	}
 
 	/**

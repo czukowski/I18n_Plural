@@ -122,6 +122,26 @@ class CoreTest extends Testcase
 		return array($item[0], $item[2], $item[3], $item[5]);
 	}
 
+	/**
+	 * @dataProvider  provide_use_fallback
+	 */
+	public function test_use_fallback($value)
+	{
+		$actual = $this->object->use_fallback($value);
+		$this->assertSame($this->object, $actual);
+		$use_fallback = new \ReflectionProperty($this->object, '_use_fallback');
+		$use_fallback->setAccessible(TRUE);
+		$this->assertSame($value, $use_fallback->getValue($this->object));
+	}
+
+	public function provide_use_fallback()
+	{
+		return array(
+			array(TRUE),
+			array(FALSE),
+		);
+	}
+
 	public function test_plural_rules()
 	{
 		$plural_rules = new \ReflectionMethod($this->object, 'plural_rules');
