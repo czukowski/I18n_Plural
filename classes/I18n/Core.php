@@ -28,6 +28,10 @@ class Core
 	 * @var  boolean  Use fallback by default.
 	 */
 	private $_use_fallback = TRUE;
+	/**
+	 * @var  boolean  Local cache for language fallback paths.
+	 */
+	private $_langs_splits = array();
 
 	/**
 	 * Attach an i18n reader
