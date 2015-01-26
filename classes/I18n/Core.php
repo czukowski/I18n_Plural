@@ -13,11 +13,11 @@ use I18n\Plural;
 class Core
 {
 	/**
-	 * @var  array  I18n_Reader_Interface instances
+	 * @var  array  Attached readers instances.
 	 */
 	private $_readers = array();
 	/**
-	 * @var  array  Plural rules classes instances
+	 * @var  array  Plural rules classes instances.
 	 */
 	private $_rules = array();
 	/**
