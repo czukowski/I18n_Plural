@@ -123,6 +123,31 @@ class CoreTest extends Testcase
 	}
 
 	/**
+	 * @dataProvider  provide_split_lang
+	 */
+	public function test_split_lang($lang, $expected)
+	{
+		$split_lang = new \ReflectionMethod($this->object, 'split_lang');
+		$split_lang->setAccessible(TRUE);
+		$actual = $split_lang->invoke($this->object, $lang);
+		$this->assertSame($expected, $actual);
+		$langs_splits = new \ReflectionProperty($this->object, '_langs_splits');
+		$langs_splits->setAccessible(TRUE);
+		$cached_actual = $langs_splits->getValue($this->object);
+		$this->assertTrue(array_key_exists($lang, $cached_actual));
+		$this->assertSame($expected, $cached_actual[$lang]);
+	}
+
+	public function provide_split_lang()
+	{
+		// [lang code, expected fallback]
+		return array(
+			array('en', array('en')),
+			array('en-us', array('en-us', 'en')),
+		);
+	}
+
+	/**
 	 * @dataProvider  provide_use_fallback
 	 */
 	public function test_use_fallback($value)

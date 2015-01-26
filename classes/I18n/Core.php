@@ -139,6 +139,29 @@ class Core
 	}
 
 	/**
+	 * Splits language code and return itself and all its 'super-languages' (less specific langs).
+	 * Caches the results locally so it doesn't have to do it on every translation request.
+	 * 
+	 * @param   string  $lang
+	 * @return  array
+	 */
+	protected function split_lang($lang)
+	{
+		if ( ! isset($this->_langs_splits[$lang]))
+		{
+			$splits = array();
+			$lang_parts = explode('-', $lang);
+			while ($lang_parts)
+			{
+				$splits[] = implode('-', $lang_parts);
+				array_pop($lang_parts);
+			}
+			$this->_langs_splits[$lang] = $splits;
+		}
+		return $this->_langs_splits[$lang];
+	}
+
+	/**
 	 * Switch `get` method behavior to either request the translation from the readers with
 	 * or without fallback to less specific languages.
 	 * 
