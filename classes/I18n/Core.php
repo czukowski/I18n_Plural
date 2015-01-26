@@ -71,7 +71,7 @@ class Core
 	 *     // I've met :name, she is my friend now.
 	 * 
 	 * @param   string  $string
-	 * @param   string  $form, if NULL, looking for 'other' form, else the very first form
+	 * @param   string  $form  if NULL, looking for 'other' form, else the very first form
 	 * @param   string  $lang
 	 * @return  string
 	 */
