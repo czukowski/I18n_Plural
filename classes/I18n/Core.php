@@ -36,7 +36,7 @@ class Core
 	/**
 	 * Attach an i18n reader
 	 * 
-	 * @param  I18n_Reader_Interface  $reader
+	 * @param  Reader\ReaderInterface  $reader
 	 */
 	public function attach(Reader\ReaderInterface $reader)
 	{
