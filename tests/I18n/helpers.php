@@ -14,8 +14,8 @@ use I18n;
 /**
  * Test translation reader that returns predefined results
  */
-class Reader implements I18n\Reader\ReaderInterface {
-
+class Reader implements I18n\Reader\ReaderInterface
+{
 	public $translations = array(
 		'en' => array(
 			':title person' => array(
@@ -101,8 +101,8 @@ class Reader implements I18n\Reader\ReaderInterface {
 /**
  * Test plural rules that return predefined values
  */
-class Rules implements I18n\Plural\PluralInterface {
-
+class Rules implements I18n\Plural\PluralInterface
+{
 	public $rules = array(
 		0 => 'zero',
 		1 => 'one',
@@ -119,8 +119,8 @@ class Rules implements I18n\Plural\PluralInterface {
 /**
  * Plural rules helper class
  */
-class Generator {
-
+class Generator
+{
 	/**
 	 * @var  array  Class options
 	 */
