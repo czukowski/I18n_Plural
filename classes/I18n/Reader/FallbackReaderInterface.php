@@ -6,6 +6,9 @@
  * target languages and try the each language in the array until the translation is found. If translation
  * is not found in any language it must return NULL, same as `ReaderInterface`.
  * 
+ * [!!] Classes implementing this must declare implementation of both this AND `ReaderInterface`, this
+ *      is due to I18n Core object's `attach()` function API that accepts only `ReaderInterface`.
+ * 
  * If NULL is passed to the `get` method, it is up to implementation, whether to use some default language
  * or not doing the translation at all.
  * 
