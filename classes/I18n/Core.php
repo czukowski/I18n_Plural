@@ -132,13 +132,13 @@ class Core
 	 */
 	protected function get($string, $lang)
 	{
-			foreach ($this->_readers as $reader)
-			{
+		foreach ($this->_readers as $reader)
+		{
 			if (($translation = $reader->get($string, $lang)))
-				{
-					return $translation;
-				}
+			{
+				return $translation;
 			}
+		}
 		return $string;
 	}
 
