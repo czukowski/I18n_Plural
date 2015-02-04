@@ -132,11 +132,20 @@ class Core
 	 */
 	protected function get($string, $lang)
 	{
-		foreach ($this->_readers as $reader)
+		// If fallbacks are used, split language parts and iterate each reader using each part.
+		// If fallbacks are not used, just use the specified language and let the reader implementation
+		// take care of the translation fallbacks.
+		$lang_fallback_path = $this->_use_fallback
+			? $this->split_lang($lang)
+			: array($lang);
+		foreach ($lang_fallback_path as $lang)
 		{
-			if (($translation = $reader->get($string, $lang)))
+			foreach ($this->_readers as $reader)
 			{
-				return $translation;
+				if (($translation = $reader->get($string, $lang)))
+				{
+					return $translation;
+				}
 			}
 		}
 		return $string;

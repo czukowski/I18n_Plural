@@ -12,9 +12,32 @@ namespace I18n\Tests;
 use I18n;
 
 /**
- * Test translation reader that returns predefined results
+ * Test translation reader without predefined translations, used to test with multiple readers.
  */
-class Reader implements I18n\Reader\ReaderInterface
+class CleanReader implements I18n\Reader\ReaderInterface
+{
+	public $translations = array();
+
+	public function __construct(array $additional_translations = array())
+	{
+		$this->translations = array_merge_recursive($this->translations, $additional_translations);
+	}
+
+	public function get($string, $lang = NULL)
+	{
+		if (isset($this->translations[$lang][$string]))
+		{
+			return $this->translations[$lang][$string];
+		}
+		return NULL;
+	}
+}
+
+/**
+ * Test translation reader that returns predefined results. Equipped with the option to add
+ * additional translations in constructor to test usage with multiple readers.
+ */
+class DefaultReader extends CleanReader
 {
 	public $translations = array(
 		'en' => array(
@@ -87,15 +110,6 @@ class Reader implements I18n\Reader\ReaderInterface
 			),
 		),
 	);
-
-	public function get($string, $lang = NULL)
-	{
-		if (isset($this->translations[$lang][$string]))
-		{
-			return $this->translations[$lang][$string];
-		}
-		return NULL;
-	}
 }
 
 /**
