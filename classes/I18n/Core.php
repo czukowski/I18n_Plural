@@ -176,13 +176,18 @@ class Core
 
 	/**
 	 * Switch `get` method behavior to either request the translation from the readers with
-	 * or without fallback to less specific languages.
+	 * or without fallback to less specific languages. If called without parameters, returns
+	 * the current internal value.
 	 * 
-	 * @param   boolean  $boolean
-	 * @return  $this
+	 * @param   boolean|NULL  $boolean
+	 * @return  $this|boolean
 	 */
-	public function use_fallback($boolean)
+	public function use_fallback($boolean = NULL)
 	{
+		if ($boolean === NULL)
+		{
+			return $this->_use_fallback;
+		}
 		$this->_use_fallback = $boolean;
 		return $this;
 	}

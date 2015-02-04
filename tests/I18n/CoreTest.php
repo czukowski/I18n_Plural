@@ -216,13 +216,25 @@ class CoreTest extends Testcase
 	/**
 	 * @dataProvider  provide_use_fallback
 	 */
-	public function test_use_fallback($value)
+	public function test_use_fallback_setter($value)
 	{
 		$actual = $this->object->use_fallback($value);
 		$this->assertSame($this->object, $actual);
 		$use_fallback = new \ReflectionProperty($this->object, '_use_fallback');
 		$use_fallback->setAccessible(TRUE);
 		$this->assertSame($value, $use_fallback->getValue($this->object));
+	}
+
+	/**
+	 * @dataProvider  provide_use_fallback
+	 */
+	public function test_use_fallback_getter($value)
+	{
+		$use_fallback = new \ReflectionProperty($this->object, '_use_fallback');
+		$use_fallback->setAccessible(TRUE);
+		$use_fallback->setValue($this->object, $value);
+		$actual = $this->object->use_fallback();
+		$this->assertSame($value, $actual);
 	}
 
 	public function provide_use_fallback()
