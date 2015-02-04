@@ -20,8 +20,8 @@ interface ReaderInterface
 	 * No parameters are replaced. If NULL is passed as `$lang` to the `get` method, it is up to
 	 * the implementation whether to use some default language, or not doing the translation at all.
 	 * 
-	 * @param   string   text to translate
-	 * @param   string   target language
+	 * @param   string  $string  Text to translate.
+	 * @param   string  $lang    Target language.
 	 * @return  string|array|NULL
 	 */
 	public function get($string, $lang = NULL);
