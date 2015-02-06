@@ -443,6 +443,19 @@ No parameters are replaced.
 	$hello = $i18n->plural('Hello, my name is :name and I have :count friend.', 10);
 	// 'Hello, my name is :name and I have :count friends.'
 
+#### public function use_fallback($boolean = NULL)
+
+ * @param   boolean|NULL  $boolean
+ * @return  $this|boolean
+
+Switches the translation retrieval behavior to either request the translation from the readers with
+or without fallback to less specific languages. For example, if translating from 'en-us' and the value
+set to `TRUE`, the readers will be called up to 2 times: once for 'en-us' and once for 'en' in case the
+former call did not return the translation. If the value set to `FALSE`, the readers will be called only
+for 'en-us'.
+
+If called without parameters, the current internal value is returned.
+
 ### interface I18n\Reader\ReaderInterface
 
 The Reader must be able to return an associative array, if more than one translation option is available.

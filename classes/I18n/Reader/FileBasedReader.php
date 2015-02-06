@@ -18,20 +18,13 @@ abstract class FileBasedReader implements ReaderInterface
 	private $_cache = array();
 
 	/**
-	 * Return filename to load for the translations in the specified language.
+	 * Load, parse and return the associative array containing the translations for the specified
+	 * language.
 	 * 
-	 * @param   string  $lang
-	 * @return  string
-	 */
-	abstract protected function filename($lang);
-
-	/**
-	 * Load, parse and return the associative array containing the translations in the specified file.
-	 * 
-	 * @param   string  $filename  Path to the translations file to load.
+	 * @param   string  $lang  Target language.
 	 * @return  array
 	 */
-	abstract protected function load_file($filename);
+	abstract protected function load_translations($lang);
 
 	/**
 	 * This is a convenience function to split the lang code into parts: language, region, locale, etc.
@@ -56,8 +49,7 @@ abstract class FileBasedReader implements ReaderInterface
 		// Load the translations from file if not done yet.
 		if ( ! isset($this->_cache[$lang]))
 		{
-			$filename = $this->filename($lang);
-			$this->_cache[$lang] = $this->load_file($filename);
+			$this->_cache[$lang] = $this->load_translations($lang);
 		}
 
 		// Return the translated string if it exists.
