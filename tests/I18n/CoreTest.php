@@ -50,12 +50,14 @@ class CoreTest extends Testcase
 		return array_merge($merged_provider, $fallback_provider);
 	}
 
-	public function map_translate_provider($item) {
+	public function map_translate_provider($item)
+	{
 		// Return item without expected context value from data provider.
 		return array($item[1], $item[2], $item[3], $item[4], $item[5], FALSE);
 	}
 
-	public function map_translate_with_fallback_provider($item) {
+	public function map_translate_with_fallback_provider($item)
+	{
 		$item[5] = TRUE;  // Set the 6th argument (use fallback flag) to TRUE.
 		return $item;
 	}
@@ -138,7 +140,8 @@ class CoreTest extends Testcase
 		return array_map(array($this, 'map_context_provider'), $provider);
 	}
 
-	public function map_context_provider($item) {
+	public function map_context_provider($item)
+	{
 		return array($item[0], $item[2], $item[3], $item[5]);
 	}
 

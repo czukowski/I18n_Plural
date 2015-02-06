@@ -186,7 +186,8 @@ class Generator
 		{
 			if (($sort_function = $this->_sort_function($function)))
 			{
-				if (($compare_result = call_user_func($sort_function, $locale1, $locale2)) !== 0) {
+				if (($compare_result = call_user_func($sort_function, $locale1, $locale2)) !== 0)
+				{
 					return $compare_result;
 				}
 			}
