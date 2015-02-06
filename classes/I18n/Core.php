@@ -4,7 +4,7 @@
  * 
  * @package    I18n
  * @author     Korney Czukowski
- * @copyright  (c) 2012 Korney Czukowski
+ * @copyright  (c) 2015 Korney Czukowski
  * @license    MIT License
  */
 namespace I18n;
@@ -13,22 +13,30 @@ use I18n\Plural;
 class Core
 {
 	/**
-	 * @var  array  I18n_Reader_Interface instances
+	 * @var  array  Attached readers instances.
 	 */
 	private $_readers = array();
 	/**
-	 * @var  array  Plural rules classes instances
+	 * @var  array  Plural rules classes instances.
 	 */
 	private $_rules = array();
 	/**
 	 * @var  Plural\Factory
 	 */
 	private $_plural_rules_factory;
+	/**
+	 * @var  boolean  Use fallback by default.
+	 */
+	private $_use_fallback = TRUE;
+	/**
+	 * @var  boolean  Local cache for language fallback paths.
+	 */
+	private $_fallback_paths = array();
 
 	/**
 	 * Attach an i18n reader
 	 * 
-	 * @param  I18n_Reader_Interface  $reader
+	 * @param  Reader\ReaderInterface  $reader
 	 */
 	public function attach(Reader\ReaderInterface $reader)
 	{
@@ -71,7 +79,7 @@ class Core
 	 *     // I've met :name, she is my friend now.
 	 * 
 	 * @param   string  $string
-	 * @param   string  $form, if NULL, looking for 'other' form, else the very first form
+	 * @param   string  $form  if NULL, looking for 'other' form, else the very first form
 	 * @param   string  $lang
 	 * @return  string
 	 */
@@ -124,14 +132,64 @@ class Core
 	 */
 	protected function get($string, $lang)
 	{
-		foreach ($this->_readers as $reader)
+		// If fallbacks are used, split language parts and iterate each reader using each part.
+		// If fallbacks are not used, just use the specified language and let the reader implementation
+		// take care of the translation fallbacks.
+		$lang_fallback_path = $this->_use_fallback
+			? $this->split_lang($lang)
+			: array($lang);
+		foreach ($lang_fallback_path as $lang)
 		{
-			if (($translation = $reader->get($string, $lang)))
+			foreach ($this->_readers as $reader)
 			{
-				return $translation;
+				if (($translation = $reader->get($string, $lang)))
+				{
+					return $translation;
+				}
 			}
 		}
 		return $string;
+	}
+
+	/**
+	 * Splits language code and return itself and all its 'super-languages' (less specific langs).
+	 * Caches the results locally so it doesn't have to do it on every translation request.
+	 * 
+	 * @param   string  $lang
+	 * @return  array
+	 */
+	protected function split_lang($lang)
+	{
+		if ( ! isset($this->_fallback_paths[$lang]))
+		{
+			$splits = array();
+			$lang_parts = explode('-', $lang);
+			while ($lang_parts)
+			{
+				$splits[] = implode('-', $lang_parts);
+				array_pop($lang_parts);
+			}
+			$this->_fallback_paths[$lang] = $splits;
+		}
+		return $this->_fallback_paths[$lang];
+	}
+
+	/**
+	 * Switch `get` method behavior to either request the translation from the readers with
+	 * or without fallback to less specific languages. If called without parameters, returns
+	 * the current internal value.
+	 * 
+	 * @param   boolean|NULL  $boolean
+	 * @return  $this|boolean
+	 */
+	public function use_fallback($boolean = NULL)
+	{
+		if ($boolean === NULL)
+		{
+			return $this->_use_fallback;
+		}
+		$this->_use_fallback = $boolean;
+		return $this;
 	}
 
 	/**
