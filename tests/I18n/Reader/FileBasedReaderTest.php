@@ -85,16 +85,13 @@ class FileBasedReaderTest extends I18n\Testcase
 	{
 		parent::setUp();
 		$this->load_file_counter = 0;
-		$this->object = $this->getMock($this->class_name(), array('filename', 'load_file'));
+		$this->object = $this->getMock($this->class_name(), array('load_translations'));
 		$this->object->expects($this->any())
-			->method('filename')
-			->will($this->returnArgument(0));
-		$this->object->expects($this->any())
-			->method('load_file')
-			->will($this->returnCallback(array($this, 'callback_load_file')));
+			->method('load_translations')
+			->will($this->returnCallback(array($this, 'callback_load_translations')));
 	}
 
-	public function callback_load_file($lang)
+	public function callback_load_translations($lang)
 	{
 		$this->load_file_counter++;
 		$code = strtolower($lang);
