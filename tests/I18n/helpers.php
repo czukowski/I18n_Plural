@@ -5,7 +5,7 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2012 Korney Czukowski
+ * @copyright  (c) 2015 Korney Czukowski
  * @license    MIT License
  */
 namespace I18n\Tests;
