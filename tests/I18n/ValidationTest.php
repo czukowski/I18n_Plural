@@ -222,7 +222,7 @@ class ValidationTest extends KohanaTestcase
 	public function callback_translate($key, $context, $params, $lang)
 	{
 		$i18n = new Core;
-		$i18n->attach(new \I18n\Tests\Reader);
+		$i18n->attach(new \I18n\Tests\DefaultReader);
 		if ( ! is_string($lang))
 		{
 			$lang = \I18n::lang();
