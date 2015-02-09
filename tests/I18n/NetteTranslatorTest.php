@@ -73,7 +73,7 @@ class NetteTranslatorTest extends Testcase
 				$this->getMock('I18n\Reader\ReaderInterface', array('get')),
 			),
 			array(
-				new Tests\Reader,
+				new Tests\DefaultReader,
 			),
 			array(
 				new Reader\NetteReader('app://'),
@@ -91,7 +91,7 @@ class NetteTranslatorTest extends Testcase
 	{
 		$this->_constructor_arguments = array($default_lang);
 		$this->setup_object();
-		$this->object->attach(new Tests\Reader);
+		$this->object->attach(new Tests\DefaultReader);
 		$translate = new \ReflectionMethod($this->object, 'translate');
 		$actual = $translate->invokeArgs($this->object, $arguments);
 		$this->assertSame($expected, $actual);

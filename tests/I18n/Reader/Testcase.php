@@ -49,10 +49,10 @@ abstract class Testcase extends I18n\Testcase
 			array('locale (cs-cz)', 'locale', 'cs-cz', 'cs'),
 			array('locale (cs)', 'locale', 'cs', 'cs-cz'),
 			// Fallback to less specific locale.
-			array('test', 'test', 'cs-cz', NULL),
+			array(NULL, 'test', 'cs-cz', NULL),
 			array('test', 'test', 'cs', NULL),
 			// Structured translations (dot-delimited).
-			array('section test', 'section.test', 'cs-cz', NULL),
+			array(NULL, 'section.test', 'cs-cz', NULL),
 			array('section test', 'section.test', 'cs', NULL),
 			// Strings existing in most specific locale only.
 			array('only in cs-cz', 'exclusive', 'cs-cz', NULL),
