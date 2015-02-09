@@ -2,107 +2,68 @@
 /**
  * Kohana I18n Reader
  * 
- * Uses Kohana i18n files, the code is a slightly modified version of `Kohana_I18n` class.
+ * Uses Kohana i18n files, the code is a modified version of `Kohana_I18n` class.
  * 
  * @package    I18n
  * @category   Readers
  * @author     Korney Czukowski
- * @copyright  (c) 2012 Korney Czukowski
+ * @copyright  (c) 2015 Korney Czukowski
  * @license    MIT License
  */
 namespace I18n\Reader;
 
-class Kohana implements ReaderInterface {
-
-	private $cache = array();
-	private $directory;
+class Kohana extends FileBasedReader
+{
+	/**
+	 * @var  string  Base i18n directory.
+	 */
+	private $_directory;
 
 	/**
 	 * @param  string  $directory
 	 */
 	public function __construct($directory = 'i18n')
 	{
-		$this->directory = $directory;
+		$this->_directory = $directory;
 	}
 
 	/**
-	 * Returns the translation(s) of a string or NULL if there's no translation for the string.
-	 * No parameters are replaced.
-	 * 
-	 * @param   string   text to translate
-	 * @param   string   target language
-	 * @return  mixed
+	 * @param   string  $string  Text to translate.
+	 * @param   string  $lang    Target language.
+	 * @return  string|array|NULL
 	 */
 	public function get($string, $lang = NULL)
 	{
-		if ( ! $lang)
+		if ($lang === NULL)
 		{
-			// Use the global target language
-			$lang = \I18n::$lang;
+			// Use Kohana language from `I18n` class if not specified.
+			$lang = \I18n::lang();
 		}
-
-		// Load the translation table for this language
-		$table = $this->load($lang);
-
-		// Return the translated string if it exists
-		if (isset($table[$string]))
-		{
-			return $table[$string];
-		}
-		elseif (($translation = \Arr::path($table, $string)) !== NULL)
-		{
-			return $translation;
-		}
-		return NULL;
+		return parent::get($string, $lang);
 	}
 
 	/**
-	 * Loads the translation table for a given language.
-	 * 
-	 *     // Get all defined Spanish messages
-	 *     $messages = I18n::load('es-es');
-	 * 
-	 * @param   string  language to load
+	 * @param   string  $lang  Target language translations to load.
 	 * @return  array
 	 */
-	private function load($lang)
+	protected function load_translations($lang)
 	{
-		if (isset($this->cache[$lang]))
-		{
-			return $this->cache[$lang];
-		}
+		// Split the language: language, region, locale, etc.
+		$parts = $this->split_lang($lang);
+
+		// Create a path for this set of parts.
+		$path = implode(DIRECTORY_SEPARATOR, $parts);
 
 		// New translation table
 		$table = array();
 
-		// Split the language: language, region, locale, etc
-		$parts = explode('-', $lang);
-
-		do
+		$files = \Kohana::find_file($this->_directory, $path, NULL, TRUE);
+		foreach ($files as $file)
 		{
-			// Create a path for this set of parts
-			$path = implode(DIRECTORY_SEPARATOR, $parts);
-			$files = \Kohana::find_file($this->directory, $path, NULL, TRUE);
-			if ($files)
-			{
-				$tables = array();
-				foreach ($files as $file)
-				{
-					// Merge the language strings into the sub table
-					$tables = \Arr::merge($tables, \Kohana::load($file));
-				}
-
-				// Append the sub table, preventing less specific language
-				// files from overloading more specific files
-				$table += $tables;
-			}
-
-			// Remove the last part
-			array_pop($parts);
+			// Merge the language strings into the sub table
+			$table = \Arr::merge($table, \Kohana::load($file));
 		}
-		while ($parts);
 
-		// Cache the translation table locally
-		return $this->cache[$lang] = $table;
+		return $table;
 	}
 }
