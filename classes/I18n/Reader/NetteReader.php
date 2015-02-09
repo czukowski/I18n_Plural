@@ -12,9 +12,8 @@
  */
 namespace I18n\Reader;
 
-class NetteReader implements ReaderInterface
+class NetteReader extends FileBasedReader
 {
-	private $cache = array();
 	private $default_lang;
 	private $i18n_dir;
 	protected $extension = 'php';
@@ -44,20 +43,7 @@ class NetteReader implements ReaderInterface
 			// Use the default language from nette config
 			$lang = $this->default_lang;
 		}
-
-		// Load the translation table for this language
-		$table = $this->load($lang);
-
-		// Return the translated string if it exists
-		if (isset($table[$string]))
-		{
-			return $table[$string];
-		}
-		elseif (($translation = $this->array_path($table, $string)) !== NULL)
-		{
-			return $translation;
-		}
-		return NULL;
+		return parent::get($string, $lang);
 	}
 
 	/**
@@ -66,47 +52,43 @@ class NetteReader implements ReaderInterface
 	 * @param   string  $lang  language to load
 	 * @return  array
 	 */
-	private function load($lang)
+	protected function load_translations($lang)
 	{
-		if (isset($this->cache[$lang]))
-		{
-			return $this->cache[$lang];
-		}
+		// Split the language: language, region, locale, etc.
+		$parts = $this->split_lang($lang);
+
+		// Create a path for this set of parts.
+		$path = implode(DIRECTORY_SEPARATOR, $parts);
 
 		// New translation table
 		$table = array();
 
-		// Split the language: language, region, locale, etc
-		$parts = explode('-', strtolower($lang));
-
-		do
+		// Possible translations file paths.
+		$files = array(
+			rtrim($this->i18n_dir, '/').'/'.$path.'.'.$this->extension,
+		);
+		foreach ($files as $file)
 		{
-			// Create a path for this set of parts
-			$path = implode(DIRECTORY_SEPARATOR, $parts);
-			$files = array(
-				rtrim($this->i18n_dir, '/').'/'.$path.'.'.$this->extension,
-			);
-			if ($files)
-			{
-				$tables = array();
-				foreach ($files as $file)
-				{
-					// Merge the language strings into the sub table
-					$tables = $this->array_merge($tables, $this->load_file($file));
-				}
-
-				// Append the sub table, preventing less specific language
-				// files from overloading more specific files
-				$table += $tables;
-			}
-
-			// Remove the last part
-			array_pop($parts);
+			// Merge the language strings into the sub table
+			$table = $this->array_merge($table, $this->load_file($file));
 		}
-		while ($parts);
 
-		// Cache the translation table locally
-		return $this->cache[$lang] = $table;
+		return $table;
+	}
+
+	/**
+	 * Loads a file within an empty scope and returns the output.
+	 * 
+	 * @param   string  $file
+	 * @return  mixed
+	 */
+	protected function load_file($file)
+	{
+		if (is_file($file))
+		{
+			return include $file;
+		}
+		return array();
 	}
 
 	/**
@@ -294,20 +276,5 @@ class NetteReader implements ReaderInterface
 		// If the array keys of the keys match the keys, then the array must
 		// not be associative (e.g. the keys array looked like {0:0, 1:1...}).
 		return array_keys($keys) !== $keys;
-	}
-
-	/**
-	 * Loads a file within an empty scope and returns the output.
-	 * 
-	 * @param   string  $file
-	 * @return  mixed
-	 */
-	protected function load_file($file)
-	{
-		if (is_file($file))
-		{
-			return include $file;
-		}
-		return array();
 	}
 }
