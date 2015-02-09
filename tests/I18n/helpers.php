@@ -5,17 +5,40 @@
  * @package    Plurals
  * @category   Unit tests
  * @author     Korney Czukowski
- * @copyright  (c) 2012 Korney Czukowski
+ * @copyright  (c) 2015 Korney Czukowski
  * @license    MIT License
  */
 namespace I18n\Tests;
 use I18n;
 
 /**
- * Test translation reader that returns predefined results
+ * Test translation reader without predefined translations, used to test with multiple readers.
  */
-class Reader implements I18n\Reader\ReaderInterface {
+class CleanReader implements I18n\Reader\ReaderInterface
+{
+	public $translations = array();
 
+	public function __construct(array $additional_translations = array())
+	{
+		$this->translations = array_merge_recursive($this->translations, $additional_translations);
+	}
+
+	public function get($string, $lang = NULL)
+	{
+		if (isset($this->translations[$lang][$string]))
+		{
+			return $this->translations[$lang][$string];
+		}
+		return NULL;
+	}
+}
+
+/**
+ * Test translation reader that returns predefined results. Equipped with the option to add
+ * additional translations in constructor to test usage with multiple readers.
+ */
+class DefaultReader extends CleanReader
+{
 	public $translations = array(
 		'en' => array(
 			':title person' => array(
@@ -87,22 +110,13 @@ class Reader implements I18n\Reader\ReaderInterface {
 			),
 		),
 	);
-
-	public function get($string, $lang = NULL)
-	{
-		if (isset($this->translations[$lang][$string]))
-		{
-			return $this->translations[$lang][$string];
-		}
-		return NULL;
-	}
 }
 
 /**
  * Test plural rules that return predefined values
  */
-class Rules implements I18n\Plural\PluralInterface {
-
+class Rules implements I18n\Plural\PluralInterface
+{
 	public $rules = array(
 		0 => 'zero',
 		1 => 'one',
@@ -119,8 +133,8 @@ class Rules implements I18n\Plural\PluralInterface {
 /**
  * Plural rules helper class
  */
-class Generator {
-
+class Generator
+{
 	/**
 	 * @var  array  Class options
 	 */
@@ -172,7 +186,8 @@ class Generator {
 		{
 			if (($sort_function = $this->_sort_function($function)))
 			{
-				if (($compare_result = call_user_func($sort_function, $locale1, $locale2)) !== 0) {
+				if (($compare_result = call_user_func($sort_function, $locale1, $locale2)) !== 0)
+				{
 					return $compare_result;
 				}
 			}
