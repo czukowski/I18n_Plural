@@ -1,0 +1,27 @@
+{
+	"name": "czukowski/i18n",
+	"type": "kohana-module",
+	"description": "I18n package",
+	"keywords": ["i18n", "plurals"],
+	"homepage": "https://github.com/czukowski/I18n_Plural",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Korney Czukowski",
+			"homepage": "http://это-я.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/czukowski/I18n_Plural/issues"
+	},
+	"require": {
+		"composer/installers": "~1.0",
+		"kohana/core": ">=3.3",
+		"php": ">=5.3.3"
+	},
+	"autoload": {
+		"psr-0": {
+			"I18n\\": "classes/"
+		}
+	}
+}
