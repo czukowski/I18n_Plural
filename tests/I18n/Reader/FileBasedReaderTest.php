@@ -81,6 +81,26 @@ class FileBasedReaderTest extends I18n\Testcase
 		);
 	}
 
+	/**
+	 * @dataProvider  provide_prefetch
+	 */
+	public function test_prefetch($expected, $lang)
+	{
+		$actual = $this->object->prefetch($lang);
+		$actual_repeated = $this->object->prefetch($lang);
+		$this->assertSame(1, $this->load_file_counter);
+		$this->assertSame($actual, $actual_repeated);
+		$this->assertSame($expected, $actual);
+	}
+
+	public function provide_prefetch()
+	{
+		return array(
+			array($this->translations['en'], 'en'),
+			array($this->translations['en-us'], 'en-us'),
+		);
+	}
+
 	public function setUp()
 	{
 		parent::setUp();

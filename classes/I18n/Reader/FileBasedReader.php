@@ -10,7 +10,7 @@
  */
 namespace I18n\Reader;
 
-abstract class FileBasedReader implements ReaderInterface
+abstract class FileBasedReader implements ReaderInterface, PrefetchInterface
 {
 	/**
 	 * @var  array  This property contains loaded translation tables.
@@ -47,10 +47,7 @@ abstract class FileBasedReader implements ReaderInterface
 	public function get($string, $lang = NULL)
 	{
 		// Load the translations from file if not done yet.
-		if ( ! isset($this->_cache[$lang]))
-		{
-			$this->_cache[$lang] = $this->load_translations($lang);
-		}
+		$this->prefetch($lang);
 
 		// Return the translated string if it exists.
 		if (isset($this->_cache[$lang][$string]))
@@ -63,6 +60,22 @@ abstract class FileBasedReader implements ReaderInterface
 		}
 		// If no translation found, return NULL to give a chance to other Readers.
 		return NULL;
+	}
+
+	/**
+	 * Load and return all translations in the target language. At the very least an empty array
+	 * must be returned.
+	 * 
+	 * @param   string  $lang  Target language.
+	 * @return  array
+	 */
+	public function prefetch($lang)
+	{
+		if ( ! isset($this->_cache[$lang]))
+		{
+			$this->_cache[$lang] = $this->load_translations($lang);
+		}
+		return $this->_cache[$lang];
 	}
 
 	/**
