@@ -11,23 +11,8 @@
 namespace I18n\Reader;
 use I18n;
 
-class FileBasedReaderTest extends I18n\Testcase
+class FileBasedReaderTest extends ReaderBaseTest
 {
-	/**
-	 * @var  array
-	 */
-	private $translations = array(
-		'en' => array(
-			'hello' => 'Hello',
-			'salute' => array(
-				'm' => 'Hello dear Sir',
-				'f' => 'Hello dear Madame',
-			),
-		),
-		'en-us' => array(
-			'hello' => 'Howdy',
-		),
-	);
 	/**
 	 * @var  integer
 	 */
@@ -59,26 +44,10 @@ class FileBasedReaderTest extends I18n\Testcase
 	 */
 	public function test_get($expected, $string, $lang)
 	{
-		$actual = $this->object->get($string, $lang);
+		parent::test_get($expected, $string, $lang);
 		$actual_repeated = $this->object->get($string, $lang);
 		$this->assertSame(1, $this->load_file_counter);
-		$this->assertSame($actual, $actual_repeated);
-		$this->assertSame($expected, $actual);
-	}
-
-	public function provide_get()
-	{
-		// [expected, string, lang]
-		return array(
-			array('Hello', 'hello', 'en'),
-			array('Howdy', 'hello', 'en-US'),
-			array(NULL, 'howdy', 'en-US'),
-			array(NULL, 'hello', 'zh'),
-			array('Hello dear Madame', 'salute.f', 'en'),
-			array(array('m' => 'Hello dear Sir', 'f' => 'Hello dear Madame'), 'salute', 'en'),
-			array(NULL, 'salute', 'en-us'),
-			array(NULL, 'salute.m', 'en-us'),
-		);
+		$this->assertSame($expected, $actual_repeated);
 	}
 
 	/**
@@ -103,7 +72,6 @@ class FileBasedReaderTest extends I18n\Testcase
 
 	public function setUp()
 	{
-		parent::setUp();
 		$this->load_file_counter = 0;
 		$this->object = $this->getMock($this->class_name(), array('load_translations'));
 		$this->object->expects($this->any())
