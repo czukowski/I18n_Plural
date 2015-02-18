@@ -21,7 +21,7 @@ abstract class ReaderBase implements ReaderInterface
 
 	/**
 	 * @param   string  $string  Text to translate.
-	 * @param   string  $lang_key    Target language.
+	 * @param   string  $lang    Target language.
 	 * @return  string|array|NULL
 	 */
 	public function get($string, $lang = NULL)
