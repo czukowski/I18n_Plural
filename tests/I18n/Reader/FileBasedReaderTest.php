@@ -9,14 +9,13 @@
  * @license    MIT License
  */
 namespace I18n\Reader;
-use I18n;
 
 class FileBasedReaderTest extends ReaderBaseTest
 {
 	/**
-	 * @var  integer
+	 * @var  LoadTranslationsCallback
 	 */
-	private $load_file_counter;
+	private $helper;
 
 	/**
 	 * @dataProvider  provide_split_lang
@@ -46,7 +45,7 @@ class FileBasedReaderTest extends ReaderBaseTest
 	{
 		parent::test_get($expected, $string, $lang);
 		$actual_repeated = $this->object->get($string, $lang);
-		$this->assertSame(1, $this->load_file_counter);
+		$this->assertSame(1, $this->helper->load_file_counter);
 		$this->assertSame($expected, $actual_repeated);
 	}
 
@@ -57,7 +56,7 @@ class FileBasedReaderTest extends ReaderBaseTest
 	{
 		$actual = $this->object->prefetch($lang);
 		$actual_repeated = $this->object->prefetch($lang);
-		$this->assertSame(1, $this->load_file_counter);
+		$this->assertSame(1, $this->helper->load_file_counter);
 		$this->assertSame($actual, $actual_repeated);
 		$this->assertSame($expected, $actual);
 	}
@@ -72,17 +71,7 @@ class FileBasedReaderTest extends ReaderBaseTest
 
 	public function setUp()
 	{
-		$this->load_file_counter = 0;
-		$this->object = $this->getMock($this->class_name(), array('load_translations'));
-		$this->object->expects($this->any())
-			->method('load_translations')
-			->will($this->returnCallback(array($this, 'callback_load_translations')));
-	}
-
-	public function callback_load_translations($lang)
-	{
-		$this->load_file_counter++;
-		$code = strtolower($lang);
-		return isset($this->translations[$code]) ? $this->translations[$code] : array();
+		$this->helper = new LoadTranslationsCallback($this, $this->translations);
+		$this->object = $this->helper->object;
 	}
 }
