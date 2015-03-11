@@ -300,9 +300,10 @@ Returns the internal Core object reference if needed for some reason.
 
   * @param  I18n\Reader\ReaderInterface  $reader
 
-This method takes a class instance that implements `I18n\Reader\ReaderInterface`. You'll implement your own
-readers to provide translations from any source of your choice. If translations in your application come
-from files, a `I18n\Reader\FileBasedReader` class may be used as a base for the implementation.
+This method takes a class instance that implements `I18n\Reader\ReaderInterface`. In addition to the sample
+readers provided for Nette application, you can implement your own readers to provide translations from any
+source of your choice. For translations stored in files, a `I18n\Reader\FileBasedReader` class may be used
+as a base for the implementation.
 
 #### public function translate($string, $context, $values, $lang = NULL)
 
