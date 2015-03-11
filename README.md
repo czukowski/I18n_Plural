@@ -471,7 +471,6 @@ The 'other' key has a special meaning of a default translation.
 Returns translation of a string or array of translation options. No parameters are replaced. It is up
 to the implementation where it gets it.
 
-<<<<<<< HEAD
 ### class I18n\Date
 
 #### public static function format($timestamp = NULL, $format = NULL)
@@ -489,7 +488,7 @@ Formats date and time.
  * @return  string
 
 Returns the difference between the time bounds in a "fuzzy" way. Overrides `Kohana_Date::fuzzy_span()` method.
-=======
+
 ### interface I18n\Reader\PrefetchInterface
 
 Readers that are able to load all the translations may implement this interface in order to use
@@ -516,7 +515,6 @@ This 'combined' reader is then to be attached to a Core object as a single reade
 Attach an i18n reader, same as you would to the Core object. The only difference is that the
 reader must also implement `PrefetchInterface` in order to be able to load all translations for
 a language at once.
->>>>>>> feature/reader-prefetch
 
 Testing
 =======
