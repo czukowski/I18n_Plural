@@ -301,7 +301,8 @@ Returns the internal Core object reference if needed for some reason.
   * @param  I18n\Reader\ReaderInterface  $reader
 
 This method takes a class instance that implements `I18n\Reader\ReaderInterface`. You'll implement your own
-readers to provide translations from any source of your choice.
+readers to provide translations from any source of your choice. If translations in your application come
+from files, a `I18n\Reader\FileBasedReader` class may be used as a base for the implementation.
 
 #### public function translate($string, $context, $values, $lang = NULL)
 
@@ -369,6 +370,33 @@ The 'other' key has a special meaning of a default translation.
 
 Returns translation of a string or array of translation options. No parameters are replaced. It is up
 to the implementation where it gets it.
+
+### interface I18n\Reader\PrefetchInterface
+
+Readers that are able to load all the translations may implement this interface in order to use
+translations loading optimization and caching.
+
+#### public function prefetch($lang = NULL)
+
+ * @param   string  $lang  Target language.
+ * @return  array
+
+Load and return all translations in the target language. At the very least an empty array
+must be returned.
+
+### class I18n\Reader\PrefetchingReader
+
+This is a base 'wrapper' reader class that may contain multiple other readers which implement
+`PrefetchInterface`. The intention is to merge the translations across all the readers into one
+table (per lang code) and have a possibility to cache these tables.
+
+This 'combined' reader is then to be attached to a Core object as a single reader.
+
+#### public function attach(I18n\Reader\ReaderInterface $reader)
+
+Attach an i18n reader, same as you would to the Core object. The only difference is that the
+reader must also implement `PrefetchInterface` in order to be able to load all translations for
+a language at once.
 
 Testing
 =======

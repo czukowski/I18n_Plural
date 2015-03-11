@@ -14,7 +14,7 @@ use I18n;
 /**
  * Test translation reader without predefined translations, used to test with multiple readers.
  */
-class CleanReader implements I18n\Reader\ReaderInterface
+class CleanReader implements I18n\Reader\ReaderInterface, I18n\Reader\PrefetchInterface
 {
 	public $translations = array();
 
@@ -30,6 +30,15 @@ class CleanReader implements I18n\Reader\ReaderInterface
 			return $this->translations[$lang][$string];
 		}
 		return NULL;
+	}
+
+	public function prefetch($lang)
+	{
+		if (isset($this->translations[$lang]))
+		{
+			return $this->translations[$lang];
+		}
+		return array();
 	}
 }
 
