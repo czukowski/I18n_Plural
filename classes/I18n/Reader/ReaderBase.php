@@ -11,6 +11,7 @@
  * @license    MIT License
  */
 namespace I18n\Reader;
+use Traversable;
 
 abstract class ReaderBase implements ReaderInterface
 {
