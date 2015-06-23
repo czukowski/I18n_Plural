@@ -109,17 +109,82 @@ class PrefetchingReaderTest extends ReaderBaseTest
 		);
 	}
 
-	public function test_reset_translations()
+	/**
+	 * @dataProvider  provide_reset_translations
+	 */
+	public function test_reset_translations($readers)
 	{
+		// Attach and prefetch initial readers.
+		$this->setup_reset_translations($readers);
+		// Check internal cache propertyies are not empty.
 		$object_cache = new \ReflectionProperty($this->object, '_cache');
+		$object_cache_keys = new \ReflectionProperty($this->object, '_cache_keys');
 		$object_cache->setAccessible(TRUE);
-		$object_cache->setValue($this->object, array('x' => array()));
-		$reset_translations = new \ReflectionMethod($this->object, 'reset_translations');
-		$reset_translations->setAccessible(TRUE);
-		$actual = $reset_translations->invoke($this->object);
-		$this->assertSame($this->object, $actual);
-		$actual_cache = $object_cache->getValue($this->object);
-		$this->assertEmpty($actual_cache);
+		$object_cache_keys->setAccessible(TRUE);
+		$this->assertNotEmpty($object_cache->getValue($this->object));
+		$this->assertEquals(array_keys($readers), $object_cache_keys->getValue($this->object));
+		// Trigger reset translations by attaching another reader.
+		$this->object->attach(new Tests\CleanReader);
+		// Now check that internal cache property is empty.
+		$this->assertEmpty($object_cache->getValue($this->object));
+		$this->assertEmpty($object_cache_keys->getValue($this->object));
+	}
+
+	protected function setup_reset_translations($readers)
+	{
+		$langs = array_keys($readers);
+		foreach ($readers as $lang_readers)
+		{
+			foreach ($lang_readers as $reader)
+			{
+				$this->object->attach($reader);
+			}
+		}
+		foreach ($langs as $lang)
+		{
+			$this->object->prefetch($lang);
+		}
+	}
+
+	public function provide_reset_translations()
+	{
+		// [lang => readers array]
+		return array(
+			array(
+				array(
+					'en' => array(
+						new Tests\CleanReader(array('en' => array('key1' => 'value1', 'key2' => 'value2'))),
+						new Tests\CleanReader(array('en' => array('key2' => 'valueB', 'key3' => 'valueC'))),
+					),
+					'en-us' => array(
+						new Tests\CleanReader(array('en' => array('key2' => array('valA')))),
+					),
+				),
+			),
+		);
+	}
+
+	/**
+	 * @dataProvider  provide_construct
+	 */
+	public function test_construct($argument, $expected)
+	{
+		if ($expected instanceof \Exception)
+		{
+			$this->setExpectedException(get_class($expected));
+		}
+		$this->object = new PrefetchingReader($argument);
+		$this->assertInstanceOf('I18n\Reader\PrefetchingReader', $this->object);
+	}
+
+	public function provide_construct()
+	{
+		return array(
+			array(1, new \InvalidArgumentException),
+			array(TRUE, new \InvalidArgumentException),
+			array(array(), NULL),
+			array(new \ArrayObject(array()), NULL),
+		);
 	}
 
 	public function setUp()
