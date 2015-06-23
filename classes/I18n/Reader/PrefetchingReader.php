@@ -15,6 +15,7 @@
  * @license    MIT License
  */
 namespace I18n\Reader;
+use ArrayAccess;
 
 class PrefetchingReader extends ReaderBase
 {
@@ -22,6 +23,23 @@ class PrefetchingReader extends ReaderBase
 	 * @var  array  Attached readers instances.
 	 */
 	private $_readers = array();
+	/**
+	 * @var  array  Language keys that have been prefetched.
+	 */
+	private $_cache_keys = array();
+
+	/**
+	 * @param   array  $cache  Optional cache service that must implement ArrayAccess.
+	 * @throws  InvalidArgumentException
+	 */
+	public function __construct($cache = array())
+	{
+		if ( ! is_array($cache) && ! ($cache instanceof ArrayAccess))
+		{
+			throw new \InvalidArgumentException('Argument 1 expected to be array or an object implementing ArrayAccess!');
+		}
+		$this->_cache = $cache;
+	}
 
 	/**
 	 * Attach an i18n reader, same as you would to the Core object.
@@ -67,6 +85,7 @@ class PrefetchingReader extends ReaderBase
 
 		if ( ! isset($this->_cache[$lang_key]))
 		{
+			$this->_cache_keys[] = $lang_key;
 			$this->_cache[$lang_key] = $this->load_translations($lang_key);
 		}
 		return $this->_cache[$lang_key];
@@ -102,7 +121,11 @@ class PrefetchingReader extends ReaderBase
 	 */
 	protected function reset_translations()
 	{
-		$this->_cache = array();
+		for ($i = count($this->_cache_keys) - 1; $i >= 0; $i--)
+		{
+			unset($this->_cache[$this->_cache_keys[$i]]);
+			unset($this->_cache_keys[$i]);
+		}
 		return $this;
 	}
 
