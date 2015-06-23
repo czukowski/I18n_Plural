@@ -169,11 +169,12 @@ class PrefetchingReaderTest extends ReaderBaseTest
 	 */
 	public function test_construct($argument, $expected)
 	{
-		if ($argument instanceof \Exception)
+		if ($expected instanceof \Exception)
 		{
-			$this->setExpectedException($argument);
+			$this->setExpectedException(get_class($expected));
 		}
 		$this->object = new PrefetchingReader($argument);
+		$this->assertInstanceOf('I18n\Reader\PrefetchingReader', $this->object);
 	}
 
 	public function provide_construct()
