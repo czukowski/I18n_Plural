@@ -55,6 +55,7 @@ class PrefetchingReader extends ReaderBase
 			throw new \InvalidArgumentException('The reader '.get_class($reader).' must implement PrefetchInterface');
 		}
 		$this->_readers[] = $reader;
+		$this->reset_translations();
 		return $this;
 	}
 
