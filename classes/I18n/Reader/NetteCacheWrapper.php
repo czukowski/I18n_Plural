@@ -44,29 +44,37 @@ class NetteCacheWrapper implements ArrayAccess
 		$this->_options = $options;
 		if (isset($options[self::DIRECTORIES]) && is_array($options[self::DIRECTORIES]))
 		{
-			foreach ($options[self::DIRECTORIES] as $directory => $mask)
+			foreach ($options[self::DIRECTORIES] as $path => $file_mask)
 			{
-				$found = $this->_find_files($directory, $mask);
-				if ( ! $found)
-				{
-					continue;
-				}
-				if ( ! array_key_exists(Cache::FILES, $this->_options))
-				{
-					$this->_options[Cache::FILES] = array();
-				}
-				elseif ( ! is_array($this->_options[Cache::FILES]))
-				{
-					$this->_options[Cache::FILES] = array($this->_options[Cache::FILES]);
-				}
-				$this->_options[Cache::FILES] = array_merge($this->_options[Cache::FILES], $found);
+				$this->add_directory_option($path, $file_mask);
 			}
 			unset($this->_options['directories']);
 		}
 	}
 
 	/**
-	 * Based on 
+	 * @param  string  $path
+	 * @param  string  $file_mask
+	 */
+	public function add_directory_option($path, $file_mask)
+	{
+		$found = $this->_find_files($path, $file_mask);
+		if ($found)
+		{
+			if ( ! array_key_exists(Cache::FILES, $this->_options))
+			{
+				$this->_options[Cache::FILES] = array();
+			}
+			elseif ( ! is_array($this->_options[Cache::FILES]))
+			{
+				$this->_options[Cache::FILES] = array($this->_options[Cache::FILES]);
+			}
+			$this->_options[Cache::FILES] = array_merge($this->_options[Cache::FILES], $found);
+		}
+	}
+
+	/**
+	 * Based on:
 	 * 
 	 * @see  http://php.net/manual/en/function.glob.php#106595
 	 * 

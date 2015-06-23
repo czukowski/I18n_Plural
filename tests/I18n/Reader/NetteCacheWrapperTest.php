@@ -17,6 +17,40 @@ class NetteCacheWrapperTest extends I18n\Testcase
 	private $_cache_options;
 
 	/**
+	 * @dataProvider  provide_add_directory_option
+	 */
+	public function test_add_directory_option($path, $mask, $expected)
+	{
+		$object = new NetteCacheWrapper($this->create_cache_mock());
+		$object->add_directory_option($path, $mask);
+		$object['any key'] = 'any data';
+		$this->assertEquals($expected, $this->_cache_options);
+	}
+
+	public function provide_add_directory_option()
+	{
+		// Use real files in the tests directory for the lack of any better test cases.
+		$netteDirectory = realpath(__DIR__.'/../../Nette');
+		return array(
+			array(
+				$netteDirectory,
+				'*.php',
+				array(
+					Cache::FILES => array(
+						$netteDirectory.'/Caching/Cache.php',
+						$netteDirectory.'/Localization/ITranslator.php',
+					),
+				),
+			),
+			array(
+				$netteDirectory,
+				'*.dat',
+				array(),
+			),
+		);
+	}
+
+	/**
 	 * @dataProvider  provide_constructor_options
 	 */
 	public function test_constructor_options($options, $expected)
