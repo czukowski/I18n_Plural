@@ -52,7 +52,7 @@ class NetteReader extends FileBasedReader
 	 * @param   string  $lang  language to load
 	 * @return  array
 	 */
-	protected function load_translations($lang)
+	public function load_translations($lang)
 	{
 		// Split the language: language, region, locale, etc.
 		$parts = $this->split_lang($lang);
