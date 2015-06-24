@@ -22,8 +22,7 @@ class FileBasedReaderTest extends ReaderBaseTest
 	 */
 	public function test_split_lang($expected, $lang)
 	{
-		$split_lang = new \ReflectionMethod($this->object, 'split_lang');
-		$split_lang->setAccessible(TRUE);
+		$split_lang = $this->get_reader_method('split_lang');
 		$actual = $split_lang->invoke($this->object, $lang);
 		$this->assertSame($expected, $actual);
 	}
@@ -50,18 +49,19 @@ class FileBasedReaderTest extends ReaderBaseTest
 	}
 
 	/**
-	 * @dataProvider  provide_prefetch
+	 * @dataProvider  provide_load_to_cache
 	 */
-	public function test_prefetch($expected, $lang)
+	public function test_load_to_cache($expected, $lang)
 	{
-		$actual = $this->object->prefetch($lang);
-		$actual_repeated = $this->object->prefetch($lang);
+		$load_to_cache = $this->get_reader_method('load_to_cache');
+		$load_to_cache->invoke($this->object, $lang);
+		$load_to_cache->invoke($this->object, $lang);
 		$this->assertSame(1, $this->helper->load_file_counter);
-		$this->assertSame($actual, $actual_repeated);
-		$this->assertSame($expected, $actual);
+		$actual = $this->get_reader_cache()->getValue($this->object);
+		$this->assertSame($expected, $actual[$lang]);
 	}
 
-	public function provide_prefetch()
+	public function provide_load_to_cache()
 	{
 		return array(
 			array($this->translations['en'], 'en'),

@@ -53,12 +53,38 @@ class ReaderBaseTest extends I18n\Testcase
 		);
 	}
 
+	/**
+	 * @return  \ReflectionProperty
+	 */
+	protected function get_reader_cache()
+	{
+		return $this->get_reader_property('_cache');
+	}
+
+	/**
+	 * @return  \ReflectionMethod
+	 */
+	protected function get_reader_method($method_name)
+	{
+		$method = new \ReflectionMethod($this->object, $method_name);
+		$method->setAccessible(TRUE);
+		return $method;
+	}
+
+	/**
+	 * @return  \ReflectionProperty
+	 */
+	protected function get_reader_property($property_name)
+	{
+		$property = new \ReflectionProperty($this->object, $property_name);
+		$property->setAccessible(TRUE);
+		return $property;
+	}
+
 	public function setUp()
 	{
 		parent::setUp();
 		$this->object = $this->getMock($this->class_name(), array('none'));
-		$cache = new \ReflectionProperty($this->object, '_cache');
-		$cache->setAccessible(TRUE);
-		$cache->setValue($this->object, $this->translations);
+		$this->get_reader_cache()->setValue($this->object, $this->translations);
 	}
 }
