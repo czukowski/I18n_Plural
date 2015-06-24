@@ -19,7 +19,7 @@ abstract class FileBasedReader extends ReaderBase implements PrefetchInterface
 	 * @param   string  $lang  Target language.
 	 * @return  array
 	 */
-	abstract protected function load_translations($lang);
+	abstract public function load_translations($lang);
 
 	/**
 	 * This is a convenience function to split the lang code into parts: language, region, locale, etc.
@@ -42,19 +42,16 @@ abstract class FileBasedReader extends ReaderBase implements PrefetchInterface
 	public function get($string, $lang = NULL)
 	{
 		// Load the translations from file if not done yet.
-		$this->prefetch($lang);
+		$this->load_to_cache($lang);
 
+		// Call parent method to get the translation for the requested string.
 		return parent::get($string, $lang);
 	}
 
 	/**
-	 * Load and return all translations in the target language. At the very least an empty array
-	 * must be returned.
-	 * 
-	 * @param   string  $lang  Target language.
-	 * @return  array
+	 * @param  string  $lang
 	 */
-	public function prefetch($lang)
+	protected function load_to_cache($lang)
 	{
 		// Convert lang code to lower case.
 		$lang_key = strtolower($lang);
@@ -63,6 +60,5 @@ abstract class FileBasedReader extends ReaderBase implements PrefetchInterface
 		{
 			$this->_cache[$lang_key] = $this->load_translations($lang_key);
 		}
-		return $this->_cache[$lang_key];
 	}
 }

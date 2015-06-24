@@ -67,19 +67,18 @@ class PrefetchingReader extends ReaderBase
 	public function get($string, $lang = NULL)
 	{
 		// Make sure the translations are loaded.
-		$this->prefetch($lang);
+		$this->load_to_cache($lang);
 
 		// Look up the translation.
 		return parent::get($string, $lang);
 	}
 
 	/**
-	 * Load and return all translations in the target language.
+	 * Collect all translations in the target language from all attached readers.
 	 * 
 	 * @param   string  $lang  Target language.
-	 * @return  array
 	 */
-	public function prefetch($lang)
+	protected function load_to_cache($lang)
 	{
 		// Convert lang code to lower case.
 		$lang_key = strtolower($lang);
@@ -87,9 +86,8 @@ class PrefetchingReader extends ReaderBase
 		if ( ! isset($this->_cache[$lang_key]))
 		{
 			$this->_cache_keys[] = $lang_key;
-			$this->_cache[$lang_key] = $this->load_translations($lang_key);
+			$this->_cache[$lang_key] = $this->collect_translations($lang_key);
 		}
-		return $this->_cache[$lang_key];
 	}
 
 	/**
@@ -97,7 +95,7 @@ class PrefetchingReader extends ReaderBase
 	 * 
 	 * @param  string  $lang_key  Target language key (already lowercased).
 	 */
-	protected function load_translations($lang_key)
+	protected function collect_translations($lang_key)
 	{
 		// Create empty combined translations table for the language.
 		$table = array();
@@ -105,7 +103,7 @@ class PrefetchingReader extends ReaderBase
 		foreach ($this->_readers as $reader)
 		{
 			// Get translations from the reader.
-			$translations = $reader->prefetch($lang_key);
+			$translations = $reader->load_translations($lang_key);
 
 			// Add translations from the reader into combined table.
 			$table = $this->_array_merge($table, $translations);

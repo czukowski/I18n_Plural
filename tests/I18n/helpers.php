@@ -32,7 +32,7 @@ class CleanReader implements I18n\Reader\ReaderInterface, I18n\Reader\PrefetchIn
 		return NULL;
 	}
 
-	public function prefetch($lang)
+	public function load_translations($lang)
 	{
 		if (isset($this->translations[$lang]))
 		{
