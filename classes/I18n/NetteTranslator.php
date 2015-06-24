@@ -18,7 +18,7 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 	/**
 	 * @var  string
 	 */
-	private $default_lang;
+	protected $default_lang;
 
 	/**
 	 * Instanciates a new I18n\Core object.
