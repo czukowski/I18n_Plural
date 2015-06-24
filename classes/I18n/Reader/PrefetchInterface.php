@@ -22,5 +22,5 @@ interface PrefetchInterface
 	 * @param   string  $lang  Target language.
 	 * @return  array
 	 */
-	public function prefetch($lang);
+	public function load_translations($lang);
 }
