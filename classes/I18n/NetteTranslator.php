@@ -82,7 +82,21 @@ class NetteTranslator implements \Nette\Localization\ITranslator
 		{
 			$lang = $this->default_lang;
 		}
-		return $this->i18n->translate($string, $count, $parameters, $lang);
+		return $this->call_translate($string, $count, $parameters, $lang);
+	}
+
+	/**
+	 * This method can be used by descendant classes to eg. modify substitution parameters.
+	 * 
+	 * @param   string  $string   String to translate
+	 * @param   mixed   $count    String form or numeric count
+	 * @param   array   $params   Param values to substitute
+	 * @param   string  $lang     Target language
+	 * @return  string
+	 */
+	protected function call_translate($string, $count, $params, $lang)
+	{
+		return $this->i18n->translate($string, $count, $params, $lang);
 	}
 
 	/**
