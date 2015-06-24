@@ -25,19 +25,23 @@ class LoadTranslationsCallback
 	 * @var  array
 	 */
 	public $translations;
+	/**
+	 * @var  \ReflectionProperty
+	 */
+	private $reader_cache_property;
 
 	/**
 	 * 
 	 * @param  I18n\Testcase  $testcase
 	 * @param  array          $translations
 	 */
-	public function __construct(I18n\Testcase $testcase, $translations)
+	public function __construct(I18n\Testcase $testcase, $translations, $method_name = 'load_translations')
 	{
 		$this->translations = $translations;
 		$this->load_file_counter = 0;
-		$this->object = $testcase->getMock($testcase->class_name(), array('load_translations'));
+		$this->object = $testcase->getMock($testcase->class_name(), array($method_name));
 		$this->object->expects($testcase->any())
-			->method('load_translations')
+			->method($method_name)
 			->will($testcase->returnCallback(array($this, 'callback_load_translations')));
 	}
 

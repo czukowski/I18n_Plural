@@ -27,8 +27,7 @@ class PrefetchingReaderTest extends ReaderBaseTest
 			$actual = $this->object->attach($reader);
 			$this->assertSame($this->object, $actual);
 		}
-		$object_readers = new \ReflectionProperty($this->object, '_readers');
-		$object_readers->setAccessible(TRUE);
+		$object_readers = $this->get_reader_property('_readers');
 		$actual = $object_readers->getValue($this->object);
 		$this->assertSame($expected, $actual);
 	}
@@ -61,29 +60,34 @@ class PrefetchingReaderTest extends ReaderBaseTest
 
 	private function setup_get()
 	{
-		$this->helper = new LoadTranslationsCallback($this, $this->translations);
+		$this->helper = new LoadTranslationsCallback($this, $this->translations, 'collect_translations');
 		$this->object = $this->helper->object;
 	}
 
 	/**
-	 * @dataProvider  provide_prefetch
+	 * @dataProvider  provide_load_to_cache
 	 */
-	public function test_prefetch($expected, $lang, $readers)
+	public function test_load_to_cache($expected, $lang, $readers)
 	{
 		foreach ($readers as $reader)
 		{
 			$this->object->attach($reader);
 		}
-		$actual = $this->object->prefetch($lang);
+		$load_to_cache = new \ReflectionMethod($this->object, 'load_to_cache');
+		$load_to_cache->setAccessible(TRUE);
+		$load_to_cache->invoke($this->object, $lang);
+		$actual = $this->get_reader_cache()->getValue($this->object);
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function provide_prefetch()
+	public function provide_load_to_cache()
 	{
 		// [expected, lang, readers]
 		return array(
 			array(
-				array('key1' => 'value1', 'key2' => 'valueB', 'key3' => 'valueC'),
+				array(
+					'en' => array('key1' => 'value1', 'key2' => 'valueB', 'key3' => 'valueC'),
+				),
 				'en',
 				array(
 					new Tests\CleanReader(array('en' => array('key1' => 'value1', 'key2' => 'value2'))),
@@ -91,7 +95,9 @@ class PrefetchingReaderTest extends ReaderBaseTest
 				),
 			),
 			array(
-				array('key1' => 'value1', 'key2' => array('subA' => 'valA', 'subB' => 'valB')),
+				array(
+					'en' => array('key1' => 'value1', 'key2' => array('subA' => 'valA', 'subB' => 'valB')),
+				),
 				'en',
 				array(
 					new Tests\CleanReader(array('en' => array('key1' => 'value2', 'key2' => array('subA' => 'valA')))),
@@ -99,7 +105,9 @@ class PrefetchingReaderTest extends ReaderBaseTest
 				),
 			),
 			array(
-				array('key1' => 'value1', 'key2' => array('valA', 'valB')),
+				array(
+					'en' => array('key1' => 'value1', 'key2' => array('valA', 'valB')),
+				),
 				'en',
 				array(
 					new Tests\CleanReader(array('en' => array('key2' => array('valA')))),
@@ -117,10 +125,8 @@ class PrefetchingReaderTest extends ReaderBaseTest
 		// Attach and prefetch initial readers.
 		$this->setup_reset_translations($readers);
 		// Check internal cache propertyies are not empty.
-		$object_cache = new \ReflectionProperty($this->object, '_cache');
-		$object_cache_keys = new \ReflectionProperty($this->object, '_cache_keys');
-		$object_cache->setAccessible(TRUE);
-		$object_cache_keys->setAccessible(TRUE);
+		$object_cache = $this->get_reader_property('_cache');
+		$object_cache_keys = $this->get_reader_property('_cache_keys');
 		$this->assertNotEmpty($object_cache->getValue($this->object));
 		$this->assertEquals(array_keys($readers), $object_cache_keys->getValue($this->object));
 		// Trigger reset translations by attaching another reader.
@@ -142,7 +148,7 @@ class PrefetchingReaderTest extends ReaderBaseTest
 		}
 		foreach ($langs as $lang)
 		{
-			$this->object->prefetch($lang);
+			$this->object->get('anything', $lang);
 		}
 	}
 
