@@ -86,7 +86,7 @@ class NetteCacheWrapper implements ArrayAccess
 	private function _find_files($directory, $filename_mask, $flags = 0)
 	{
 		$files = glob($directory.'/'.$filename_mask, $flags);
-		foreach (glob($directory.'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $subdirectory)
+		foreach ( (array) glob($directory.'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $subdirectory)
 		{
 			$files = array_merge($files, $this->_find_files($subdirectory, $filename_mask, $flags));
 		}
