@@ -22,6 +22,10 @@ class NetteCacheWrapper implements ArrayAccess
 	 */
 	private $_cache;
 	/**
+	 * @var  array  In-memory copy in order to avoid repeated cache storage reads.
+	 */
+	private $_memory = array();
+	/**
 	 * @var  array  Wrapper options
 	 */
 	private $_options;
@@ -98,11 +102,35 @@ class NetteCacheWrapper implements ArrayAccess
 
 	/**
 	 * @param   string  $key
+	 * @reutrn  mixed
+	 */
+	private function _cache_load($key)
+	{
+		if ( ! isset($this->_memory[$key]))
+		{
+			$this->_memory[$key] = $this->_cache->load($key);
+		}
+		return $this->_memory[$key];
+	}
+
+	/**
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @param  array   $options
+	 */
+	private function _cache_save($key, $value, array $options = NULL)
+	{
+		$this->_cache->save($key, $value, $options);
+		unset($this->_memory[$key]);
+	}
+
+	/**
+	 * @param   string  $key
 	 * @return  boolean
 	 */
 	public function offsetExists($key)
 	{
-		return $this->_cache->load($key) !== NULL;
+		return $this->_cache_load($key) !== NULL;
 	}
 
 	/**
@@ -111,7 +139,7 @@ class NetteCacheWrapper implements ArrayAccess
 	 */
 	public function offsetGet($key)
 	{
-		return $this->_cache->load($key);
+		return $this->_cache_load($key);
 	}
 
 	/**
@@ -120,7 +148,7 @@ class NetteCacheWrapper implements ArrayAccess
 	 */
 	public function offsetSet($key, $value)
 	{
-		$this->_cache->save($key, $value, $this->_options);
+		$this->_cache_save($key, $value, $this->_options);
 	}
 
 	/**
@@ -128,6 +156,6 @@ class NetteCacheWrapper implements ArrayAccess
 	 */
 	public function offsetUnset($key)
 	{
-		$this->_cache->save($key, NULL);
+		$this->_cache_save($key, NULL);
 	}
 }
